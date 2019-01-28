@@ -30,5 +30,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
         Route::post('/down', 'CategoriesController@down')->name('down');
         Route::post('/last', 'CategoriesController@last')->name('last');
     });
+    Route::post('/categories/toggle-status', 'CategoriesController@toggleStatus')->name('categories.toggle.status');
+
 
 });

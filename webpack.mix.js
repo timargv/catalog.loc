@@ -10,11 +10,11 @@ const mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
-
-mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css')
-    .version();
-
+//
+// mix.js('resources/js/app.js', 'public/js')
+//     .sass('resources/sass/app.scss', 'public/css')
+//     .version();
+//
 //
 //
 // mix.styles([
@@ -26,27 +26,29 @@ mix.js('resources/js/app.js', 'public/js')
 //     'resources/assets/admin/plugins/select2/select2.min.css',
 //     'resources/assets/admin/plugins/datatables/dataTables.bootstrap.css',
 //     'resources/assets/admin/dist/css/AdminLTE.css',
-//     'resources/assets/admin/dist/css/skins/_all-skins.min.css'
+//     'resources/assets/admin/dist/css/skins/_all-skins.min.css',
+//     'resources/assets/admin/dist/css/style.less'
 // ], 'public/css/admin.css').sass('resources/sass/plug.scss', 'public/css/plug').version();
 //
-//
-//
-// mix.scripts([
-//     'resources/assets/admin/plugins/jQuery/jquery-2.2.3.min.js',
-//     'resources/assets/admin/bootstrap/js/bootstrap.min.js',
-//     'resources/assets/admin/plugins/select2/select2.full.min.js',
-//     'resources/assets/admin/plugins/datepicker/bootstrap-datepicker.js',
-//     'resources/assets/admin/plugins/datatables/jquery.dataTables.min.js',
-//     'resources/assets/admin/plugins/datatables/dataTables.bootstrap.min.js',
-//     'resources/assets/admin/plugins/slimScroll/jquery.slimscroll.min.js',
-//     'resources/assets/admin/plugins/fastclick/fastclick.js',
-//     'resources/assets/admin/plugins/iCheck/icheck.min.js',
-//
-//     'resources/assets/admin/dist/js/adminlte.min.js',
-//     'resources/assets/admin/dist/js/demo.js',
-//     'resources/assets/admin/dist/js/scripts.js'
-//
-// ], 'public/js/admin.js');
+
+
+mix.scripts([
+    'resources/assets/admin/plugins/jQuery/jquery-2.2.3.min.js',
+    'resources/assets/admin/bootstrap/js/bootstrap.min.js',
+    'resources/assets/admin/plugins/select2/select2.full.min.js',
+    'resources/assets/admin/plugins/datepicker/bootstrap-datepicker.js',
+    'resources/assets/admin/plugins/datatables/jquery.dataTables.min.js',
+    'resources/assets/admin/plugins/datatables/dataTables.bootstrap.min.js',
+    'resources/assets/admin/plugins/slimScroll/jquery.slimscroll.min.js',
+    'resources/assets/admin/plugins/fastclick/fastclick.js',
+    'resources/assets/admin/plugins/iCheck/icheck.min.js',
+
+    'resources/assets/admin/dist/js/adminlte.min.js',
+    'resources/assets/admin/dist/js/demo.js',
+    'resources/assets/admin/dist/js/scripts.js',
+    'resources/assets/admin/dist/js/ajax.js'
+
+], 'public/js/admin.js').version();
 //
 // mix.copy('resources/assets/admin/bootstrap/fonts', 'public/fonts');
 // mix.copy('resources/assets/admin/dist/fonts', 'public/fonts');

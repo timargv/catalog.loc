@@ -33,4 +33,27 @@ class Category extends Model
     public function products () {
         return $this->belongsToMany(Product::class,'product_categories','category_id','product_id');
     }
+
+
+    public function setDraft()
+    {
+        $this->status = self::STATUS_CLOSED;
+        $this->save();
+    }
+
+    public function setPublic()
+    {
+        $this->status = self::STATUS_ACTIVE;
+        $this->save();
+    }
+
+    public function toggleStatus($value)
+    {
+        if($value == null)
+        {
+            return $this->setDraft();
+        }
+
+        return $this->setPublic();
+    }
 }

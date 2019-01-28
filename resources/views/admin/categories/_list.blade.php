@@ -14,8 +14,7 @@
             <th>Slug</th>
             <th width="200px">Position</th>
             <th>Status</th>
-            <th class="text-right">Edit</th>
-            <th class="text-right">Delete</th>
+            <th class="text-right">Edit/Delete</th>
         </tr>
         </thead>
         </form>
@@ -29,8 +28,7 @@
                     <a href="{{ route('admin.categories.show', $category) }}">{{ $category->name }}</a>
                     @endif
                 </td>
-                <td>@for ($i = 0; $i < $category->depth; $i++) &mdash; @endfor
-                    <a href="{{ route('admin.categories.show', $category) }}">{{ $category->name_original }}</a></td>
+                <td><a href="{{ route('admin.categories.show', $category) }}">{{ $category->name_original }}</a></td>
                 <td><span class="text-muted">{{ $category->slug }}</span></td>
                 <td>
                     <div class="" style="margin: 0 -5px;">
@@ -52,14 +50,19 @@
                         </form>
                     </div>
                 </td>
-                <td><span class="label label-{{ $category->status == 'active' ? 'success' : 'danger' }}">{{ $category->status == 'active' ? 'Включен' : 'Откллючен' }}</span></td>
-                <td><a href="{{ route('admin.categories.edit', $category->id) }}" class="btn btn-box-tool  btn-xs pull-right" style="padding: 0px !important;"><i class="fa  fa-edit"></i></a></td>
+                <td>
+                    <button data-id="{{ $category->id }}" id="btn-toggle" class="btn btn-md btn-toggle {{ $category->status == 'active' ? 'active' : '' }}" data-toggle="button" aria-pressed="{{ $category->status == 'active' ? 'true' : 'false' }}" autocomplete="off">
+                        <div class="handle"></div>
+                    </button>
+                </td>
                 <td>
                     <form method="POST" action="{{ route('admin.categories.destroy', $category) }}" class="form-inline pull-right">
                         @csrf
                         @method('DELETE')
-                        <button onclick="return confirm('Удалить Категорию?')" class="btn btn-box-tool btn-xs text-red" style="padding: 0px !important;"><i class="fa fa-trash-o"></i></button>
+                        <button onclick="return confirm('Удалить Категорию?')" class="btn btn-xs bg-red"><i class="far fa-trash"></i></button>
                     </form>
+                    <a href="{{ route('admin.categories.edit', $category->id) }}" class="btn btn-primary btn-xs pull-right mr-2"><i class="far fa-edit"></i></a>
+
                 </td>
             </tr>
         @endforeach

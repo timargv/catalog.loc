@@ -16,11 +16,8 @@ class CategoriesController extends Controller
         $query = $categories;
 
         if (!empty($value = $request->get('name_original'))) {
-            $query->where('name_original', 'like', '%' . $value . '%');
-        }
-
-        if (!empty($value = $request->get('name'))) {
-            $query = $category->orderByDesc('name');
+            $query->where('name_original', 'like', '%' . $value . '%')
+                ->orWhere('name', 'like', '%' . $value . '%');
         }
 
         if (!empty($value = $request->get('category_id'))) {
@@ -62,7 +59,14 @@ class CategoriesController extends Controller
 
     public function show(Category $category)
     {
-        return view('admin.categories.show', compact('category'));
+
+        // Получить подкатегории данной категории
+        // $categories = Category::descendantsAndSelf($category);
+
+        // Получить Потомков  данной категории
+//        $categories = Category::defaultOrder()->descendantsOf($category);
+        $categories = $category->children()->defaultOrder('DESC')->get();
+        return view('admin.categories.show', compact('category', 'categories'));
     }
 
 
@@ -127,6 +131,18 @@ class CategoriesController extends Controller
         }
 
         return redirect()->route('admin.categories.index');
+    }
+
+
+    public function toggleStatus(Request $request)
+    {
+        if ($request->ajax()) {
+            $category = Category::findOrFail($request->category);
+            $category->update([
+                'status' =>  $category->status == 'active' ? $category::STATUS_CLOSED : $category::STATUS_ACTIVE,
+            ]);
+            return response()->json(['success'=>'Статус изменен']);
+        }
     }
 
 

@@ -8,8 +8,14 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
-    <link rel="stylesheet" href=" {{ mix('css/admin.css') }}">
-    <link rel="stylesheet" href=" {{ mix('css/plug/plug.css') }}">
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    {{--<link rel="stylesheet" href=" {{ mix('css/admin.css') }}">--}}
+    {{--<link rel="stylesheet" href=" {{ mix('css/plug/plug.css') }}">--}}
+
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/plug/plug.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -249,7 +255,8 @@
 
 <!-- Scripts -->
 {{--<script src="{{ mix('js/admin.js') }}" defer></script>--}}
-<script src="{{ mix('js/admin.js') }}"></script>
-
+{{--<script src="{{ mix('js/admin.js') }}"></script>--}}
+<script src="/js/admin.js"></script>
+@yield('script')
 </body>
 </html>
