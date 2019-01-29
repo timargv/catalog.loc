@@ -1,25 +1,26 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Edit Категорию')
+@section('title', $category->name == null ? 'Категория '. $category->name_original : 'Категория '. $category->name)
 
 @section('content')
-    <div class="row">
-        <div class="col-xs-6">
-            <div class="box box-info">
-                <div class="box-header with-border">
-                    <div class="box-title">
-                        Edit Категорию
+    <form method="POST" action="{{ route('admin.categories.update', $category) }}">
+        @csrf
+        @method('PUT')
+
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <div class="box-title">
+                            Edit Категорию
+                        </div>
+                        <span data-id="{{ $category->id }}" id="btn-toggle" class="btn btn-lg btn-toggle {{ $category->status == 'active' ? 'active' : '' }} pull-right" data-toggle="button" aria-pressed="{{ $category->status == 'active' ? 'true' : 'false' }}" autocomplete="off">
+                            <div class="handle"></div>
+                        </span>
                     </div>
+                    <!-- /.box-header -->
 
-                </div>
-                <!-- /.box-header -->
-
-                <div class="box-body">
-                    <form method="POST" action="{{ route('admin.products.categories.update', $category) }}">
-                        @csrf
-                        @method('PUT')
-
-
+                    <div class="box-body">
                         <div class="form-group @if($errors->has('name'))has-error @endif">
                             <label for="name" class="col-form-label">@if($errors->has('name'))<i class="fa fa-times-circle-o"></i>@endif Name</label>
                             <input id="name" class="form-control" name="name" value="{{ old('name', $category->name) }}" >
@@ -60,16 +61,16 @@
                             @endif
                         </div>
 
-                        <div class="form-group @if($errors->has('status'))has-error @endif">
-                            <label for="status" class="col-form-label">Status <span class="label label-{{ $category->status == 'Y' ? 'success' : 'danger' }}">{{ $category->status == 'Y' ? 'Active' : 'Выключено' }}</span></label>
-                            <select id="status" class="form-control" name="status">
-                                <option class="" value="Y" {{ $category->status == 'Y' ? ' selected' : '' }}>Включить</option>
-                                <option class="" value="N" {{ $category->status == 'N' ? ' selected' : '' }}>Выключить</option>
-                            </select>
-                            @if ($errors->has('status'))
-                                <span class="help-block"><strong>{{ $errors->first('status') }}</strong></span>
-                            @endif
-                        </div>
+                        {{--<div class="form-group @if($errors->has('status'))has-error @endif">--}}
+                        {{--<label for="status" class="col-form-label">Status <span class="label label-{{ $category->status == 'active' ? 'success' : 'danger' }}">{{ $category->status == 'active' ? 'Включен' : 'Выключено' }}</span></label>--}}
+                        {{--<select id="status" class="form-control" name="status">--}}
+                        {{--<option class="" value="active" {{ $category->status == 'active' ? ' selected' : '' }}>Включить</option>--}}
+                        {{--<option class="" value="disabled" {{ $category->status == 'disabled' ? ' selected' : '' }}>Выключить</option>--}}
+                        {{--</select>--}}
+                        {{--@if ($errors->has('status'))--}}
+                        {{--<span class="help-block"><strong>{{ $errors->first('status') }}</strong></span>--}}
+                        {{--@endif--}}
+                        {{--</div>--}}
 
                         <div class="form-group @if($errors->has('code'))has-error @endif">
                             <label for="code" class="col-form-label">Code</label>
@@ -103,14 +104,6 @@
                             @endif
                         </div>
 
-                        <div class="form-group @if($errors->has('date'))has-error @endif">
-                            <label for="date" class="col-form-label">Date</label>
-                            <input id="date" class="form-control" name="date" value="{{ old('date', $category->date) }}" >
-                            @if ($errors->has('date'))
-                                <span class="help-block"><strong>{{ $errors->first('date') }}</strong></span>
-                            @endif
-                        </div>
-
                         <div class="form-group @if($errors->has('slug'))has-error @endif">
                             <label for="slug" class="col-form-label">Slug</label>
                             <input id="slug" type="text" class="form-control slug" name="slug" value="{{ old('slug', $category->slug == null ? str_slug($category->name_original) : $category->slug ) }}" required>
@@ -136,14 +129,67 @@
                         </div>
 
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Save</button>
-                            <a href="{{ route('admin.products.categories.index') }}" class="btn btn-danger pull-right">Отменить</a>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save pr-2"></i> Save</button>
+                            <a href="{{ route('admin.categories.index') }}" class="btn btn-danger pull-right"><i class="far fa-times pr-2"></i> Отменить</a>
                         </div>
-                    </form>
-                </div>
+                    </div>
 
+                </div>
             </div>
-        </div>
+
+            {{-- Мета-данные --}}
+            <div class="col-xs-6">
+                <div class="box box-widget">
+                    <div class="box-header with-border">
+                        <div class="box-title">
+                            Мета-данные
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+
+                    <div class="box-body">
+                        <div class="form-group @if($errors->has('name_h1'))has-error @endif">
+                            <label for="name_h1" class="col-form-label">H1</label>
+                            <input id="name_h1" class="form-control" name="name_h1" value="{{ old('name_h1', $category->name_h1) }}" >
+                            @if ($errors->has('name_h1'))
+                                <span class="help-block"><strong>{{ $errors->first('name_h1') }}</strong></span>
+                            @endif
+                        </div>
+
+                        <div class="form-group @if($errors->has('meta_description'))has-error @endif">
+                            <label for="meta_description" class="col-form-label">@if($errors->has('meta_description'))<i class="fa fa-times-circle-o"></i>@endif Meta Description
+                            </label>
+                            <input id="meta_description" class="form-control" name="meta_description" value="{{ old('meta_description', $category->meta_description) }}" >
+                            @if ($errors->has('meta_description'))
+                                <span class="help-block"><strong>{{ $errors->first('meta_description') }}</strong></span>
+                            @endif
+                        </div>
+
+                        <div class="form-group @if($errors->has('meta_title'))has-error @endif">
+                            <label for="meta_title" class="col-form-label">@if($errors->has('meta_title'))<i class="fa fa-times-circle-o"></i>@endif Meta Title
+                            </label>
+                            <input id="meta_title" class="form-control" name="meta_title" value="{{ old('meta_title', $category->meta_title) }}" >
+                            @if ($errors->has('meta_title'))
+                                <span class="help-block"><strong>{{ $errors->first('meta_title') }}</strong></span>
+                            @endif
+                        </div>
+
+                        <div class="form-group @if($errors->has('meta_keywords'))has-error @endif">
+                            <label for="meta_title" class="col-form-label">@if($errors->has('meta_keywords'))<i class="fa fa-times-circle-o"></i>@endif Meta Keywords
+                            </label>
+                            <input id="meta_keywords" class="form-control" name="meta_keywords" value="{{ old('meta_keywords', $category->meta_keywords) }}" >
+                            @if ($errors->has('meta_keywords'))
+                                <span class="help-block"><strong>{{ $errors->first('meta_keywords') }}</strong></span>
+                            @endif
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
     </div>
+    </form>
 
 @endsection

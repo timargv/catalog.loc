@@ -41,19 +41,25 @@ class CategoriesController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string|max:255',
-            'slug' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique',
             'parent' => 'nullable|integer|exists:categories,id',
         ]);
 
         $category = Category::create([
             'name' => $request['name'],
             'name_original' => $request['name_original'],
-            'status' => $request['status'] == Category::STATUS_ACTIVE ? Category::STATUS_ACTIVE : Category::STATUS_CLOSED,
+
+            'name_h1' => $request['name_h1'],
+            'meta_description' => $request['meta_description'],
+            'meta_title' => $request['meta_title'],
+            'meta_keywords' => $request['meta_keywords'],
+
+            'status' => Category::STATUS_ACTIVE,
             'slug' => $request['slug'],
             'parent_id' => $request['parent'],
         ]);
 
-        return redirect()->route('admin.categories.show', $category);
+        return redirect()->back();
     }
 
 
@@ -89,7 +95,12 @@ class CategoriesController extends Controller
         $category->update([
             'name' => $request['name'],
             'name_original' => $request['name_original'],
-            'status' => $request['status'] == Category::STATUS_ACTIVE ? Category::STATUS_ACTIVE : Category::STATUS_CLOSED,
+
+            'name_h1' => $request['name_h1'],
+            'meta_description' => $request['meta_description'],
+            'meta_title' => $request['meta_title'],
+            'meta_keywords' => $request['meta_keywords'],
+
             'slug' => $request['slug'],
             'parent_id' => $request['parent'],
         ]);

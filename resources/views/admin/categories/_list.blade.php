@@ -7,14 +7,14 @@
         <tr>
             <th>ID</th>
             <th style="min-width: 150px;">
-                <label for="stk" class="col-form-label" style="margin: 0; cursor: pointer;">Name</label>
+                <label for="stk" class="col-form-label" style="margin: 0; cursor: pointer;">{{ __('category.Title') }}</label>
                 <button style="padding: 0;" type="submit" id="stk" class="btn btn-xs btn-box-tool" name="name" value="{{ request('name') === 'desc' ? 'asc' : 'desc' }}"><i class="fa fa-sort-alpha-{{ request('name') === 'desc' ? 'desc' : 'asc' }}" aria-hidden="true"></i></button>
             </th>
-            <th>Name Оригинал</th>
-            <th>Slug</th>
+            <th>{{ __('category.Title_Original') }}</th>
+            <th>{{ __('category.Slug') }}</th>
             <th width="200px">Position</th>
-            <th>Status</th>
-            <th class="text-right">Edit/Delete</th>
+            <th class="text-right pr-5"><span class="pr-4">{{ __('category.Status') }}</span></th>
+            <th class="text-right">{{ __('button.Edit') }}/{{ __('button.Delete') }}</th>
         </tr>
         </thead>
         </form>
@@ -32,26 +32,26 @@
                 <td><span class="text-muted">{{ $category->slug }}</span></td>
                 <td>
                     <div class="" style="margin: 0 -5px;">
-                        <form class="float-left mx-2" method="POST" action="{{ route('admin.categories.first', $category) }}">
+                        <form class="float-left ml-2" method="POST" action="{{ route('admin.categories.first', $category) }}">
                             @csrf
-                            <button class="btn btn-xs"><i class="fa fa-angle-double-up"></i></button>
+                            <button class="btn btn-xs bg-gray color-palette"><i class="far fa-angle-double-up"></i></button>
                         </form>
-                        <form class="float-left mx-2" method="POST" action="{{ route('admin.categories.up', $category) }}">
+                        <form class="float-left ml-2" method="POST" action="{{ route('admin.categories.up', $category) }}">
                             @csrf
-                            <button class="btn btn-xs"><i class="fa fa-angle-up"></i></button>
+                            <button class="btn btn-xs bg-gray color-palette"><i class="far fa-angle-up"></i></button>
                         </form>
-                        <form class="float-left mx-2" method="POST" action="{{ route('admin.categories.down', $category) }}">
+                        <form class="float-left ml-2" method="POST" action="{{ route('admin.categories.down', $category) }}">
                             @csrf
-                            <button class="btn btn-xs"><i class="fa fa-angle-down"></i></button>
+                            <button class="btn btn-xs bg-gray color-palette"><i class="far fa-angle-down"></i></button>
                         </form>
-                        <form class="float-left mx-2" method="POST" action="{{ route('admin.categories.last', $category) }}">
+                        <form class="float-left ml-2" method="POST" action="{{ route('admin.categories.last', $category) }}">
                             @csrf
-                            <button class="btn btn-xs"><i class="fa fa-angle-double-down"></i></button>
+                            <button class="btn btn-xs bg-gray color-palette"><i class="far fa-angle-double-down"></i></button>
                         </form>
                     </div>
                 </td>
                 <td>
-                    <button data-id="{{ $category->id }}" id="btn-toggle" class="btn btn-md btn-toggle {{ $category->status == 'active' ? 'active' : '' }}" data-toggle="button" aria-pressed="{{ $category->status == 'active' ? 'true' : 'false' }}" autocomplete="off">
+                    <button data-id="{{ $category->id }}" id="btn-toggle" class="btn btn-md btn-toggle {{ $category->status == 'active' ? 'active' : '' }} pull-right" data-toggle="button" aria-pressed="{{ $category->status == 'active' ? 'true' : 'false' }}" autocomplete="off">
                         <div class="handle"></div>
                     </button>
                 </td>

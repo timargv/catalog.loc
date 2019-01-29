@@ -70,8 +70,12 @@
                         @csrf
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="name_original" class="col-form-label">Name Original</label>
-                                <input id="name_original" type="text" name="name_original" class="form-control" placeholder="Имя Оригинал">
+                                <label for="name" class="col-form-label">{{ __('category.Title') }}</label>
+                                <input id="name" type="text" name="name" class="form-control" placeholder="{{ __('category.Title') }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="name_original" class="col-form-label">{{ __('category.Title_Original') }}</label>
+                                <input id="name_original" type="text" name="name_original" class="form-control" placeholder="{{ __('category.Title_Original') }}">
                             </div>
                             <div class="form-group">
                                 <label for="slug" class="col-form-label">Slug</label>
