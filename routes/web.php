@@ -15,15 +15,20 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-
+Route::get('/verify/{token}', 'Auth\RegisterController@verify')->name('register.verify');
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'can:admin-panel'] ], function () {
 
+    // Панель Администратора
     Route::get('/', 'DashboardController@index')->name('home');
 
-    Route::resource('categories', 'CategoriesController');
+    // Пользователи
+    Route::resource('/users', 'UsersController');
+    Route::post('/users/{user}/verify', 'UsersController@verify')->name('users.verify');
 
+
+    // Категории
+    Route::resource('categories', 'CategoriesController');
     Route::group(['prefix' => 'categories/{category}', 'as' => 'categories.'], function () {
         Route::post('/first', 'CategoriesController@first')->name('first');
         Route::post('/up', 'CategoriesController@up')->name('up');
@@ -32,5 +37,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     });
     Route::post('/categories/toggle-status', 'CategoriesController@toggleStatus')->name('categories.toggle.status');
 
+    // Поставщики
+    Route::resource('/shippers', 'ShippersController');
 
 });

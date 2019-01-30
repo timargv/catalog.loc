@@ -43,8 +43,7 @@ mix.scripts([
     'resources/assets/admin/plugins/fastclick/fastclick.js',
     'resources/assets/admin/plugins/iCheck/icheck.min.js',
 
-    'resources/assets/admin/dist/js/adminlte.min.js',
-    'resources/assets/admin/dist/js/demo.js',
+    'resources/assets/admin/dist/js/adminlte.js',
     'resources/assets/admin/dist/js/scripts.js',
     'resources/assets/admin/dist/js/ajax.js'
 

@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -19,7 +20,7 @@ class User extends Authenticatable
 
     
     protected $fillable = [
-        'name', 'last_name', 'email', 'password', 'status', 'role',
+        'name', 'last_name', 'email', 'password', 'status', 'role', 'verify_token'
     ];
 
     
@@ -37,30 +38,38 @@ class User extends Authenticatable
         ];
     }
 
-
-    public function isModerator(): bool
+    public static function statusList(): array
     {
-        return $this->role === self::ROLE_MODERATOR;
-    }
-    
-
-    public function isAdmin(): bool
-    {
-        return $this->role === self::ROLE_ADMIN;
+        return [
+            self::STATUS_WAIT => 'Disabled',
+            self::STATUS_ACTIVE => 'Active',
+        ];
     }
 
-
-    public function isWait(): bool
+    public static function register(string $name, string $last_name, string $email, string $password): self
     {
-        return $this->status === self::STATUS_WAIT;
+        return static::create([
+            'name' => $name,
+            'last_name' => $last_name,
+            'email' => $email,
+            'password' => bcrypt($password),
+            'verify_token' => Str::uuid(),
+            'role' => self::ROLE_USER,
+            'status' => self::STATUS_WAIT,
+        ]);
     }
 
-
-    public function isActive(): bool
+    public function verify(): void
     {
-        return $this->status === self::STATUS_ACTIVE;
-    }
+        if (!$this->isWait()) {
+            throw new \DomainException('User is already verified. ( Пользователь верефицирован)');
+        }
 
+        $this->update([
+            'status' => self::STATUS_ACTIVE,
+            'verify_token' => null,
+        ]);
+    }
 
     public static function new($name, $last_name, $email): self
     {
@@ -74,5 +83,50 @@ class User extends Authenticatable
         ]);
     }
 
+
+    public function isWait(): bool
+    {
+        return $this->status === self::STATUS_WAIT;
+    }
+
+    public function isActive(): bool
+    {
+        return $this->status === self::STATUS_ACTIVE;
+    }
+
+    public function isModerator(): bool
+    {
+        return $this->role === self::ROLE_MODERATOR;
+    }
+    
+
+    public function isAdmin(): bool
+    {
+        return $this->role === self::ROLE_ADMIN;
+    }
+
+
+    public function changeRole($role): void
+    {
+        if (!array_key_exists($role, self::rolesList())) {
+            throw new \InvalidArgumentException('Undefined role "' . $role . '"');
+        }
+        if ($this->role === $role) {
+            throw new \DomainException('Role is already assigned.');
+        }
+        $this->update(['role' => $role]);
+    }
+
+
+    public function changeStatus($status): void
+    {
+        if (!array_key_exists($status, self::statusList())) {
+            throw new \InvalidArgumentException('Undefined status "' . $status . '"');
+        }
+        if ($this->status === $status) {
+            throw new \DomainException('Status is already assigned.');
+        }
+        $this->update(['status' => $status]);
+    }
 
 }
