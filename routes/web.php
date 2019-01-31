@@ -40,4 +40,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Поставщики
     Route::resource('/shippers', 'ShippersController');
 
+    Route::post('/user-import', 'UsersController@import')->name('user.import');
+
 });

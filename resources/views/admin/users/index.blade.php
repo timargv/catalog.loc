@@ -13,8 +13,8 @@
                         <button type="button" class="invisible btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                         </button>
 
-                        <a href="{{ route('admin.users.create') }}" class="btn  bg-purple btn-xs"><i class="fa fa-user-plus"></i> Добавить
-                        </a>
+
+                        <a href="{{ route('admin.users.create') }}" class="btn  bg-purple btn-xs"><i class="fa fa-user-plus"></i> Добавить</a>
                     </div>
 
                 </div>
@@ -90,6 +90,21 @@
             </div>
         </div>
         <div class="col-xs-4">
+
+            <div class="box box-info">
+                <div class="box-header with-border">Импортировать пользователей</div>
+                <div class="box-body">
+                    <form class="form-inline" method="post" action="{{ route('admin.user.import') }}" enctype="multipart/form-data">
+                        {{ csrf_field() }}
+                        <div class="form-group mb-3">
+                            <input type="file" name="file" id="exampleInputFile" class="input-group">
+                        </div>
+                        <button type="submit" class="btn bg-light btn-sm mr-2"><i class="fas fa-cloud-upload"></i> Import</button>
+                        <a class="btn btn-primary btn-sm" href="#" ><i class="fas fa-cloud-download-alt"></i> Export</a>
+                    </form>
+                </div>
+            </div>
+
             <div class="box box-info">
                 <div class="box-header with-border">
                     <div class="box-title"><i class="fa fa-user"></i> <small>Поиск пользователя</small></div>

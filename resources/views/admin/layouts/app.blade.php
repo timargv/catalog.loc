@@ -179,7 +179,7 @@
                     </li>
                     <!-- Control Sidebar Toggle Button -->
                     <li>
-                        <a href="#" data-toggle="control-sidebar"><i class="fal fa-cog"></i></a>
+                        <a href="#" ><i class="fal fa-cog"></i></a>
                     </li>
                 </ul>
             </div>

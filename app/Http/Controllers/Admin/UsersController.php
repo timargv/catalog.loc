@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Imports\Admin\UsersImport;
 use App\User;
 use App\Http\Requests\Admin\Users\CreateRequest;
 use App\Http\Requests\Admin\Users\UpdateRequest;
 use App\UseCases\Auth\RegisterService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UsersController extends Controller
 {
@@ -123,5 +125,37 @@ class UsersController extends Controller
     {
         $this->register->verify($user->id);
         return redirect()->route('admin.users.show', $user);
+    }
+
+    //=====================================
+    public function import(Request $request)
+    {
+        $this->validate($request, [
+            'file' => 'required',
+        ]);
+
+        $path = $request->file('file');
+        $import = new UsersImport();
+
+        
+        $import->import($path);
+
+        $errors = $import->errors();
+
+        if (count($errors)) {
+            $errorsList = [];
+
+            foreach ($errors as $error) {
+                if ( $error->getCode() == 23000) {
+                    $errorsList[] = 'Код Ошибки '. $error->getCode() .' '. $error->errorInfo[2];
+                }
+            }
+
+
+            return redirect()->back()->with('error', $errorsList);
+        }
+
+
+        return redirect()->back()->with('success', 'All good!');
     }
 }

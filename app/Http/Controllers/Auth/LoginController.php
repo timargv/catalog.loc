@@ -47,7 +47,7 @@ class LoginController extends Controller
                 return back()->with('error', 'Вам необходимо подтвердить свою учетную запись. Пожалуйста, проверьте свой email.');
             }
 
-            return redirect()->intended(route('cabinet'));
+            return redirect()->intended(route('home'));
         }
 
         $this->incrementLoginAttempts($request);
@@ -77,7 +77,7 @@ class LoginController extends Controller
             $request->session()->flush();
             $this->clearLoginAttempts($request);
             Auth::login($user, $session['remember']);
-            return redirect()->intended(route('cabinet'));
+            return redirect()->intended(route('home'));
         }
 
         $this->incrementLoginAttempts($request);

@@ -1,32 +1,25 @@
-
+<div style="z-index: 999999;">
 @if (session('status'))
-    <div style="padding: 20px 30px; z-index: 999999;">
-    <div class="alert alert-success">
+    <div class="alert alert-success border-0 rounded-0">
         {{ session('status') }}
-    </div>
     </div>
 @endif
 
 @if (session('success'))
-    <div style="padding: 20px 30px; z-index: 999999;">
-    <div class="alert alert-success">
+    <div class="alert alert-success border-0 rounded-0">
         {{ session('success') }}
-    </div>
     </div>
 @endif
 
 @if (session('error'))
-    <div style="padding: 20px 30px; z-index: 999999;">
-    <div class="alert alert-danger">
+    <div class="alert alert-danger border-0 rounded-0">
         {{ session('error') }}
-    </div>
     </div>
 @endif
 
 @if (session('info'))
-    <div style="padding: 20px 30px; z-index: 999999;">
-    <div class="alert alert-info">
+    <div class="alert alert-info border-0 rounded-0">
         {{ session('info') }}
     </div>
-    </div>
 @endif
+</div>
