@@ -10,15 +10,16 @@
                 <div class="box-header with-border">
                     <div class="box-title">Все Категории </div>
                     <div class="box-tools pull-right">
-                        <button type="button" class="invisible btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                        <button type="button" class="invisible btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus mr-2"></i></button>
 
+                        <a href="{{ route('admin.categories.fix') }}" class="btn  bg-red btn-xs mr-3"><i class="fal fa-sync-alt mr-1"></i> Fix</a>
                         <a href="{{ route('admin.categories.create') }}" class="btn  bg-purple btn-xs"><i class="fal fa-plus"></i> Добавить</a>
                     </div>
 
                 </div>
                 <!-- /.box-header -->
 
-                <div class="box-body">
+                <div class="box-body table-responsive no-padding">
                     @include('admin.categories._list', ['categories' => $categories])
                 </div>
                 <!-- /.box-body -->
@@ -49,7 +50,8 @@
 
 
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary">Найти</button>
+                                <button type="submit" class="btn btn-primary">{{ __('button.Search') }}</button>
+                                <a href="?" class="btn bg-navy">{{ __('button.Clear') }}</a>
                             </div>
 
                         </div>

@@ -19,8 +19,10 @@ Route::get('/verify/{token}', 'Auth\RegisterController@verify')->name('register.
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'can:admin-panel'] ], function () {
 
+
     // Панель Администратора
     Route::get('/', 'DashboardController@index')->name('home');
+
 
     // Пользователи
     Route::resource('/users', 'UsersController');
@@ -37,9 +39,56 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     });
     Route::post('/categories/toggle-status', 'CategoriesController@toggleStatus')->name('categories.toggle.status');
 
-    // Поставщики
-    Route::resource('/shippers', 'ShippersController');
+    // Фикс Категории Мир Инструмента
+    Route::get('/fix', 'CategoriesController@fixCategory')->name('categories.fix');
+    //--------------------------------------------------------------------------------------------------------------------------------
 
-    Route::post('/user-import', 'UsersController@import')->name('user.import');
+    // Товары
+    Route::resource('products', 'ProductsController');
+
+    Route::group(['prefix' => 'products', 'as' => 'products.'], function () {
+        Route::get('/{product}/photos', 'ProductsController@photosForm')->name('photos');
+        Route::post('/{product}/photos', 'ProductsController@photos')->name('photos.add');
+        Route::get('/{product}/photos/{id}', 'ProductsController@destroyPhoto')->name('photos.delete');
+        Route::get('/{product}/photos', 'ProductsController@destroyPhotos')->name('photos.deletes');
+        Route::get('/{product}/photo/{id}', 'ProductsController@updatePhotoType')->name('photos.main');
+    });
+
+    // Бренды
+    Route::resource('brands', 'BrandController');
+
+    // Поставщики
+    Route::resource('/vendors', 'VendorsController');
+
+    Route::group(['namespace' => 'Shop\Attribute'], function () {
+        // Группы Атрибутов
+        Route::resource('/attribute-groups', 'AttributeGroupController');
+        // Атрибуты
+        Route::resource('/attributes', 'AttributeController');
+    });
+
+    // IMPORT
+    Route::group(['prefix' => 'import', 'as' => 'import.', 'namespace' => 'ImportExport'], function () {
+
+        Route::get('/product', 'HomeController@product')->name('product');
+        Route::get('/category', 'HomeController@category')->name('category');
+        Route::get('/user', 'HomeController@user')->name('user');
+
+
+        // ===== API IMPORT =====
+
+        // Функция Импорта КАТЕГОРИИ из МИР ИНСТРУММЕНТ: XML
+        Route::group(['namespace' => 'Category'], function () {
+            Route::get('/mir-instrument-category', 'XmlController@instrumentImportCategoryXml')->name('category.mir.instrument.xml');
+        });
+
+        // Функция Импорта ТОВАРА из МИР ИНСТРУММЕНТ: XML
+        Route::group(['namespace' => 'Product'], function () {
+            Route::get('/mir-instrument-product', 'XmlController@instrumentImportProductXml')->name('product.mir.instrument.xml');
+        });
+        //--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+    });
 
 });

@@ -20,13 +20,24 @@
     <li><a href="#"><i class="fal fa-align-justify text-danger mr-2 pr-1"></i> <span>Статусы заказов</span></a></li>
 
     <li class="header">Каталог Товаров</li>
-    <li><a href="{{ route('admin.categories.index') }}"><i class="fas fa-th-list text-info mr-2"></i> <span>Категории товаров</span></a></li>
-    <li><a href="#"><i class="fab fa-product-hunt text-info mr-2"></i> <span>Список товаров</span>
+    <li><a href="{{ route('admin.categories.index') }}"><i class="fas fa-th-list text-info mr-2"></i> <span>Категории товаров</span>
             <span class="pull-right-container">
-              <small class="label pull-right bg-blue">10 980</small>
+              <small class="label pull-right bg-blue">{{ $countCategories }}</small>
             </span>
         </a></li>
-    <li><a href="#"><i class="far fa-truck-container text-info mr-1"></i> <span>Поставщики</span></a></li>
+    <li><a href="{{ route('admin.products.index') }}"><i class="fab fa-product-hunt text-info mr-2"></i> <span>Список товаров</span>
+            <span class="pull-right-container">
+              <small class="label pull-right bg-blue">{{ $countProducts }}</small>
+            </span>
+        </a></li>
+    <li><a href="{{ route('admin.attribute-groups.index') }}"><i class="far fa-lock text-info mr-2 pr-1"></i> <span>Атрибуты</span></a></li>
+    <li><a href="{{ route('admin.vendors.index') }}"><i class="far fa-truck-container text-info mr-1"></i> <span>Поставщики</span>
+            <span class="pull-right-container">
+              <small class="label pull-right bg-red">{{ $countVendors }}</small>
+            </span>
+        </a></li>
+
+    <li><a href="{{ route('admin.brands.index') }}"><i class="far fa-bars text-info mr-2 pr-1"></i> <span>Бренды</span></a></li>
 
     <li class="header">Уведомления / Обратный звонок</li>
     <li class="treeview">
@@ -59,6 +70,11 @@
     <li class="header">Пользователи</li>
     <li><a href="{{ route('admin.users.index') }}"><i class="fal fa-users-class text-success mr-2"></i> <span>Список пользователей</span></a></li>
     <li><a href="#"><i class="fal fa-comment-alt-lines text-aqua mr-2"></i> <span>Комментария</span></a></li>
+
+    <li class="header">Import / Export</li>
+
+    <li><a href="{{ route('admin.import.product') }}"><i class="fal fa-arrow-from-bottom text-danger mr-2 pr-1"></i> <span>Import</span></a></li>
+    <li><a href="#"><i class="fal fa-arrow-from-top text-danger mr-2 pr-1"></i> <span>Export</span></a></li>
 
 
 

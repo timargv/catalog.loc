@@ -1,5 +1,6 @@
 <?php
 
+use App\Entity\Category;
 use Illuminate\Database\Seeder;
 
 class CategoriesTableSeeder extends Seeder
@@ -11,15 +12,12 @@ class CategoriesTableSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
-            'name' => 'timargv',
-            'email' => 'tima.rgv@mail.ru',
-            'last_name' => 'Тимур',
-            'status' => User::STATUS_ACTIVE,
-            'role' => User::ROLE_ADMIN,
-            'email_verified_at' => now(),
-            'password' => '$2y$10$d0A1VUw1MjQpMAfqZGGmOOtdH2vGVKImA1JesK1CUqFGfpMncrTfa',
-            'remember_token' => str_random(10)
-        ]);
+        factory(Category::class, 10)->create()->each(function(Category $category) {
+            $counts = [0, random_int(3, 7)];
+            $category->children()->saveMany(factory(Category::class, $counts[array_rand($counts)])->create()->each(function(Category $category) {
+                $counts = [0, random_int(3, 7)];
+                $category->children()->saveMany(factory(Category::class, $counts[array_rand($counts)])->create());
+            }));
+        });
     }
 }

@@ -35,7 +35,7 @@
 
                         <div class="form-group @if($errors->has('parent'))has-error @endif">
                             <label for="parent" class="col-form-label">{{ __('category.Parent') }}</label>
-                            <select id="parent" class="form-control{{ $errors->has('parent') ? ' is-invalid' : '' }}" name="parent">
+                            <select id="parent" class="form-control select2 w-100 {{ $errors->has('parent') ? ' is-invalid' : '' }}" name="parent">
                                 <option value=""></option>
                                 @foreach ($parents as $parent)
                                     <option value="{{ $parent->id }}"{{ $parent->id == old('parent') ? ' selected' : '' }}>

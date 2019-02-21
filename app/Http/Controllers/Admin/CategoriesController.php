@@ -4,12 +4,23 @@ namespace App\Http\Controllers\Admin;
 
 use App\Entity\Category;
 use App\Http\Controllers\Controller;
+use App\UseCases\Auth\RegisterService;
+use App\UseCases\Category\CategoryService;
 use Illuminate\Http\Request;
+
 
 class CategoriesController extends Controller
 {
 
-    public function index(Request $request, Category $category)
+    private $register;
+
+    public function __construct(RegisterService $register)
+    {
+        $this->register = $register;
+        $this->middleware('can:manage-users');
+    }
+
+    public function index(Request $request)
     {
         $categories = Category::defaultOrder();
 
@@ -24,7 +35,7 @@ class CategoriesController extends Controller
             $query->where('id', $value);
         }
 
-        $categories = $query->withDepth()->paginate(50);
+        $categories = $query->withDepth()->paginate(15);
 
         return view('admin.categories.index', compact('categories'));
     }
@@ -41,7 +52,7 @@ class CategoriesController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|unique',
+            'slug' => 'required|string|max:255|unique:categories',
             'parent' => 'nullable|integer|exists:categories,id',
         ]);
 
@@ -59,7 +70,7 @@ class CategoriesController extends Controller
             'parent_id' => $request['parent'],
         ]);
 
-        return redirect()->back();
+        return redirect()->route('admin.categories.show', $category);
     }
 
 
@@ -71,7 +82,7 @@ class CategoriesController extends Controller
 
         // Получить Потомков  данной категории
 //        $categories = Category::defaultOrder()->descendantsOf($category);
-        $categories = $category->children()->defaultOrder('DESC')->get();
+        $categories = $category->children()->defaultOrder('ASC')->get();
         return view('admin.categories.show', compact('category', 'categories'));
     }
 
@@ -88,7 +99,7 @@ class CategoriesController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|string|max:255',
-            'slug' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|exists:categories,slug',
             'parent' => 'nullable|integer|exists:categories,id',
         ]);
 
@@ -156,6 +167,9 @@ class CategoriesController extends Controller
         }
     }
 
+    public function fixCategory(CategoryService $service) {
+        return $service->fix();
+    }
 
     public function destroy(Category $category)
     {

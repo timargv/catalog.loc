@@ -2,9 +2,20 @@
 
 namespace App\Entity;
 
+use App\Entity\Shop\Attribute\Attribute;
+use App\Entity\Shop\Attribute\AttributeGroup;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 use Kalnoy\Nestedset\NodeTrait;
 
+/**
+ * @property \Carbon\Carbon $created_at
+ * @property int $id
+ * @property \Carbon\Carbon $updated_at
+ * @property mixed $products
+ * @property mixed $parent
+ * @property mixed $attributes
+ */
 class Category extends Model
 {
     use NodeTrait;
@@ -27,6 +38,7 @@ class Category extends Model
         'count',
         'image',
         'parent_id',
+        'shipper_id',
         'icon',
         'slug'
     ];
@@ -37,6 +49,29 @@ class Category extends Model
         return $this->belongsToMany(Product::class,'product_categories','category_id','product_id');
     }
 
+    public function parentAttributes(): array
+    {
+        return $this->parent ? $this->parent->allAttributes() : [];
+    }
+
+    /**
+     * @return Attribute[]
+     */
+    public function allAttributes(): array
+    {
+        return array_merge($this->parentAttributes(), $this->attributes()->orderBy('sort')->getModels());
+    }
+
+
+    public function attributes()
+    {
+        return $this->belongsToMany(
+            Attribute::class,
+            'attributes_categories',
+            'category_id',
+            'attribute_id'
+        );
+    }
 
     public function setDraft()
     {
@@ -58,5 +93,12 @@ class Category extends Model
         }
 
         return $this->setPublic();
+    }
+
+    public static function count()
+    {
+        return Cache::remember('count_categories', 60, function () {
+            return static::query()->count();
+        });
     }
 }

@@ -91,19 +91,6 @@
         </div>
         <div class="col-xs-4">
 
-            <div class="box box-info">
-                <div class="box-header with-border">Импортировать пользователей</div>
-                <div class="box-body">
-                    <form class="form-inline" method="post" action="{{ route('admin.user.import') }}" enctype="multipart/form-data">
-                        {{ csrf_field() }}
-                        <div class="form-group mb-3">
-                            <input type="file" name="file" id="exampleInputFile" class="input-group">
-                        </div>
-                        <button type="submit" class="btn bg-light btn-sm mr-2"><i class="fas fa-cloud-upload"></i> Import</button>
-                        <a class="btn btn-primary btn-sm" href="#" ><i class="fas fa-cloud-download-alt"></i> Export</a>
-                    </form>
-                </div>
-            </div>
 
             <div class="box box-info">
                 <div class="box-header with-border">

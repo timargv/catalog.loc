@@ -29,7 +29,7 @@ const mix = require('laravel-mix');
 //     'resources/assets/admin/dist/css/skins/_all-skins.min.css',
 //     'resources/assets/admin/dist/css/style.less'
 // ], 'public/css/admin.css').sass('resources/sass/plug.scss', 'public/css/plug').version();
-//
+
 
 
 mix.scripts([
@@ -42,6 +42,16 @@ mix.scripts([
     'resources/assets/admin/plugins/slimScroll/jquery.slimscroll.min.js',
     'resources/assets/admin/plugins/fastclick/fastclick.js',
     'resources/assets/admin/plugins/iCheck/icheck.min.js',
+    'resources/assets/admin/plugins/input-mask/jquery.inputmask.js',
+    // 'resources/assets/admin/plugins/input-mask/jquery.inputmask.bundle.min.js',
+    'resources/assets/admin/plugins/input-mask/jquery.inputmask.phone.extensions.js',
+    'resources/assets/admin/plugins/input-mask/jquery.inputmask.regex.extensions.js',
+    // 'resources/assets/admin/plugins/input-mask/jquery.inputmask.numeric.extensions.js',
+    'resources/assets/admin/plugins/input-mask/jquery.maskMoney.min.js',
+    'resources/assets/admin/plugins/input-mask/jquery.inputmask.extensions.js',
+    'node_modules/autonumeric/dist/autoNumeric.min.js',
+    'node_modules/jquery-slugify/dist/slugify.min.js',
+    'node_modules/speakingurl/speakingurl.min.js',
 
     'resources/assets/admin/dist/js/adminlte.js',
     'resources/assets/admin/dist/js/scripts.js',

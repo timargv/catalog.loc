@@ -127,35 +127,5 @@ class UsersController extends Controller
         return redirect()->route('admin.users.show', $user);
     }
 
-    //=====================================
-    public function import(Request $request)
-    {
-        $this->validate($request, [
-            'file' => 'required',
-        ]);
 
-        $path = $request->file('file');
-        $import = new UsersImport();
-
-        
-        $import->import($path);
-
-        $errors = $import->errors();
-
-        if (count($errors)) {
-            $errorsList = [];
-
-            foreach ($errors as $error) {
-                if ( $error->getCode() == 23000) {
-                    $errorsList[] = 'Код Ошибки '. $error->getCode() .' '. $error->errorInfo[2];
-                }
-            }
-
-
-            return redirect()->back()->with('error', $errorsList);
-        }
-
-
-        return redirect()->back()->with('success', 'All good!');
-    }
 }
