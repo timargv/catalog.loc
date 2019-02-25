@@ -29,7 +29,7 @@ class ProductsController extends Controller
     {
         //
         $categories = Category::defaultOrder()->withDepth()->get();
-        $products = Product::orderBy('id', 'DESC')->with('category', 'currency', 'vendor');
+        $products = Product::orderBy('id', 'DESC')->with('category', 'currency', 'vendor', 'photos');
 
 
         $query = $products;
@@ -345,21 +345,21 @@ class ProductsController extends Controller
     public function destroyPhotos(Product $product)
     {
         try {
-            $product->photos()->delete();
+            $this->service->removePhotos($product->id);
         } catch (\DomainException $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
         return redirect()->back()->with('info', 'Все картинки удалены!');
     }
 
-    public function updatePhotoType($product, $id)
+    public function updatePhotoMain($product, $id)
     {
         try {
             $this->service->isMainPhoto($product, $id);
         } catch (\DomainException $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
-        return redirect()->back()->with('info', 'Главная картинка назначена!');
+        return redirect()->back()->with('info', 'Главная картинка изменена!');
     }
 
 }

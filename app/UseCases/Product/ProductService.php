@@ -12,35 +12,68 @@ use Intervention\Image\Facades\Image;
 
 class ProductService
 {
+
+    public function pathPhoto()
+    {
+        $paths = [
+            'original' => public_path() . '\storage\products\original\\',
+            'thumbnail' => public_path() . '\storage\products\thumbnail\\',
+            'small' => public_path() . '\storage\products\small\\',
+            'medium' => public_path() . '\storage\products\medium\\',
+            'large' => public_path() . '\storage\products\large\\',
+        ];
+        return $paths;
+    }
+    
+
     public function addPhotos($id, PhotosRequest $request): void
     {
         $product = $this->getProduct($id);
 
         DB::transaction(function () use ($request, $product) {
+            $path = $this->pathPhoto()['original'];
+            $thumbPath = $this->pathPhoto()['thumbnail'];
+            $smallPath = $this->pathPhoto()['small'];
+            $middlePath = $this->pathPhoto()['medium'];
+            $largePath = $this->pathPhoto()['large'];
 
-            $path = public_path().'\storage\products\original\\';
-            $thumbPath = public_path().'\storage\products\thumbnail\\';
-            $middlePath = public_path().'\storage\products\middle\\';
-            $largePath = public_path().'\storage\products\large\\';
+            $productPhotos = $product->photos()->count();
 
-            foreach ($request['files'] as $file) {
+             foreach ($request['files'] as $key => $file) {
 
                 $img = Image::make($file);
-                if (!file_exists($path) && !file_exists($thumbPath) && !file_exists($middlePath)  && !file_exists($largePath)) {
+                if (!file_exists($path) && !file_exists($thumbPath) && !file_exists($smallPath) && !file_exists($middlePath) && !file_exists($largePath)) {
                     mkdir($path, 666, true);
                     mkdir($thumbPath, 666, true);
+                    mkdir($smallPath, 666, true);
                     mkdir($middlePath, 666, true);
                     mkdir($largePath, 666, true);
                 }
-                $img->save($path . $file->getClientOriginalName());
-                $img->resize(320, 240)->save($thumbPath . $file->getClientOriginalName());
-                $img->resize(450, 450)->save($middlePath . $file->getClientOriginalName());
-                $img->resize(1000, 1000)->save($largePath .$file->getClientOriginalName());
 
-                $product->photos()->create([
-                    'file' => $file->getClientOriginalName(),
-                    'sort' => 1
-                ]);
+                $fileName = $product->id.'-'.uniqid().'-'. (new \DateTime)->getTimeStamp() . '.png';
+
+                $img->save($path . $fileName);
+                $img->resize(80, 80)->save($thumbPath . $fileName);
+                $img->resize(320, 320)->save($thumbPath . $fileName);
+                $img->resize(150, 150)->save($smallPath . $fileName);
+                $img->resize(450, 450)->save($middlePath . $fileName);
+                $img->resize(1000, 1000)->save($largePath .$fileName);
+
+                if ($key == 0) {
+                    $product->photos()->create([
+                        'file' => $fileName,
+                        'sort' => 1,
+                        'main' =>  $productPhotos == 0 ? 'yeas' : 'no',
+                    ]);
+                } else {
+                    $product->photos()->create([
+                        'file' => $fileName,
+                        'sort' => 1,
+                        'main' => 'no',
+                    ]);
+                }
+
+
             }
             $product->update();
 
@@ -61,27 +94,37 @@ class ProductService
     {
         $photo = $this->getPhoto($id);
         $photo->delete();
-        Storage::disk('public')->delete($photo->file);
+        Storage::disk('public')->delete([
+            '\products\original\\'.$photo->file,
+            '\products\thumbnail\\'.$photo->file,
+            '\products\small\\'.$photo->file,
+            '\products\medium\\'.$photo->file,
+            '\products\large\\'.$photo->file,
+        ]);
     }
 
-    public function removePhotos($product)
+    public function removePhotos($id)
     {
+        $product = $this->getProduct($id);
+        $photos = $product->photos()->get();
 
-        dd($product);
-
-        foreach ($product->photos() as $photo) {
-            dd($photo);
-            $photo = $this->getPhoto($photo->id);
-            $photo->delete();
-            Storage::disk('public')->delete($photo->file);
+        foreach ($photos as $photo) {
+            Storage::disk('public')->delete([
+                '\products\original\\'.$photo->file,
+                '\products\thumbnail\\'.$photo->file,
+                '\products\small\\'.$photo->file,
+                '\products\medium\\'.$photo->file,
+                '\products\large\\'.$photo->file,
+            ]);
         }
+        $product->photos()->delete();
     }
 
     public function isMainPhoto($product, $id) {
         $product = $this->getProduct($product);
 
         $product->photos()->update([
-            'type' => Photo::STATUS_NOT_MAIN_PHOTO
+            'main' => Photo::STATUS_NOT_MAIN_PHOTO
         ]);
 
         $photoItem = $this->getPhoto($id);

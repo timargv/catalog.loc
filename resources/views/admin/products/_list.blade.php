@@ -52,8 +52,11 @@
         <td class="align-middle">{{ $product->id }}</td>
         <td class="align-middle"><a href="{{ $product->original_url }}" target="_blank">{{ $product->vendor_code }}</a></td>
         <td class="">
-            @foreach($product->photos->take(1) as $photo)
-                <img src="{{ Storage::disk('public')->url('products/thumbnail/'. $photo->file) }}" alt="" class=" img-circle  mr-2" style="width: 30px;">
+            @foreach($product->photos as $photo)
+                @if($photo->main == 'yeas')
+                    <img src="{{ Storage::disk('public')->url('products/thumbnail/'. $photo->file) }}" alt="" class=" img-circle  mr-2" style="width: 30px;">
+                    @break
+                @endif
             @endforeach
             <a href="{{ route('admin.products.show', $product) }}" target="_blank" >{{ $product->name_original }}</a>
         </td>

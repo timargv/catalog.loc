@@ -51,7 +51,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
         Route::post('/{product}/photos', 'ProductsController@photos')->name('photos.add');
         Route::get('/{product}/photos/{id}', 'ProductsController@destroyPhoto')->name('photos.delete');
         Route::get('/{product}/photos', 'ProductsController@destroyPhotos')->name('photos.deletes');
-        Route::get('/{product}/photo/{id}', 'ProductsController@updatePhotoType')->name('photos.main');
+        Route::get('/{product}/photo/{id}', 'ProductsController@updatePhotoMain')->name('photos.main');
     });
 
     // Бренды

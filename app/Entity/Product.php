@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed $brand
  * @property mixed $values
  * @property mixed available
-
+ * @property mixed $photos
  */
 class Product extends Model
 {
@@ -176,7 +176,13 @@ class Product extends Model
     }
 
 
+    public function getMainphoto()
+    {
+        $photos = $this->photos()->where('main', self::STATUS_MAIN_PHOTO)->take(1)->get();
+        return $photos;
+    }
 
+    
 
 
 

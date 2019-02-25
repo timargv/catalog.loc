@@ -74,7 +74,7 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->integer('product_id')->references('id')->on('products')->onDelete('CASCADE');
             $table->integer('sort')->default(2);
-            $table->string('type')->nullable();
+            $table->string('main')->nullable();
             $table->string('file');
         });
     }
