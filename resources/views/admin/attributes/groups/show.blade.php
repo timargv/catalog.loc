@@ -53,7 +53,10 @@
                     <div class="box-title">Атрибуты</div>
                 </div>
                 <div class="box-body">
-                    @include('admin.attributes._list', ['attributes' => $attributeGroup->attributes])
+                    @include('admin.attributes._list', $attributes)
+                    <div class="px-3">
+                        {{ $attributes->links() }}
+                    </div>
                 </div>
             </div>
         </div>

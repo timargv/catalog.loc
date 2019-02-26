@@ -11,12 +11,23 @@ use Illuminate\Http\Request;
 class AttributeGroupController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
         $attributeGroups = AttributeGroup::with('attributes')->paginate(15);
         $types = Attribute::typesList();
         $categories = Category::defaultOrder()->withDepth()->get();
-        $attributes = Attribute::orderBy('group_id')->with('group')->paginate(15);
+
+        $attributes = Attribute::orderByDesc('id')->with('group');
+
+        $query = $attributes;
+
+        if (!empty($value = $request->get('search_attribute'))) {
+            $query->where('name', 'like', '%' . $value . '%');
+//                ->orWhere('name', 'like', '%' . $value . '%');
+        }
+
+        $attributes = $query->paginate(15);
+
 
         return view('admin.attributes.index', compact('attributeGroups', 'types', 'categories', 'attributes'));
     }
@@ -46,11 +57,13 @@ class AttributeGroupController extends Controller
 
     public function show(AttributeGroup $attributeGroup)
     {
-        $attributeGroups = AttributeGroup::all();
+        $attributeGroups = $attributeGroup->all();
+        $attributes = $attributeGroup->attributes()->paginate(15);
+
         $types = Attribute::typesList();
         $categories = Category::defaultOrder()->withDepth()->get();
 
-        return view('admin.attributes.groups.show', compact('attributeGroup', 'attributeGroups', 'types', 'categories'));
+        return view('admin.attributes.groups.show', compact('attributeGroup', 'attributeGroups', 'types', 'categories', 'attributes'));
     }
 
 

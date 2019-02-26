@@ -67,7 +67,10 @@
             <h1 class="box-title">{{ __('product.Products') }} </h1>
         </div>
         <div class="box-body no-padding">
-            @include('admin.products._list', ['products' => $vendor->products])
+            @include('admin.products._list', $products)
+            <div class="px-3">
+                {{ $products->links() }}
+            </div>
         </div>
     </div>
 

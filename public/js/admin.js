@@ -5135,6 +5135,7 @@ const autoNumericOptionsRuble = {
     minimumValue: "0"
 };
 
+
 $(document).ready(function (){
     $("#example1").DataTable();
     $(".select2").select2();
@@ -5181,6 +5182,21 @@ $(document).ready(function (){
     $('#slug').slugify('#title');
 
     AutoNumeric.multiple('#price', autoNumericOptionsRuble);
+
+
+    var productActionPhoto = {
+        getUrl: function (event) {
+            event.preventDefault();
+            var url = $(this).data("url");
+            $("#product-photos-action").attr('action', url).submit();
+            console.log(url);
+        }
+    };
+
+    var boxPhoto = $(document);
+    boxPhoto.on("click", "#main-photo-product", productActionPhoto.getUrl);
+    boxPhoto.on("click", "#deletes-photo-product", productActionPhoto.getUrl);
+    boxPhoto.on("click", "#delete-photo-product", productActionPhoto.getUrl);
 
 });
 

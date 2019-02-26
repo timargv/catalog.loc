@@ -8,10 +8,14 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="box box-solid">
-                    <div class="box-header">
-                        <div class="btn-group">
-                            <a class="btn btn-default " href="#product" data-toggle="tab">Товар</a>
-                            <a class="btn btn-default" href="#addPhoto" data-toggle="tab">Изображения</a>
+                    <div class="box-body">
+                        <div class="btn-group" data-toggle="buttons">
+                            <a href="#product" data-toggle="tab" class="btn btn-default active border-0">
+                                <input type="radio" name="options" id="option1" checked> Товар
+                            </a>
+                            <a href="#addPhoto" data-toggle="tab" class="btn btn-default border-0">
+                                <input type="radio" name="options" id="option2"> Изображения
+                            </a>
                         </div>
                         <div class="btn-group float-right">
                             <a href="{{ route('admin.products.index') }}" class="btn bg-light text-dark">{{ __('button.Back') }}</a>
@@ -26,9 +30,9 @@
         <div class="tab-content">
 
             <div class="tab-pane active" id="product">
-                    <form id="edit-product-form" method="POST" action="{{ route('admin.products.update', $product) }}">
-                        @csrf
-                        @method('PUT')
+                <form id="edit-product-form" method="POST" action="{{ route('admin.products.update', $product) }}">
+                    @csrf
+                    @method('PUT')
                     <div class="row">
                         <div class="col-xs-9">
                             <div class="row">
@@ -136,6 +140,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                {{-- Атрибуты --}}
                                 <div class="col-xs-12">
                                     <!-- Custom Tabs -->
                                     <div class="nav-tabs-custom">
@@ -157,7 +162,6 @@
                                                             @foreach ($chunk as $attribute)
                                                                 <div class="form-group">
                                                                     <label for=attribute_{{ $attribute->id }}" class="col-form-label">{{ $attribute->name }}</label>
-
                                                                     @if ($attribute->isSelect())
                                                                         <select id="attribute_{{ $attribute->id }}" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]">
                                                                             <option value=""></option>
@@ -172,7 +176,6 @@
                                                                     @else
                                                                         <input id="attribute_{{ $attribute->id }}" type="text" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]" value="{{ old('attributes.' . $attribute->id, $product->getValue($attribute->id)) }}">
                                                                     @endif
-
                                                                     @if ($errors->has('parent'))
                                                                         <span class="invalid-feedback"><strong>{{ $errors->first('attributes.' . $attribute->id) }}</strong></span>
                                                                     @endif
@@ -292,13 +295,13 @@
                             </div>
                             <!-- /.box -->
 
-                            <div class="box box-solid mb-4">
+                            <div id="box-photo" class="box box-solid mb-4">
                                 <div class="box-header with-border">
                                     <div class="box-title">
                                         Фотографии
                                     </div>
                                     <div class="box-tools">
-                                        <a href="{{ route('admin.products.photos.deletes', $product) }}" class="btn bg-light text-dark btn-sm"><i class="far fa-trash mr-1"></i> Удалить все</a>
+                                        <a id="deletes-photo-product" data-url="{{ route('admin.products.photos.deletes', $product) }}" href="#" class="btn bg-light text-dark btn-sm"><i class="far fa-trash mr-1"></i> Удалить все</a>
                                     </div>
                                 </div>
 
@@ -321,20 +324,21 @@
                                         </div>
 
                                         <div class="col-xs-6 pl-0">
-                                            <ul class="row list-unstyled pr-3 mr-2">
+                                            <ul id="photo-list" class="row list-unstyled pr-3 mr-2">
                                                 @foreach($product->photos as $photo)
                                                     @if($photo->main == 'no')
                                                         <li class="col-xs-6 pr-0 mb-3">
                                                             <div class="position-relative">
                                                                 <img class="img-responsive border " src="{{ Storage::disk('public')->url('products/thumbnail/'. $photo->file) }}" >
                                                                 <div class="btn-group position-absolute fixed-bottom">
-                                                                    <a href="{{ route('admin.products.photos.delete', [$product, $photo->id]) }}" class="fas fa-trash btn btn-xs btn-flat bg-transparent text-danger  py-2 float-left" data-toggle="tooltip" data-placement="top" title="" data-original-title="Удалить"></a>
-                                                                    <a href="{{ route('admin.products.photos.main', [$product, $photo->id]) }}" class="fas fa-check-circle btn btn-xs btn-flat bg-transparent text-info py-2 float-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Сделать Главным"></a>
+                                                                    <a href="#" data-url="{{ route('admin.products.photos.delete', [$product, $photo->id]) }}" id="delete-photo-product" data-id="{{ $photo->id }}" class="fas fa-trash btn btn-xs btn-flat bg-transparent text-danger  py-2 float-left" data-toggle="tooltip" data-placement="top" title="" data-original-title="Удалить"></a>
+                                                                    <a href="#" data-url="{{ route('admin.products.photos.main', [$product, $photo->id]) }}" id="main-photo-product" data-id="{{ $photo->id }}" class="fas fa-check-circle btn btn-xs btn-flat bg-transparent text-info py-2 float-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Сделать Главным"></a>
                                                                 </div>
                                                             </div>
                                                         </li>
                                                     @endif
                                                 @endforeach
+
 
                                             </ul>
                                         </div>
@@ -373,82 +377,85 @@
                                         Основные параметры
                                     </div>
                                 </div>
-                                <div class="box-body ">
-                                    <div class="box-body">
-                                        <div class="form-group @if($errors->has('vendor_code'))has-error @endif">
-                                            <label for="vendor_code" class="col-form-label">{{ __('fillable.VendorCode') }}</label>
-                                            <input type="text" id="vendor_code" class="form-control" name="vendor_code" value="{{ old('vendor_code', $product->vendor_code) }}" required>
-                                            @if ($errors->has('vendor_code'))
-                                                <span class="help-block"><strong>{{ $errors->first('vendor_code') }}</strong></span>
-                                            @endif
-                                        </div>
-
-                                        <div class="form-group @if($errors->has('type_packaging'))has-error @endif">
-                                            <label for="type_packaging" class="col-form-label">{{ __('Тип упаковки') }}</label>
-                                            <input type="text" id="type_packaging" class="form-control" name="type_packaging" value="{{ old('type_packaging', $product->type_packaging) }}" >
-                                            @if ($errors->has('type_packaging'))
-                                                <span class="help-block"><strong>{{ $errors->first('type_packaging') }}</strong></span>
-                                            @endif
-                                        </div>
-
-                                        <div class="form-group @if($errors->has('packing_dimensions'))has-error @endif">
-                                            <label for="packing_dimensions" class="col-form-label">{{ __('Габариты в упаковке, мм') }}</label>
-                                            <input type="text" id="packing_dimensions" class="form-control" name="packing_dimensions" value="{{ old('packing_dimensions', $product->packing_dimensions) }}" >
-                                            @if ($errors->has('packing_dimensions'))
-                                                <span class="help-block"><strong>{{ $errors->first('packing_dimensions') }}</strong></span>
-                                            @endif
-                                        </div>
-
-                                        <div class="form-group @if($errors->has('length'))has-error @endif">
-                                            <label for="length" class="col-form-label">{{ __('Длина в упаковке, мм') }}</label>
-                                            <input type="text" id="length" class="form-control" name="length" value="{{ old('length', $product->length) }}" >
-                                            @if ($errors->has('length'))
-                                                <span class="help-block"><strong>{{ $errors->first('length') }}</strong></span>
-                                            @endif
-                                        </div>
-
-                                        <div class="form-group @if($errors->has('width'))has-error @endif">
-                                            <label for="width" class="col-form-label">{{ __('Ширина в упаковке, мм') }}</label>
-                                            <input type="text" id="width" class="form-control" name="width" value="{{ old('width', $product->width) }}" >
-                                            @if ($errors->has('width'))
-                                                <span class="help-block"><strong>{{ $errors->first('width') }}</strong></span>
-                                            @endif
-                                        </div>
-
-                                        <div class="form-group @if($errors->has('height'))has-error @endif">
-                                            <label for="height" class="col-form-label">{{ __('Высота в упаковке, мм') }}</label>
-                                            <input type="text" id="height" class="form-control" name="height" value="{{ old('height', $product->height) }}" >
-                                            @if ($errors->has('height'))
-                                                <span class="help-block"><strong>{{ $errors->first('height') }}</strong></span>
-                                            @endif
-                                        </div>
-
-                                        <div class="form-group @if($errors->has('weight'))has-error @endif">
-                                            <label for="weight" class="col-form-label">{{ __('fillable.Weight') }}, мм</label>
-                                            <input type="text" id="weight" class="form-control" name="weight" value="{{ old('weight', $product->weight) }}" >
-                                            @if ($errors->has('weight'))
-                                                <span class="help-block"><strong>{{ $errors->first('weight') }}</strong></span>
-                                            @endif
-                                        </div>
-
-                                        <div class="form-group @if($errors->has('barcode'))has-error @endif">
-                                            <label for="barcode" class="col-form-label">{{ __('fillable.Barcode') }}</label>
-                                            <input type="text" id="barcode" class="form-control" name="barcode" value="{{ old('barcode', $product->barcode) }}" >
-                                            @if ($errors->has('barcode'))
-                                                <span class="help-block"><strong>{{ $errors->first('barcode') }}</strong></span>
-                                            @endif
-                                        </div>
-
+                                <div class="box-body">
+                                    <div class="form-group @if($errors->has('vendor_code'))has-error @endif">
+                                        <label for="vendor_code" class="col-form-label">{{ __('fillable.VendorCode') }}</label>
+                                        <input type="text" id="vendor_code" class="form-control" name="vendor_code" value="{{ old('vendor_code', $product->vendor_code) }}" required>
+                                        @if ($errors->has('vendor_code'))
+                                            <span class="help-block"><strong>{{ $errors->first('vendor_code') }}</strong></span>
+                                        @endif
                                     </div>
+
+                                    <div class="form-group @if($errors->has('type_packaging'))has-error @endif">
+                                        <label for="type_packaging" class="col-form-label">{{ __('Тип упаковки') }}</label>
+                                        <input type="text" id="type_packaging" class="form-control" name="type_packaging" value="{{ old('type_packaging', $product->type_packaging) }}" >
+                                        @if ($errors->has('type_packaging'))
+                                            <span class="help-block"><strong>{{ $errors->first('type_packaging') }}</strong></span>
+                                        @endif
+                                    </div>
+
+                                    <div class="form-group @if($errors->has('packing_dimensions'))has-error @endif">
+                                        <label for="packing_dimensions" class="col-form-label">{{ __('Габариты в упаковке, мм') }}</label>
+                                        <input type="text" id="packing_dimensions" class="form-control" name="packing_dimensions" value="{{ old('packing_dimensions', $product->packing_dimensions) }}" >
+                                        @if ($errors->has('packing_dimensions'))
+                                            <span class="help-block"><strong>{{ $errors->first('packing_dimensions') }}</strong></span>
+                                        @endif
+                                    </div>
+
+                                    <div class="form-group @if($errors->has('length'))has-error @endif">
+                                        <label for="length" class="col-form-label">{{ __('Длина в упаковке, мм') }}</label>
+                                        <input type="text" id="length" class="form-control" name="length" value="{{ old('length', $product->length) }}" >
+                                        @if ($errors->has('length'))
+                                            <span class="help-block"><strong>{{ $errors->first('length') }}</strong></span>
+                                        @endif
+                                    </div>
+
+                                    <div class="form-group @if($errors->has('width'))has-error @endif">
+                                        <label for="width" class="col-form-label">{{ __('Ширина в упаковке, мм') }}</label>
+                                        <input type="text" id="width" class="form-control" name="width" value="{{ old('width', $product->width) }}" >
+                                        @if ($errors->has('width'))
+                                            <span class="help-block"><strong>{{ $errors->first('width') }}</strong></span>
+                                        @endif
+                                    </div>
+
+                                    <div class="form-group @if($errors->has('height'))has-error @endif">
+                                        <label for="height" class="col-form-label">{{ __('Высота в упаковке, мм') }}</label>
+                                        <input type="text" id="height" class="form-control" name="height" value="{{ old('height', $product->height) }}" >
+                                        @if ($errors->has('height'))
+                                            <span class="help-block"><strong>{{ $errors->first('height') }}</strong></span>
+                                        @endif
+                                    </div>
+
+                                    <div class="form-group @if($errors->has('weight'))has-error @endif">
+                                        <label for="weight" class="col-form-label">{{ __('fillable.Weight') }}, мм</label>
+                                        <input type="text" id="weight" class="form-control" name="weight" value="{{ old('weight', $product->weight) }}" >
+                                        @if ($errors->has('weight'))
+                                            <span class="help-block"><strong>{{ $errors->first('weight') }}</strong></span>
+                                        @endif
+                                    </div>
+
+                                    <div class="form-group @if($errors->has('barcode'))has-error @endif">
+                                        <label for="barcode" class="col-form-label">{{ __('fillable.Barcode') }}</label>
+                                        <input type="text" id="barcode" class="form-control" name="barcode" value="{{ old('barcode', $product->barcode) }}" >
+                                        @if ($errors->has('barcode'))
+                                            <span class="help-block"><strong>{{ $errors->first('barcode') }}</strong></span>
+                                        @endif
+                                    </div>
+
                                 </div>
                                 <!-- /.box-body -->
                             </div>
                         </div>
                     </div>
-                    </form>
+                </form>
+                <form id="product-photos-action" method="POST" action="">
+                    @csrf
+                </form>
 
-                </div>
+
+            </div>
             <!-- /.tab-pane -->
+
             <div class="tab-pane" id="addPhoto">
                 <div class="row">
                     <div class="col-xs-9">
@@ -465,8 +472,8 @@
                                                 {{ $photo->getSize() }}
                                               <div class="bnt-group ">
                                                   <a href="#" class="btn btn-default btn-xs "><i class="fa fa-cloud-download"></i></a>
-                                                  <a href="{{  route('admin.products.photos.main', [$product, $photo->id]) }}" class="btn btn-{{ $photo->main == 'yeas' ? 'success ' : 'default' }} btn-xs " data-toggle="tooltip" data-placement="top" title="" data-original-title="Сделать Главным"><i class="fas fa-check-circle"></i></a>
-                                                  <a href="{{ route('admin.products.photos.delete', [$product, $photo->id]) }}" class="btn btn-default btn-xs " data-toggle="tooltip" data-placement="top" title="" data-original-title="Удалить"><i class="fas fa-trash"></i></a>
+                                                  <a href="#" data-url="{{ route('admin.products.photos.main', [$product, $photo->id]) }}" id="main-photo-product" data-id="{{ $photo->id }}" class="btn btn-{{ $photo->main == 'yeas' ? 'success disabled' : 'default' }} btn-xs " data-toggle="tooltip" data-placement="top" title="" data-original-title="Сделать Главным"><i class="fas fa-check-circle"></i></a>
+                                                  <a href="#" data-url="{{ route('admin.products.photos.delete', [$product, $photo->id]) }}" id="delete-photo-product" data-id="{{ $photo->id }}" class="btn btn-default btn-xs " data-toggle="tooltip" data-placement="top" title="" data-original-title="Удалить"><i class="fas fa-trash"></i></a>
                                               </div>
                                             </span>
                                             </div>

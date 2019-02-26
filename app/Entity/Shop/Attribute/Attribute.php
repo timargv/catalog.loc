@@ -3,6 +3,8 @@
 namespace App\Entity\Shop\Attribute;
 
 use App\Entity\Category;
+use App\Entity\Product;
+use App\Entity\Shop\Product\Value;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -39,6 +41,14 @@ class Attribute extends Model
         return $this->belongsToMany(Category::class,'attributes_categories','attribute_id','category_id');
     }
 
+    public function products() {
+        return $this->belongsToMany(Product::class,'product_attribute_values','attribute_id','product_id');
+    }
+
+    public function values() {
+        return $this->hasMany(Value::class, 'attribute_id', 'id');
+    }
+
 
     public static function typesList(): array
     {
@@ -71,7 +81,7 @@ class Attribute extends Model
 
     public function isSelect(): bool
     {
-        print_r(count($this->variants));
+//        print_r(count($this->variants));
         return \count($this->variants) > 0;
     }
 

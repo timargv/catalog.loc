@@ -68,7 +68,7 @@ class VendorsController extends Controller
 
     public function show(Vendor $vendor)
     {
-        $products = $vendor->products()->paginate();
+        $products = $vendor->products()->with('category')->paginate(10);
         return view('admin.vendors.show', compact('vendor', 'products'));
     }
 

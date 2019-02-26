@@ -23,7 +23,6 @@ class CreateAttributesCategoriesTable extends Migration
         Schema::table('attributes_categories', function($table) {
             $table->foreign('attribute_id')->references('id')->on('attributes')->onDelete('CASCADE');
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('CASCADE');
-
         });
     }
 

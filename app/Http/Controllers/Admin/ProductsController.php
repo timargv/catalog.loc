@@ -172,7 +172,7 @@ class ProductsController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'Товар добавлен');
+        return redirect()->route('admin.products.edit', $product)->with('success', 'Товар добавлен! Вы можете дополнить его!');
     }
 
 
@@ -196,10 +196,9 @@ class ProductsController extends Controller
         $brands = Brand::all();
         $statuses = Product::statusesList();
         $statusAvailable = Product::statusesAvailable();
-        $attributeGroups = AttributeGroup::get();
 
 
-        return view('admin.products.edit', compact('product','statuses', 'statusAvailable', 'categories', 'vendors', 'brands', 'attributeGroups'));
+        return view('admin.products.edit', compact('product','statuses', 'statusAvailable', 'categories', 'vendors', 'brands'));
     }
 
 
@@ -341,7 +340,7 @@ class ProductsController extends Controller
         return redirect()->back()->with('info', 'Фото удалено!');
     }
 
-    // =================== Удалить Фотографию
+    // =================== Удалить ВСЕ Фотография
     public function destroyPhotos(Product $product)
     {
         try {

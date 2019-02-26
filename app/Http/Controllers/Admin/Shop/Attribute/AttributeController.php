@@ -116,6 +116,8 @@ class AttributeController extends Controller
 
     public function destroy(Attribute $attribute)
     {
-        //
+        $attribute->values()->delete();
+        $attribute->delete();
+        return redirect()->back()->with('success', 'Атрибут удален!');
     }
 }
