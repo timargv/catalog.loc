@@ -3,6 +3,9 @@
 namespace App\Console\Commands\MirInstrument;
 
 use App\Entity\Product;
+use App\Entity\Shop\Attribute\Attribute;
+use App\Http\Requests\Admin\Product\PhotosRequest;
+use App\UseCases\Product\ProductService;
 use Illuminate\Console\Command;
 use Prewk\XmlStringStreamer;
 use Prewk\XmlStringStreamer\Stream\File;
@@ -30,11 +33,15 @@ class ProductCommand extends Command
      * @return void
      */
     private $product;
+    private $service;
+    private $photosRequest;
 
-    public function __construct(Product $product)
+    public function __construct(Product $product, ProductService $service, PhotosRequest $photosRequest)
     {
         parent::__construct();
         $this->product = $product;
+        $this->service = $service;
+        $this->photosRequest = $photosRequest;
     }
 
     /**
@@ -92,7 +99,8 @@ class ProductCommand extends Command
             $this->getOutput()->progressStart(count($products));
 
             foreach ($products as $product) {
-                $findProduct = Product::where('name_original', $product);
+
+                $findProduct = Product::where('vendor_code_original', $product->vendorCode)->first();
 
                 if ($findProduct != null) {
 
@@ -101,13 +109,11 @@ class ProductCommand extends Command
                         'name'          => $product->name,
                         'name_original' => $product->name,
                         'original_id'   => $product['id'],
-                        'shipper'       => 'Мир Инструмента',
                         'original_url'  => $product->url,
                         'price'         => $product->price,
                         'category_id'   => $product->categoryId,
-                        'picture'       => $product->picture,
                         'vendor'        => $product->vendor,
-                        'vendor_code'   => $product->vendorCode,
+                        'vendor_code'   => "20-".$product->vendorCode,
                         'sh_desc'       => $product->description,
                         'desc'          => $product->description,
                         'barcode'       => $product->barcode,
@@ -117,23 +123,96 @@ class ProductCommand extends Command
 
                 } else {
 
-                    Product::create([
-                        'available'     => $product['available'] == true ? $this->product::AVAILABLE_TRUE : $this->product::AVAILABLE_FALSE,
-                        'name'          => $product->name,
+
+                    $productNew = Product::make([
+                        'user_id' => 1,
+
+                        'name' => $product->name,
                         'name_original' => $product->name,
-                        'original_id'   => $product['id'],
-                        'shipper'       => 'Мир Инструмента',
-                        'original_url'  => $product->url,
-                        'price'         => $product->price,
-                        'category_id'   => $product->categoryId,
-                        'picture'       => $product->picture,
-                        'vendor'        => $product->vendor,
-                        'vendor_code'   => $product->vendorCode,
-                        'sh_desc'       => $product->description,
-                        'desc'          => $product->description,
-                        'barcode'       => $product->barcode,
-                        'weight'        => $product->weight,
+
+                        // Статус товара активен или нет
+                        'status' => $this->product::STATUS_ACTIVE,
+
+                        // Категория
+                        'category_id' => $this->service->getCategoryWhere($product->categoryId),
+
+                        // В наличии или нет
+                        'available' => $product['available'] == true ? $this->product::AVAILABLE_TRUE : $this->product::AVAILABLE_FALSE,
+
+                        // ID в списке поставщика
+                        'original_id' => $product['id'],
+
+                        // Ссылка на сайт
+                        'original_url' => $product->url,
+
+                        // Цена
+                        'price' => $product->price,
+
+                        // Цена поставщика
+                        'vendor_price' => $product->price,
+
+                        // Валюта
+                        'currency_id' => 1,
+
+                        // Потсавшик
+                        'vendor_id' => 2,
+
+                        // Артикул
+                        'vendor_code' => "20-".$product->vendorCode,
+
+                        // Артикул Потсавшика
+                        'vendor_code_original' => $product->vendorCode,
+
+                        // Крат. Описание
+                        'sh_desc' => $product->description,
+
+                        // Полное описание
+                        'desc' => $product->description,
+
+
+                        // =============== Параметры упаковки
+                        // Тип упаковки	Катронная коробка
+//                        'type_packaging' => $request['type_packaging'],
+//
+//                        // Габариты в упаковке	810 x 730 x 580 мм
+//                        'packing_dimensions' => $request['packing_dimensions'],
+//
+//                        // Длина в упаковке	мм
+//                        'length' => $request['length'],
+//
+//                        // Ширина в упаковке мм
+//                        'width' => $request['width'],
+//
+//                        // Высота в упаковке мм
+//                        'height' => $request['height'],
+//
+                        // Штрих Код
+                        'barcode' => $product->barcode,
+
+                        // Ширина
+                        'weight' => $product->weight,
+
+                        'slug' => str_slug($product->name),
+
+
                     ]);
+
+                    $productNew->saveOrFail();
+
+
+                    foreach ($product->param as $value) {
+                        $unit = $value[0]->attributes()->unit;
+                        $get_unit = $unit == null ? '' : ', '.$unit;
+//                        $name = str_replace("_","", $value[0]->attributes()->name) . $get_unit;
+                        $name = str_replace("_","", $value[0]->attributes()->name);
+                        $this->service->updateAttributeProductParser($productNew, $name, $value);
+
+                    }
+
+                    $files = $product->picture;
+
+
+                    $this->service->addPhotos($productNew->id, $files);
 
                     $createProduct = $createProduct + 1;
                 }

@@ -25,7 +25,6 @@
         <div class="tab-pane active" id="product">
             <form id="edit-product-form" method="POST" action="{{ route('admin.products.store') }}">
                 @csrf
-                @method('PUT')
                 <div class="row">
                     <div class="col-xs-9">
                         <div class="row">
@@ -154,7 +153,7 @@
                                     <div class="box-body">
                                         <div class="form-group @if($errors->has('original_url'))has-error @endif">
                                             <label for="original_url" class="col-form-label">{{ __('fillable.OriginalUrl') }}</label>
-                                            <input id="original_url" class="form-control" name="original_url" value="{{ old('original_url') }}">
+                                            <input id="original_url" class="form-control" name="original_url" value="{{ old('original_url') }}" placeholder="Если нету оставь пустым">
                                             @if ($errors->has('original_url'))
                                                 <span class="help-block"><strong>{{ $errors->first('original_url') }}</strong></span>
                                             @endif
@@ -162,7 +161,7 @@
 
                                         <div class="form-group @if($errors->has('original_id'))has-error @endif">
                                             <label for="original_id" class="col-form-label">{{ __('fillable.OriginalId') }}</label>
-                                            <input id="original_id" class="form-control" name="original_id" value="{{ old('original_id') }}">
+                                            <input id="original_id" class="form-control" name="original_id" value="{{ old('original_id') }}" placeholder="Если нету оставь пустым">
                                             @if ($errors->has('original_id'))
                                                 <span class="help-block"><strong>{{ $errors->first('original_id') }}</strong></span>
                                             @endif
@@ -170,7 +169,7 @@
 
                                         <div class="form-group @if($errors->has('vendor_code_original'))has-error @endif">
                                             <label for="vendor_code_original" class="col-form-label">{{ __('fillable.VendorCodeOriginal') }}</label>
-                                            <input type="text" id="vendor_code_original" class="form-control" name="vendor_code_original" value="{{ old('vendor_code_original') }}">
+                                            <input type="text" id="vendor_code_original" class="form-control" name="vendor_code_original" value="{{ old('vendor_code_original') }}" placeholder="Если нету оставь пустым">
                                             @if ($errors->has('vendor_code_original'))
                                                 <span class="help-block"><strong>{{ $errors->first('vendor_code_original') }}</strong></span>
                                             @endif
@@ -298,7 +297,7 @@
                                 </div>
 
                                 <div class="form-group @if($errors->has('weight'))has-error @endif">
-                                    <label for="weight" class="col-form-label">{{ __('fillable.Weight') }}, мм</label>
+                                    <label for="weight" class="col-form-label">{{ __('fillable.Weight') }}, кг</label>
                                     <input type="text" id="weight" class="form-control" name="weight" value="{{ old('weight') }}" >
                                     @if ($errors->has('weight'))
                                         <span class="help-block"><strong>{{ $errors->first('weight') }}</strong></span>
@@ -318,8 +317,6 @@
                     </div>
                 </div>
             </form>
-
-
 
         </div>
         <!-- /.tab-pane -->

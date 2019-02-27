@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Admin\Product\PhotosRequest;
 use App\UseCases\Product\ProductService;
+use Intervention\Image\Facades\Image;
 
 
 class ProductsController extends Controller
@@ -76,6 +77,7 @@ class ProductsController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'categories' => 'required',
             'slug' => 'required|string|max:255|unique:products',
 //            'parent' => 'nullable|integer|exists:categories,id',
         ]);
@@ -191,6 +193,16 @@ class ProductsController extends Controller
 
     public function edit(Product $product)
     {
+
+
+//        $path = public_path() . '\storage\products\original\\';
+//
+//        $img = Image::make('https://instrument.ru/wa-data/public/shop/products/29/38/43829/images/78652/78652.970.jpg');
+//        $fileName = $product->id.'-'.uniqid().'-'. (new \DateTime)->getTimeStamp() . '.png';
+//        $img->save($path . $fileName);
+//
+//        dd($img);
+
         $categories = Category::defaultOrder()->withDepth()->get();
         $vendors = Vendor::all();
         $brands = Brand::all();
@@ -208,6 +220,7 @@ class ProductsController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'price' => 'required',
+            'categories' => 'required',
             'slug' => 'required|string|max:255|unique:products,slug,'. $product->id,
         ]);
 
@@ -305,7 +318,13 @@ class ProductsController extends Controller
 
     public function destroy(Product $product)
     {
-        //
+        try {
+            $this->service->remove($product->id);
+        } catch (\DomainException $e) {
+            return back()->with('error', $e->getMessage());
+        }
+
+        return redirect()->route('admin.products.index');
     }
 
 

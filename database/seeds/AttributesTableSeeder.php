@@ -15,14 +15,9 @@ class AttributesTableSeeder extends Seeder
     public function run()
     {
 
-        Attribute::create(['name' => 'Вес', 'type' => 'string', 'group_id' => 1, 'required' => true, 'variants' => [], 'sort' => 2, 'slug' => str_slug('Вес')]);
-        Attribute::create(['name' => 'Бренд ', 'type' => 'string', 'group_id' => 1, 'required' => true, 'variants' => [], 'sort' => 2, 'slug' =>  str_slug('Бренд ')]);
-        Attribute::create(['name' => 'Высота в упаковке', 'type' => 'string', 'group_id' => 1, 'required' => true, 'variants' => [], 'sort' => 2, 'slug' =>  str_slug('Высота в упаковке')]);
-        Attribute::create(['name' => 'Длина в упаковке', 'type' => 'string', 'group_id' => 1, 'required' => true, 'variants' => [], 'sort' => 2, 'slug' =>  str_slug('Длина в упаковке')]);
         Attribute::create(['name' => 'Количество в упаковке', 'type' => 'string', 'group_id' => 1, 'required' => true, 'variants' => [], 'sort' => 2, 'slug' =>  str_slug('Количество в упаковке')]);
         Attribute::create(['name' => 'Ссылка на инструкцию', 'type' => 'string', 'group_id' => 1, 'required' => true, 'variants' => [], 'sort' => 2, 'slug' =>  str_slug('Ссылка на инструкцию')]);
         Attribute::create(['name' => 'Ссылка на сертификат', 'type' => 'string', 'group_id' => 1, 'required' => true, 'variants' => [], 'sort' => 2, 'slug' =>  str_slug('Ссылка на сертификат')]);
-        Attribute::create(['name' => 'Ширина в упаковке', 'type' => 'string', 'group_id' => 1, 'required' => true, 'variants' => [], 'sort' => 2, 'slug' =>  str_slug('Ширина в упаковке')]);
         Attribute::create(['name' => 'Max диаметр', 'type' => 'string', 'group_id' => 1, 'required' => true, 'variants' => [], 'sort' => 2, 'slug' =>  str_slug('Max диаметр')]);
         Attribute::create(['name' => 'Min диаметр', 'type' => 'string', 'group_id' => 1, 'required' => true, 'variants' => [], 'sort' => 2, 'slug' =>  str_slug('Min диаметр')]);
         Attribute::create(['name' => 'Абразив', 'type' => 'string', 'group_id' => 1, 'required' => true, 'variants' => [], 'sort' => 2, 'slug' =>  str_slug('Абразив')]);
@@ -91,7 +86,6 @@ class AttributesTableSeeder extends Seeder
         Attribute::create(['name' => 'Вычисление по теореме Пифагора', 'type' => 'string', 'group_id' => 1, 'required' => true, 'variants' => [], 'sort' => 2, 'slug' =>  str_slug('Вычисление по теореме Пифагора')]);
         Attribute::create(['name' => 'Габариты', 'type' => 'string', 'group_id' => 1, 'required' => true, 'variants' => [], 'sort' => 2, 'slug' =>  str_slug('Габариты')]);
         Attribute::create(['name' => 'Габариты в сложенном состоянии', 'type' => 'string', 'group_id' => 1, 'required' => true, 'variants' => [], 'sort' => 2, 'slug' =>  str_slug('Габариты в сложенном состоянии')]);
-        Attribute::create(['name' => 'Габариты в упаковке', 'type' => 'string', 'group_id' => 1, 'required' => true, 'variants' => [], 'sort' => 2, 'slug' =>  str_slug('Габариты в упаковке')]);
         Attribute::create(['name' => 'Гарда', 'type' => 'string', 'group_id' => 1, 'required' => true, 'variants' => [], 'sort' => 2, 'slug' =>  str_slug('Гарда')]);
         Attribute::create(['name' => 'Глубина', 'type' => 'string', 'group_id' => 1, 'required' => true, 'variants' => [], 'sort' => 2, 'slug' =>  str_slug('Глубина')]);
         Attribute::create(['name' => 'Глубина всасывания', 'type' => 'string', 'group_id' => 1, 'required' => true, 'variants' => [], 'sort' => 2, 'slug' =>  str_slug('Глубина всасывания')]);
@@ -756,7 +750,6 @@ class AttributesTableSeeder extends Seeder
         Attribute::create(['name' => 'Тип травосборника', 'type' => 'string', 'group_id' => 1, 'required' => true, 'variants' => [], 'sort' => 2, 'slug' =>  str_slug('Тип травосборника')]);
         Attribute::create(['name' => 'Тип труб', 'type' => 'string', 'group_id' => 1, 'required' => true, 'variants' => [], 'sort' => 2, 'slug' =>  str_slug('Тип труб')]);
         Attribute::create(['name' => 'Тип ударного механизма', 'type' => 'string', 'group_id' => 1, 'required' => true, 'variants' => [], 'sort' => 2, 'slug' =>  str_slug('Тип ударного механизма')]);
-        Attribute::create(['name' => 'Тип упаковки', 'type' => 'string', 'group_id' => 1, 'required' => true, 'variants' => [], 'sort' => 2, 'slug' =>  str_slug('Тип упаковки')]);
         Attribute::create(['name' => 'Тип хвостовика', 'type' => 'string', 'group_id' => 1, 'required' => true, 'variants' => [], 'sort' => 2, 'slug' =>  str_slug('Тип хвостовика')]);
         Attribute::create(['name' => 'Тип электродвигателя', 'type' => 'string', 'group_id' => 1, 'required' => true, 'variants' => [], 'sort' => 2, 'slug' =>  str_slug('Тип электродвигателя')]);
         Attribute::create(['name' => 'Типоразмер батареек', 'type' => 'string', 'group_id' => 1, 'required' => true, 'variants' => [], 'sort' => 2, 'slug' =>  str_slug('Типоразмер батареек')]);

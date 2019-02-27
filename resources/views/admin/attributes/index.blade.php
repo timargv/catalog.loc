@@ -14,7 +14,7 @@
                 </div>
                 <div class="box-body table-responsive no-padding">
                     @include('admin.attributes.groups._list', ['attr_groups' => $attributeGroups])
-                    {{ $attributeGroups->links() }}
+{{--                    {{ $attributeGroups->links() }}--}}
                 </div>
             </div>
 
@@ -39,7 +39,7 @@
                 <div class="box-body table-responsive no-padding">
                     @include('admin.attributes._list', ['attributes' => $attributes])
                     <div class="px-3">
-                        {{ $attributes->links() }}
+                        {{ $attributes->appends(Request::only('search_attribute'))->links() }}
                     </div>
                 </div>
             </div>

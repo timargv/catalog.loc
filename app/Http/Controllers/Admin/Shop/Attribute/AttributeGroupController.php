@@ -7,23 +7,26 @@ use App\Entity\Shop\Attribute\Attribute;
 use App\Entity\Shop\Attribute\AttributeGroup;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use function PHPSTORM_META\elementType;
 
 class AttributeGroupController extends Controller
 {
 
     public function index(Request $request)
     {
-        $attributeGroups = AttributeGroup::with('attributes')->paginate(15);
+        $attributeGroups = AttributeGroup::with('attributes')->get();
         $types = Attribute::typesList();
         $categories = Category::defaultOrder()->withDepth()->get();
 
-        $attributes = Attribute::orderByDesc('id')->with('group');
+        $attributes = Attribute::with('group');
 
         $query = $attributes;
 
         if (!empty($value = $request->get('search_attribute'))) {
-            $query->where('name', 'like', '%' . $value . '%');
-//                ->orWhere('name', 'like', '%' . $value . '%');
+            $query->where('name', $value)
+                ->orWhere('name', 'like', '%' . $value . '%')->orderBy('name');
+        } else {
+            $query->orderByDesc('id');
         }
 
         $attributes = $query->paginate(15);
