@@ -5,7 +5,7 @@
         <tr>
             <th width="5px">ID</th>
             <th width="80px">Код </th>
-            <th>Навание Товара</th>
+            <th width="500px">Навание Товара</th>
             <th width="300px">Категории</th>
             <th>Цена</th>
             <th>Цена Пост.</th>
@@ -54,11 +54,11 @@
         <td class="">
             @foreach($product->photos as $photo)
                 @if($photo->main == 'yeas')
-                    <img src="{{ Storage::disk('public')->url('products/thumbnail/'. $photo->file) }}" alt="" class=" img-circle  mr-2" style="width: 30px;">
+                    <img src="{{ Storage::disk('public')->url('products/item/'. $photo->file) }}" alt="" class=" img-circle  mr-2 float-left" style="width: 30px;">
                     @break
                 @endif
             @endforeach
-            <a href="{{ route('admin.products.show', $product) }}" target="_blank" >{{ $product->name_original }}</a>
+            <a href="{{ route('admin.products.show', $product) }}" target="_blank" class="float-left" style="width: 90%">{{ $product->name_original }}</a>
         </td>
         <td class="align-middle">{{ $product->getCategoryTitle() }}</td>
 

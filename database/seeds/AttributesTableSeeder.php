@@ -857,10 +857,16 @@ class AttributesTableSeeder extends Seeder
         Attribute::create(['name' => 'Электронная регулировка оборотов', 'type' => 'string', 'group_id' => 1, 'required' => true, 'variants' => [], 'sort' => 2, 'slug' =>  str_slug('Электронная регулировка оборотов')]);
         Attribute::create(['name' => 'Элемент питания', 'type' => 'string', 'group_id' => 1, 'required' => true, 'variants' => [], 'sort' => 2, 'slug' =>  str_slug('Элемент питания')]);
 
+
+
         AttributeGroup::create([
-            'name' => 'Основные характеристики',
-            'slug' => 'osnovnye-kharakteristiki'
+            'name' => 'Основные параметры',
+            'slug' => 'osnovnye-parametry'
         ]);
+         AttributeGroup::create([
+             'name' => 'Основные характеристики',
+             'slug' => 'osnovnye-kharakteristiki'
+         ]);
         AttributeGroup::create([
             'name' => 'Дополнительно',
             'slug' => 'dopolnitelno'

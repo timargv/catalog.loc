@@ -51,6 +51,7 @@ class ProductCommand extends Command
      */
     public function handle()
     {
+
         $filename = "inst.xml";
 
         $file  = public_path('file\\' . $filename);
@@ -94,62 +95,44 @@ class ProductCommand extends Command
 
             $simpleXmlNode = simplexml_load_string($node,null, LIBXML_NOCDATA);
 
-            $products = $simpleXmlNode->offers->offer;
+//            $products = $simpleXmlNode->offers->offer;
+            $products = $simpleXmlNode->xpath('//offers/offer');
+
 
             $this->getOutput()->progressStart(count($products));
 
+
+
             foreach ($products as $product) {
 
-                $findProduct = Product::where('vendor_code_original', $product->vendorCode)->first();
+                $findProduct = Product::where('vendor_code_original', $product->vendorCode->__toString())->first();
 
                 if ($findProduct != null) {
 
                     $findProduct->update([
-                        'available'     => $product['available'] == true ? $this->product::AVAILABLE_TRUE : $this->product::AVAILABLE_FALSE,
-                        'name'          => $product->name,
-                        'name_original' => $product->name,
-                        'original_id'   => $product['id'],
-                        'original_url'  => $product->url,
-                        'price'         => $product->price,
-                        'category_id'   => $product->categoryId,
-                        'vendor'        => $product->vendor,
-                        'vendor_code'   => "20-".$product->vendorCode,
-                        'sh_desc'       => $product->description,
-                        'desc'          => $product->description,
-                        'barcode'       => $product->barcode,
-                        'weight'        => $product->weight,
-                    ]);
-                    $updateProduct = $updateProduct + 1;
-
-                } else {
-
-
-                    $productNew = Product::make([
-                        'user_id' => 1,
-
-                        'name' => $product->name,
-                        'name_original' => $product->name,
+                        'name' => $product->name->__toString(),
+                        'name_original' => $product->name->__toString(),
 
                         // Статус товара активен или нет
                         'status' => $this->product::STATUS_ACTIVE,
 
                         // Категория
-                        'category_id' => $this->service->getCategoryWhere($product->categoryId),
+                        'category_id' => $this->service->getCategoryWhere($product->categoryId->__toString()),
 
                         // В наличии или нет
                         'available' => $product['available'] == true ? $this->product::AVAILABLE_TRUE : $this->product::AVAILABLE_FALSE,
 
                         // ID в списке поставщика
-                        'original_id' => $product['id'],
+                        'original_id' => $product['id']->__toString(),
 
                         // Ссылка на сайт
-                        'original_url' => $product->url,
+                        'original_url' => $product->url->__toString(),
 
                         // Цена
-                        'price' => $product->price,
+                        'price' => $product->price->__toString(),
 
                         // Цена поставщика
-                        'vendor_price' => $product->price,
+                        'vendor_price' => $product->price->__toString(),
 
                         // Валюта
                         'currency_id' => 1,
@@ -158,41 +141,81 @@ class ProductCommand extends Command
                         'vendor_id' => 2,
 
                         // Артикул
-                        'vendor_code' => "20-".$product->vendorCode,
+                        'vendor_code' => "20-".$product->vendorCode->__toString(),
 
                         // Артикул Потсавшика
-                        'vendor_code_original' => $product->vendorCode,
+                        'vendor_code_original' => $product->vendorCode->__toString(),
 
                         // Крат. Описание
-                        'sh_desc' => $product->description,
+                        'sh_desc' => $product->description->__toString(),
 
                         // Полное описание
-                        'desc' => $product->description,
+                        'desc' => $product->description->__toString(),
 
-
-                        // =============== Параметры упаковки
-                        // Тип упаковки	Катронная коробка
-//                        'type_packaging' => $request['type_packaging'],
-//
-//                        // Габариты в упаковке	810 x 730 x 580 мм
-//                        'packing_dimensions' => $request['packing_dimensions'],
-//
-//                        // Длина в упаковке	мм
-//                        'length' => $request['length'],
-//
-//                        // Ширина в упаковке мм
-//                        'width' => $request['width'],
-//
-//                        // Высота в упаковке мм
-//                        'height' => $request['height'],
-//
-                        // Штрих Код
-                        'barcode' => $product->barcode,
+                        'barcode' => $product->barcode->__toString(),
 
                         // Ширина
-                        'weight' => $product->weight,
+                        'weight' => $product->weight->__toString(),
 
-                        'slug' => str_slug($product->name),
+                        'slug' => str_slug($product->name->__toString()),
+
+
+                    ]);
+                    $updateProduct = $updateProduct + 1;
+
+                } else {
+
+                    $productNew = Product::make([
+                        'user_id' => 1,
+
+                        'name' => $product->name->__toString(),
+                        'name_original' => $product->name->__toString(),
+
+                        // Статус товара активен или нет
+                        'status' => $this->product::STATUS_ACTIVE,
+
+                        // Категория
+                        'category_id' => $this->service->getCategoryWhere($product->categoryId->__toString()),
+
+                        // В наличии или нет
+                        'available' => $product['available'] == true ? $this->product::AVAILABLE_TRUE : $this->product::AVAILABLE_FALSE,
+
+                        // ID в списке поставщика
+                        'original_id' => $product['id']->__toString(),
+
+                        // Ссылка на сайт
+                        'original_url' => $product->url->__toString(),
+
+                        // Цена
+                        'price' => $product->price->__toString(),
+
+                        // Цена поставщика
+                        'vendor_price' => $product->price->__toString(),
+
+                        // Валюта
+                        'currency_id' => 1,
+
+                        // Потсавшик
+                        'vendor_id' => 2,
+
+                        // Артикул
+                        'vendor_code' => "20-".$product->vendorCode->__toString(),
+
+                        // Артикул Потсавшика
+                        'vendor_code_original' => $product->vendorCode->__toString(),
+
+                        // Крат. Описание
+                        'sh_desc' => $product->description->__toString(),
+
+                        // Полное описание
+                        'desc' => $product->description->__toString(),
+
+                        'barcode' => $product->barcode->__toString(),
+
+                        // Ширина
+                        'weight' => $product->weight->__toString(),
+
+                        'slug' => str_slug($product->name->__toString()),
 
 
                     ]);
@@ -201,18 +224,21 @@ class ProductCommand extends Command
 
 
                     foreach ($product->param as $value) {
-                        $unit = $value[0]->attributes()->unit;
-                        $get_unit = $unit == null ? '' : ', '.$unit;
+//                        $unit = $value[0]->attributes()->unit;
+//                        $get_unit = $unit == null ? '' : ', '.$unit;
 //                        $name = str_replace("_","", $value[0]->attributes()->name) . $get_unit;
-                        $name = str_replace("_","", $value[0]->attributes()->name);
-                        $this->service->updateAttributeProductParser($productNew, $name, $value);
 
+                        $name = str_replace("_","", $value[0]->attributes()->name);
+                        $this->service->updateAttributeProductParser($productNew, $name, $value->__toString());
                     }
 
-                    $files = $product->picture;
+                    $files = [];
 
+                    foreach ($product->picture as $value) {
+                        $files[] = $value->__toString();
+                    }
 
-                    $this->service->addPhotos($productNew->id, $files);
+                    $this->service->addPhotosImport($productNew->id, $files);
 
                     $createProduct = $createProduct + 1;
                 }

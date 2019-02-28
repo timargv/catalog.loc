@@ -99,12 +99,26 @@
                         <div class="form-group">
                             <input type="hidden" name="required" value="0">
                             <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" name="required" {{ old('required', $attribute->required) ? 'checked' : '' }}>
+                                <label class="col-form-label pl-0">
+                                    <input id="checkbox-blue" type="checkbox" name="required" {{ old('required', $attribute->required) ? 'checked' : '' }}>
+                                    Объязательно
                                 </label>
                             </div>
                             @if ($errors->has('required'))
                                 <span class="invalid-feedback"><strong>{{ $errors->first('required') }}</strong></span>
+                            @endif
+                        </div>
+
+                        <div class="form-group">
+                            <input type="hidden" name="visibility" value="0">
+                            <div class="checkbox">
+                                <label class="col-form-label pl-0">
+                                    <input id="checkbox-blue" type="checkbox" name="visibility" {{ old('visibility', $attribute->visibility) ? 'checked' : '' }}>
+                                    Показать на сайте
+                                </label>
+                            </div>
+                            @if ($errors->has('visibility'))
+                                <span class="invalid-feedback"><strong>{{ $errors->first('visibility') }}</strong></span>
                             @endif
                         </div>
 

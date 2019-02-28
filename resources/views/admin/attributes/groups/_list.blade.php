@@ -19,7 +19,7 @@
                 @method('DELETE')
                 <div class="btn-group btn-group-xs">
                     <a href="{{ route('admin.attribute-groups.edit', $attributeGroup->id) }}" class="btn btn-default"><i class="fal fa-edit"></i></a>
-                    <button onclick="return confirm('Удалить Группу Атрибутов?')" class="btn btn-default"><i class="fas fa-trash"></i></button>
+                    <button onclick="return confirm('Внимание: Вы так же удалите все Атрибуты в этой группе! \nУдалить Группу Атрибутов?')" class="btn btn-default"><i class="fas fa-trash"></i></button>
                 </div>
             </form>
         </td>

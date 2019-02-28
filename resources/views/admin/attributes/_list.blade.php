@@ -15,7 +15,7 @@
                 <td>{{ $attribute->id }}</td>
                 <td>{{ $attribute->name }}</td>
                 <td>{{ $attribute->type }}</td>
-                <td>{{ $attribute->group->name }}</td>
+                <td>{{ $attribute->group == null ? '' : $attribute->group->name }}</td>
                 <td>{{ $attribute->slug }}</td>
 
                 <td>

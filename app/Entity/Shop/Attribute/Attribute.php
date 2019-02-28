@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed type
  * @property mixed $attribute_group
  * @property mixed $categories
+ * @property mixed $products
+ * @property mixed $values
  */
 class Attribute extends Model
 {
@@ -87,9 +89,10 @@ class Attribute extends Model
 
     public function setCategories($ids)
     {
-        if ($ids === null) { return; }
+        if ($ids === null ) { return; }
         $this->categories()->sync($ids);
     }
+
 
 
 }

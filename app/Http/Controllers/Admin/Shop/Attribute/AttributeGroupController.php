@@ -84,6 +84,8 @@ class AttributeGroupController extends Controller
 
     public function destroy(AttributeGroup $attributeGroup)
     {
-        //
+        $attributeGroup->attributes()->delete();
+        $attributeGroup->delete();
+        return redirect()->back()->with('success', 'Группа Атрибутов Удалена');
     }
 }

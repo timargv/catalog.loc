@@ -5141,7 +5141,7 @@ $(document).ready(function (){
     $(".select2").select2();
 
     //Flat red color scheme for iCheck
-    $("#all_categories").iCheck({
+    $("#all_categories, #checkbox-blue").iCheck({
         checkboxClass: 'icheckbox_minimal-blue',
         radioClass   : 'iradio_minimal-blue'
     });

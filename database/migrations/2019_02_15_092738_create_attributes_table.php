@@ -19,6 +19,8 @@ class CreateAttributesTable extends Migration
             $table->string('name');
             $table->string('type');
             $table->boolean('required');
+            $table->boolean('visibility')->default(1)->nullable();
+            $table->boolean('visibility_filter')->default(1)->nullable();
             $table->json('variants');
             $table->integer('sort');
             $table->string('slug');
