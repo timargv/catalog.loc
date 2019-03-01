@@ -88,8 +88,9 @@ class ProductService
 
         $product = $this->getProduct($id);
 
-
         DB::transaction(function () use ($files, $product) {
+
+            // Пути для сохранения картинок
             $path = $this->pathPhoto()['original'];
             $thumbPath = $this->pathPhoto()['thumbnail'];
             $itemPath = $this->pathPhoto()['item'];
@@ -101,10 +102,11 @@ class ProductService
 
             foreach ($files as $key => $file) {
 
-
                 if (@getimagesize($file) == false) { continue; }
 
                 $img = Image::make($file);
+
+                // Проверить есть ли папки для разных размеров если нет то создать
                 if (!file_exists($path) && !file_exists($itemPath) && !file_exists($thumbPath) && !file_exists($smallPath) && !file_exists($middlePath) && !file_exists($largePath)) {
                     mkdir($path, 666, true);
                     mkdir($thumbPath, 666, true);
@@ -114,9 +116,9 @@ class ProductService
                     mkdir($largePath, 666, true);
                 }
 
-                $fileName = $product->id.'-'.uniqid().'-'. (new \DateTime)->getTimeStamp() . '.png';
+                $fileName = $product->id.'.'.$key.'.'.$product->vendor_code.'.png';
 
-
+                // Сохранить картинки в разных размерах
                 $img->save($path . $fileName);
                 $img->resize(1000, 1000)->save($largePath .$fileName, 100);
                 $img->resize(450, 450)->save($middlePath . $fileName, 100);
@@ -124,6 +126,7 @@ class ProductService
                 $img->resize(320, 320)->save($thumbPath . $fileName, 100);
                 $img->resize(80, 80)->save($itemPath . $fileName, 100);
 
+                // Если это первая фотка то сделать Главным
                 if ($key == 0) {
                     $product->photos()->create([
                         'file' => $fileName,
@@ -140,9 +143,11 @@ class ProductService
 
 
             }
+
             $product->update();
 
         });
+
     }
 
     // GET REQUEST

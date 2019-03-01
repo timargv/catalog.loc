@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed $values
  * @property mixed available
  * @property mixed $photos
+ * @property mixed vendor_code
  */
 class Product extends Model
 {

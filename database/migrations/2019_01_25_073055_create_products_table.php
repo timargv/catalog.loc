@@ -51,12 +51,12 @@ class CreateProductsTable extends Migration
 
             $table->string('type_packaging')->nullable();      // Тип упаковки : Катронная коробка
             $table->string('packing_dimensions')->nullable();  // Габариты в упаковке : 810 x 730 x 580 мм
-            $table->float('length')->nullable();               // Длина в упаковке : 810 мм
-            $table->float('width')->nullable();                // Ширина в упаковке : 730 мм
-            $table->float('height')->nullable();               // Высота в упаковке : 580 мм
+            $table->string('length')->nullable();               // Длина в упаковке : 810 мм
+            $table->string('width')->nullable();                // Ширина в упаковке : 730 мм
+            $table->string('height')->nullable();               // Высота в упаковке : 580 мм
 
             $table->string('barcode')->nullable();              // Штрих Код
-            $table->float('weight')->nullable();                // Ширина
+            $table->string('weight')->nullable();                // Ширина
 
             $table->string('slug')->nullable();                // URL
 
