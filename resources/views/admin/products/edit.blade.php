@@ -154,14 +154,21 @@
                                             <li><a href="#tab_7" data-toggle="tab">Модификации</a></li>
                                             <li class="pull-right"><a href="#tab_8" data-toggle="tab">Настройки</a></li>
                                         </ul>
-                                        <div class="tab-content">
-                                            <div class="tab-pane active" id="tab_1">
-                                                <div class="row">
-                                                    @foreach (array_chunk($product->category->allAttributes(), 2) as $chunk)
-                                                        <div class="col-xs-6">
-                                                            @foreach ($chunk as $attribute)
+                                    </div>
+                                    <div class="tab-content bg-transparent">
+                                        <div class="tab-pane active" id="tab_1">
+                                            @foreach($product->getGroup($product->category->allAttributes()) as $key => $groupAttribute)
+                                            <div class="box box-solid mb-4">
+                                                <div class="box-header">{{ $key }}</div>
+                                                <div class="box-body">
+                                                    @foreach($groupAttribute as $attribute)
+                                                        @if($product->getValue($attribute->id) && $attribute->status)
+                                                            <div class="col-xs-6">
                                                                 <div class="form-group">
-                                                                    <label for=attribute_{{ $attribute->id }}" class="col-form-label">{{ $attribute->name }}</label>
+                                                                    <label for=attribute_{{ $attribute->id }}" class="col-form-label w-100">
+                                                                        {{ $attribute->name }}
+                                                                        <a href="{{ route('admin.attributes.edit', $attribute->id) }}" class="float-right text-muted font-weight-light small" target="_blank">{{ __('button.Edit') }}</a>
+                                                                    </label>
                                                                     @if ($attribute->isSelect())
                                                                         <select id="attribute_{{ $attribute->id }}" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]">
                                                                             <option value=""></option>
@@ -180,49 +187,83 @@
                                                                         <span class="invalid-feedback"><strong>{{ $errors->first('attributes.' . $attribute->id) }}</strong></span>
                                                                     @endif
                                                                 </div>
-                                                            @endforeach
-                                                        </div>
+                                                            </div>
+                                                        @endif
                                                     @endforeach
+                                                    @foreach($groupAttribute as $attribute)
+                                                            @if(!$product->getValue($attribute->id))
+                                                                <div class="col-xs-6">
+                                                                    <div class="form-group">
+                                                                        <label for=attribute_{{ $attribute->id }}" class="col-form-label">{{ $attribute->name }}</label>
+                                                                        @if ($attribute->isSelect())
+                                                                            <select id="attribute_{{ $attribute->id }}" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]">
+                                                                                <option value=""></option>
+                                                                                @foreach ($attribute->variants as $variant)
+                                                                                    <option value="{{ $variant }}"{{ $variant == old('attributes.' . $attribute->id, $product->getValue($attribute->id)) ? ' selected' : '' }}>
+                                                                                        {{ $variant }}
+                                                                                    </option>
+                                                                                @endforeach
+                                                                            </select>
+                                                                        @elseif ($attribute->isNumber())
+                                                                            <input id="attribute_{{ $attribute->id }}" type="number" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]" value="{{ old('attributes.' . $attribute->id, $product->getValue($attribute->id)) }}">
+                                                                        @else
+                                                                            <input id="attribute_{{ $attribute->id }}" type="text" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]" value="{{ old('attributes.' . $attribute->id, $product->getValue($attribute->id)) }}">
+                                                                        @endif
+                                                                        @if ($errors->has('parent'))
+                                                                            <span class="invalid-feedback"><strong>{{ $errors->first('attributes.' . $attribute->id) }}</strong></span>
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                            @endif
+                                                        @endforeach
                                                 </div>
                                             </div>
-                                            <!-- /.tab-pane -->
-                                            <div class="tab-pane pt-3" id="tab_2">
-                                                <div class="form-group @if($errors->has('desc'))has-error @endif">
-                                                    <label for="desc" class="col-form-label">{{ __('fillable.Description') }}</label>
-                                                    <textarea rows="10" id="desc" type="text" class="form-control{{ $errors->has('desc') ? ' is-invalid' : '' }}" name="desc">{{ old('desc', $product->desc) }}</textarea>
-                                                    @if ($errors->has('desc'))
-                                                        <span class="help-block"><strong>{{ $errors->first('desc') }}</strong></span>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            <!-- /.tab-pane -->
-                                            <div class="tab-pane" id="tab_3">
+                                            @endforeach
 
-                                            </div>
-                                            <!-- /.tab-pane -->
-                                            <div class="tab-pane" id="tab_4">
-
-                                            </div>
-                                            <!-- /.tab-pane -->
-                                            <div class="tab-pane" id="tab_5">
-
-                                            </div>
-                                            <!-- /.tab-pane -->
-                                            <div class="tab-pane" id="tab_6">
-
-                                            </div>
-                                            <!-- /.tab-pane -->
-                                            <div class="tab-pane" id="tab_7">
-
-                                            </div>
-                                            <!-- /.tab-pane -->
-                                            <div class="tab-pane" id="tab_8">
-
-                                            </div>
-                                            <!-- /.tab-pane -->
                                         </div>
-                                        <!-- /.tab-content -->
+                                        <!-- /.tab-pane -->
+                                        <div class="tab-pane pt-3" id="tab_2">
+                                            <div class="box box-solid mb-4">
+                                                <div class="box-header">
+                                                    <label for="desc" class="col-form-label">{{ __('fillable.Description') }}</label>
+                                                </div>
+                                                <div class="box-body">
+                                                    <div class="form-group @if($errors->has('desc'))has-error @endif">
+                                                        <textarea rows="10" id="desc" type="text" class="form-control{{ $errors->has('desc') ? ' is-invalid' : '' }}" name="desc">{{ old('desc', $product->desc) }}</textarea>
+                                                        @if ($errors->has('desc'))
+                                                            <span class="help-block"><strong>{{ $errors->first('desc') }}</strong></span>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- /.tab-pane -->
+                                        <div class="tab-pane" id="tab_3">
+
+                                        </div>
+                                        <!-- /.tab-pane -->
+                                        <div class="tab-pane" id="tab_4">
+
+                                        </div>
+                                        <!-- /.tab-pane -->
+                                        <div class="tab-pane" id="tab_5">
+
+                                        </div>
+                                        <!-- /.tab-pane -->
+                                        <div class="tab-pane" id="tab_6">
+
+                                        </div>
+                                        <!-- /.tab-pane -->
+                                        <div class="tab-pane" id="tab_7">
+
+                                        </div>
+                                        <!-- /.tab-pane -->
+                                        <div class="tab-pane" id="tab_8">
+
+                                        </div>
+                                        <!-- /.tab-pane -->
                                     </div>
+                                    <!-- /.tab-content -->
                                     <!-- nav-tabs-custom -->
                                 </div>
                                 <div class="col-xs-12">
@@ -338,8 +379,6 @@
                                                         </li>
                                                     @endif
                                                 @endforeach
-
-
                                             </ul>
                                         </div>
 

@@ -27,7 +27,7 @@ class Attribute extends Model
     const TYPE_FLOAT = 'float';
 
     protected $table = 'attributes';
-    protected $fillable = ['name', 'group_id', 'type', 'required', 'variants', 'sort', 'slug'];
+    protected $fillable = ['name', 'group_id', 'type', 'required', 'status', 'variants', 'sort', 'slug'];
 
     protected $casts = [
         'variants' => 'array',
@@ -36,7 +36,7 @@ class Attribute extends Model
 
     public function group()
     {
-        return $this->belongsTo(AttributeGroup::class, 'group_id', 'id');
+        return $this->belongsTo(AttributeGroup::class, 'group_id', 'id')->orderBy('id');
     }
 
     public function categories() {

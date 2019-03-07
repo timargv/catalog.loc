@@ -226,10 +226,10 @@ class ProductsController extends Controller
 
         $product->values()->delete();
         foreach ($product->category->allAttributes() as $attribute) {
-            $value = $request['attributes'][$attribute->id] ?? null;
+            $value = $request['attributes'][$attribute['id']] ?? null;
             if (!empty($value)) {
                 $product->values()->create([
-                    'attribute_id' => $attribute->id,
+                    'attribute_id' => $attribute['id'],
                     'value' => $value,
                 ]);
             }

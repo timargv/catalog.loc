@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 class AttributeGroup extends Model
 {
     protected $table = 'attribute_groups';
-    protected $fillable = ['name', 'slug'];
+    protected $fillable = ['name', 'sort','slug'];
 
     public function attributes()
     {

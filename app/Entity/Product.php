@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Shop\Attribute\Attribute;
+use App\Entity\Shop\Attribute\AttributeGroup;
 use App\Entity\Shop\Product\Photo;
 use App\Entity\Shop\Product\Value;
 use App\User;
@@ -21,6 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed available
  * @property mixed $photos
  * @property mixed vendor_code
+ * @property mixed $attributes
  */
 class Product extends Model
 {
@@ -129,14 +132,15 @@ class Product extends Model
     //------------------- Значения Атрибутов
     public function values()
     {
-        return $this->hasMany(Value::class, 'product_id', 'id');
+        return $this->hasMany(Value::class, 'product_id');
     }
 
     //------------------- Фотография
     public function photos()
     {
-        return $this->hasMany(Photo::class, 'product_id', 'id');
+        return $this->hasMany(Photo::class, 'product_id');
     }
+
 
     //------------------- Добавление в Промежуточную таблицу
     public function setCategories($ids)
@@ -176,15 +180,22 @@ class Product extends Model
         return null;
     }
 
-
     public function getMainphoto()
     {
         $photos = $this->photos()->where('main', self::STATUS_MAIN_PHOTO)->take(1)->get();
         return $photos;
     }
 
-    
+    public function getGroup($attributes) {
 
+        $attributesCollection = collect($attributes)->sortBy('sort');
+
+        $group = $attributesCollection->groupBy(function ($item, $key) {
+            return $item->group->name;
+        });
+
+        return $group;
+    }
 
 
 

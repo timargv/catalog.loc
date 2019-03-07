@@ -62,7 +62,6 @@ class Category extends Model
         return array_merge($this->parentAttributes(), $this->attributes()->orderBy('sort')->getModels());
     }
 
-
     public function attributes()
     {
         return $this->belongsToMany(

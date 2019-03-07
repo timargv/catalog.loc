@@ -122,6 +122,19 @@
                             @endif
                         </div>
 
+                        <div class="form-group">
+                            <input type="hidden" name="status" value="0">
+                            <div class="checkbox">
+                                <label class="col-form-label pl-0">
+                                    <input id="checkbox-blue" type="checkbox" name="status" {{ old('status', $attribute->status) ? 'checked' : '' }}>
+                                    Включить
+                                </label>
+                            </div>
+                            @if ($errors->has('status'))
+                                <span class="invalid-feedback"><strong>{{ $errors->first('status') }}</strong></span>
+                            @endif
+                        </div>
+
                         <div class="form-group @if($errors->has('slug'))has-error @endif">
                             <label for="slug" class="col-form-label">{{ __('fillable.Slug') }}</label>
                             <input type="text" id="slug" class="form-control" name="slug" value="{{ old('slug', $attribute->slug) }}" required>

@@ -11,14 +11,13 @@
             <th>Цена Пост.</th>
             <th><span data-toggle="tooltip" data-placement="top" title="Статус"><i class="far fa-power-off"></i></span></th>
             <th><span data-toggle="tooltip" data-placement="top" title="Наличие на складе"><i class="fas fa-cubes"></i></span></th>
-            <th>Поставщик</th>
-            <th></th>
+            <th width="195px">Поставщик</th>
+            <th width="102px"></th>
         </tr>
 
         @if(!empty($categories))
             <tr class="active">
-                <th width="5px"></th>
-                <th width="80px"><input id="vendor_code" class="form-control input-sm" name="vendor_code" value="{{ request('vendor_code') }}" placeholder=""></th>
+                <th width="80px" colspan="2"><input id="vendor_code" class="form-control input-sm" name="vendor_code" value="{{ request('vendor_code') }}" placeholder="Код товара"></th>
                 <th><input id="name" class="form-control input-sm" name="name" value="{{ request('name') }}" placeholder=""></th>
                 <th>
                     <select id="category" class="form-control select2 w-100 {{ $errors->has('category') ? ' is-invalid' : '' }} input-sm" name="category">
@@ -54,7 +53,7 @@
         <td class="">
             @foreach($product->photos as $photo)
                 @if($photo->main == 'yeas')
-                    <img src="{{ Storage::disk('public')->url('products/item/'. $photo->file) }}" alt="" class=" img-circle  mr-2 float-left" style="width: 30px;">
+                    <img src="{{ Storage::disk('public')->url('products/item/'. $photo->file) }}" alt="" class=" img-circle  mr-3 float-left" style="width: 30px;">
                     @break
                 @endif
             @endforeach

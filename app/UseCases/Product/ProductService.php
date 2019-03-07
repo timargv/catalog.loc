@@ -107,14 +107,20 @@ class ProductService
                 $img = Image::make($file);
 
                 // Проверить есть ли папки для разных размеров если нет то создать
-                if (!file_exists($path) && !file_exists($itemPath) && !file_exists($thumbPath) && !file_exists($smallPath) && !file_exists($middlePath) && !file_exists($largePath)) {
-                    mkdir($path, 666, true);
-                    mkdir($thumbPath, 666, true);
-                    mkdir($itemPath, 666, true);
-                    mkdir($smallPath, 666, true);
-                    mkdir($middlePath, 666, true);
-                    mkdir($largePath, 666, true);
+                if($key == 0) {
+                    if (!file_exists($path) && !file_exists($itemPath) && !file_exists($thumbPath) && !file_exists($smallPath) && !file_exists($middlePath) && !file_exists($largePath)) {
+                        mkdir($path, 666, true);
+                        mkdir($thumbPath, 666, true);
+                        mkdir($itemPath, 666, true);
+                        mkdir($smallPath, 666, true);
+                        mkdir($middlePath, 666, true);
+                        mkdir($largePath, 666, true);
+                    }
                 }
+                if(!is_writable($path) && !is_writable($itemPath) && !is_writable($thumbPath) && !is_writable($smallPath) && !is_writable($middlePath) && !is_writable($largePath)) {
+                    continue;
+                }
+
 
                 $fileName = $product->id.'.'.$key.'.'.$product->vendor_code.'.png';
 
@@ -260,6 +266,8 @@ class ProductService
         $product = $this->getProduct($product->id);
         $category = $product->category;
 
+
+
         if (!empty($attribute) && $name != 'Бренд' && $name != 'БрендАртикула') {
 
             $product->values()->create([
@@ -267,7 +275,6 @@ class ProductService
                 'value' => $value,
             ]);
 
-            $this->getAttribute($attribute->id)->setCategories($category->id);
 
         } elseif($name != 'Бренд' && $name != 'БрендАртикула') {
 
@@ -279,6 +286,20 @@ class ProductService
                     'value' => $value,
                 ]);
             }
+
+
+        }
+
+        if (!empty($attribute)) {
+
+            $categories = $this->getAttribute($attribute->id)->categories()->getModels();
+            $categoryArr[] = $category;
+            $categoriesArray = array_merge($categories, $categoryArr);
+            $categoryIds = [];
+            foreach ($categoriesArray as $item) {
+                $categoryIds[] = $item->id;
+            }
+            $this->getAttribute($attribute->id)->setCategories($categoryIds);
         }
 
         if ($name == 'Тип упаковки') {
