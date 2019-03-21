@@ -12,6 +12,7 @@
             <th><span data-toggle="tooltip" data-placement="top" title="Статус"><i class="far fa-power-off"></i></span></th>
             <th><span data-toggle="tooltip" data-placement="top" title="Наличие на складе"><i class="fas fa-cubes"></i></span></th>
             <th width="195px">Поставщик</th>
+            <th width="150px">Дата обн.</th>
             <th width="102px"></th>
         </tr>
 
@@ -34,8 +35,8 @@
                 <th><input class="form-control input-sm" name="vendor_price" value="{{ request('vendor_price') }}" placeholder=""></th>
                 <th></th>
                 <th></th>
-                <th>
-                </th>
+                <th></th>
+                <th></th>
                 <th class="text-right">
                     <button type="submit" class="btn btn-outline-primary btn-sm">{{ __('button.Search') }}</button>
                     <a href="?" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="Очистить Поиск"><i class="far fa-times"></i></a>
@@ -71,6 +72,7 @@
             <i class="fas fa-circle {{ $product->status === 'active' ? 'text-success' : 'text-danger' }}"></i>
         </td>
         <td class="align-middle"><a href="{{ route('admin.vendors.show', $product->getVendorId()) }}" target="_blank">{{ $product->getVendorTitle() }}</a></td>
+        <td class="align-middle">{{ $product->updated_at }}</td>
         <td class="align-middle">
             <form method="POST" action="{{ route('admin.products.destroy', $product) }}" class="form-inline pull-right align-middle">
                 @csrf

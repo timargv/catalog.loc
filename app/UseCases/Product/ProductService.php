@@ -8,12 +8,20 @@ use App\Entity\Product;
 use App\Entity\Shop\Attribute\Attribute;
 use App\Entity\Shop\Product\Photo;
 use App\Http\Requests\Admin\Product\PhotosRequest;
+use App\UseCases\Brand\BrandService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
 class ProductService
 {
+
+    private $brand;
+
+    public function __construct(BrandService $brandService)
+    {
+        $this->brand = $brandService;
+    }
 
     public function pathPhoto()
     {
@@ -121,7 +129,6 @@ class ProductService
                     continue;
                 }
 
-
                 $fileName = $product->id.'.'.$key.'.'.$product->vendor_code.'.png';
 
                 // Сохранить картинки в разных размерах
@@ -146,7 +153,6 @@ class ProductService
                         'main' => 'no',
                     ]);
                 }
-
 
             }
 
@@ -189,7 +195,6 @@ class ProductService
     }
 
     // POST REQUEST
-
     private function createAttribute($name) : Attribute {
 
         $attribute = Attribute::make([
@@ -267,7 +272,6 @@ class ProductService
         $category = $product->category;
 
 
-
         if (!empty($attribute) && $name != 'Бренд' && $name != 'БрендАртикула') {
 
             $product->values()->create([
@@ -325,6 +329,11 @@ class ProductService
         }
 
 
+    }
+
+    public function setBrand ($brandName) {
+        $brand = $this->brand->firstOrCreateBrand($brandName);
+        return $brand->id;
     }
 
 }

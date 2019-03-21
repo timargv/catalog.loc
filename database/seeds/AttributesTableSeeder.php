@@ -871,5 +871,11 @@ class AttributesTableSeeder extends Seeder
             'name' => 'Дополнительно',
             'slug' => 'dopolnitelno'
         ]);
+
+        AttributeGroup::create([
+            'name' => 'Технические характеристики Поставщика',
+            'slug' => 'tekhnicheskie-kharakteristiki-postavshika'
+        ]);
+
     }
 }

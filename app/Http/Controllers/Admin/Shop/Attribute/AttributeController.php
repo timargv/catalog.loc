@@ -29,8 +29,9 @@ class AttributeController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'type' => ['required', 'string', 'max:255', Rule::in(array_keys(Attribute::typesList()))],
-            'required' => 'nullable|string|max:255',
+            'required' => 'nullable|string',
             'status' => 'nullable|string',
+            'visibility' => 'nullable|string',
             'variants' => 'nullable|string',
             'sort' => 'required|integer',
             'slug' => 'required|string|max:255|unique:attributes'
@@ -45,6 +46,7 @@ class AttributeController extends Controller
 //            'group_id' => $request['attributeGroup'],
             'required' => (bool)$request['required'],
             'status' => (bool)$request['status'],
+            'visibility' => (bool)$request['visibility'],
             'variants' => $request['variants'] == null ? [] : array_map('trim', preg_split('#[\r\n]+#', $request['variants'])),
             'sort' => $request['sort'] == null ? 1 : $request['sort'],
             'slug' => $request['slug'],
@@ -84,8 +86,9 @@ class AttributeController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'type' => ['required', 'string', 'max:255', Rule::in(array_keys(Attribute::typesList()))],
-            'required' => 'nullable|string|max:255',
-            'status' => 'nullable|string|max:255',
+            'required' => 'nullable|string',
+            'visibility' => 'nullable|string',
+            'status' => 'nullable|string',
             'variants' => 'nullable|string',
             'sort' => 'required|integer',
             'slug' => 'required|string|max:255|unique:attributes,slug,'.  $attribute->id,
@@ -100,6 +103,7 @@ class AttributeController extends Controller
 //            'group_id' => $request['attributeGroup'],
             'required' => (bool)$request['required'],
             'status' => (bool)$request['status'],
+            'visibility' => (bool)$request['visibility'],
             'variants' => $request['variants'] == null ? [] : array_map('trim', preg_split('#[\r\n]+#', $request['variants'])),
             'sort' => $request['sort'],
             'slug' => $request['slug'],

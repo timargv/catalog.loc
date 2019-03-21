@@ -2,8 +2,12 @@
 
 namespace App\Console\Commands\MirInstrument;
 
+use App\UseCases\Vendor\VendorMirInstrumentsService;
 use Illuminate\Console\Command;
 use App\Entity\Category;
+use Illuminate\Http\File as FileDow;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Prewk\XmlStringStreamer;
 use Prewk\XmlStringStreamer\Stream\File;
 use Prewk\XmlStringStreamer\Parser\StringWalker;
@@ -31,11 +35,13 @@ class CategoryCommand extends Command
      */
 
     private $categoryParentId;
+    private $file;
 
-    public function __construct(Category $category)
+    public function __construct(Category $category, VendorMirInstrumentsService $fileXml)
     {
         parent::__construct();
         $this->categoryParentId = $category;
+        $this->file = $fileXml;
     }
 
     /**
@@ -45,9 +51,8 @@ class CategoryCommand extends Command
      */
     public function handle()
     {
-        $filename = "inst.xml";
 
-        $file  = public_path('file\\' . $filename);
+        $file = $this->file->UploadXml();
 
         // Save the total file size
         $totalSize = filesize($file);
@@ -95,17 +100,19 @@ class CategoryCommand extends Command
             $this->getOutput()->progressStart(count($categories));
             foreach ($categories as $category) {
 
+//                dd($category->attributes()->id->__toString());
+
                 $findCategory = $this->categoryParentId->where([
-                    ['shipper_id', $category->attributes()->id]
+                    ['shipper_id', $category->attributes()->id->__toString()]
                 ])->first();
 
                 //  Проверка сушествует ли данная категория
                 // Если да то обновить
                 if ($findCategory != false) {
                     $this->categoryParentId->where('shipper_id', $category->attributes()->id)->update([
-                        'shipper_id'        => $category->attributes()->id,
+                        'shipper_id'        => $category->attributes()->id->__toString(),
 //                        'name'              => $category,
-                        'name_original'     => $category,
+                        'name_original'     => $category->__toString(),
                     ]);
 
 
@@ -120,13 +127,11 @@ class CategoryCommand extends Command
                         'name' => $category,
                         'name_original' => $category,
                     ]);
-
 //                    if ($parentId != 0) {
 //                        $this->categoryParentId->where('id', $newCategory->id)->update([
 //                            'parent_id' => $parentId
 //                        ]);
 //                    }
-
                     if ($parentId != 0) {
                         $categoryID = Category::where('shipper_id', $parentId)->first();
                         $newCategory->update([

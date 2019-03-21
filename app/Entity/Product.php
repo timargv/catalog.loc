@@ -7,7 +7,9 @@ use App\Entity\Shop\Attribute\AttributeGroup;
 use App\Entity\Shop\Product\Photo;
 use App\Entity\Shop\Product\Value;
 use App\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use PhpParser\ErrorHandler\Collecting;
 
 /**
  * @property mixed $categories
@@ -186,14 +188,27 @@ class Product extends Model
         return $photos;
     }
 
-    public function getGroup($attributes) {
+    public function getGroup($category) {
 
-        $attributesCollection = collect($attributes)->sortBy('sort');
+        $attributesArray = Attribute::with('group','categories')->get();
 
-        $group = $attributesCollection->groupBy(function ($item, $key) {
-            return $item->group->name;
+
+        $attributes = $attributesArray->categories()->where('id', $category);
+        dd($attributes);
+
+
+        $attributesCollection = collect($attributes);
+
+dd($attributesCollection);
+//        $group = $attributesCollection->groupBy(function ($item, $key) {
+//            return $item->group->name;
+//        });
+
+        $group = $attributesCollection->mapToGroups(function ($item, $key) {
+            return [$item->group->name => $item['name']];
         });
 
+        dd($group);
         return $group;
     }
 

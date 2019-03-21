@@ -25,7 +25,7 @@
                 <div class="box-body table-responsive no-padding ">
                     @include('admin.products._list', ['products' => $products])
 
-                    <div class="px-3">{{ $products->links() }}</div>
+                    <div class="px-3">{{ $products->appends(request()->query())->links() }}</div>
                 </div>
             </div>
         </div>
