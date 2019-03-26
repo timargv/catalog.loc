@@ -60,6 +60,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Поставщики
     Route::resource('/vendors', 'VendorsController');
 
+    // Статусы
+    Route::group(['prefix' => 'order-statuses-list', 'as' => 'order-statuses-list.', 'namespace' => 'Shop'], function () {
+        Route::get('/', 'OrderStatusesListController@index')->name('index');
+        Route::post('/store', 'OrderStatusesListController@store')->name('store');
+        Route::get('/{statusOrderList}/edit', 'OrderStatusesListController@edit')->name('edit');
+        Route::put('/{statusOrderList}/update', 'OrderStatusesListController@update')->name('update');
+        Route::delete('/{id}/destroy', 'OrderStatusesListController@destroy');
+    });
+
     Route::group(['namespace' => 'Shop\Attribute'], function () {
         // Группы Атрибутов
         Route::resource('/attribute-groups', 'AttributeGroupController');

@@ -7,9 +7,8 @@ use App\Entity\Shop\Attribute\AttributeGroup;
 use App\Entity\Shop\Product\Photo;
 use App\Entity\Shop\Product\Value;
 use App\User;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use PhpParser\ErrorHandler\Collecting;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * @property mixed $categories
@@ -26,6 +25,7 @@ use PhpParser\ErrorHandler\Collecting;
  * @property mixed $photos
  * @property mixed vendor_code
  * @property mixed $attributes
+ * @property mixed $group_name
  */
 class Product extends Model
 {
@@ -173,13 +173,18 @@ class Product extends Model
     }
 
     public function getValue($id)
-    {
-        foreach ($this->values as $value) {
-            if ($value->attribute_id === $id) {
-                return $value->value;
-            }
+{
+    foreach ($this->values as $value) {
+        if ($value->attribute_id === $id) {
+            return $value->value;
         }
-        return null;
+    }
+    return null;
+}
+
+    public function getGroupNameAttribute($id)
+    {
+        return AttributeGroup::findOrFail($id);
     }
 
     public function getMainphoto()
@@ -188,30 +193,27 @@ class Product extends Model
         return $photos;
     }
 
-    public function getGroup($category) {
-
-        $attributesArray = Attribute::with('group','categories')->get();
+    public function getGroup($attributes) {
 
 
-        $attributes = $attributesArray->categories()->where('id', $category);
-        dd($attributes);
+        $attributesCollection = collect($attributes)->where('status', 1);
 
 
-        $attributesCollection = collect($attributes);
-
-dd($attributesCollection);
-//        $group = $attributesCollection->groupBy(function ($item, $key) {
-//            return $item->group->name;
-//        });
-
-        $group = $attributesCollection->mapToGroups(function ($item, $key) {
-            return [$item->group->name => $item['name']];
+        $group = $attributesCollection->groupBy(function ($item, $key) {
+            return $item->group_id;
         });
 
-        dd($group);
+//        dd($group);
         return $group;
+
     }
 
-
+    //    COUNTS
+    public static function count()
+    {
+        return Cache::remember('count_products', 60, function () {
+            return static::query()->count();
+        });
+    }
 
 }

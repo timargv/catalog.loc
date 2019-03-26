@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Entity\Brand;
 use App\Entity\Category;
 use App\Entity\Product;
 use App\Entity\Shipper;
@@ -18,7 +19,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer('admin.layouts._sidebar', function($view){
-            $view->with('countProducts', Product::all()->count());
+            $view->with('countProducts', Product::count());
         });
 
         view()->composer('admin.layouts._sidebar', function($view){
@@ -26,7 +27,11 @@ class AppServiceProvider extends ServiceProvider
         });
 
         view()->composer('admin.layouts._sidebar', function($view){
-            $view->with('countVendors', Vendor::all()->count());
+            $view->with('countVendors', Vendor::count());
+        });
+
+        view()->composer('admin.layouts._sidebar', function($view){
+            $view->with('countBrands', Brand::count());
         });
     }
 

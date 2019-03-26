@@ -59,7 +59,9 @@ class Category extends Model
      */
     public function allAttributes(): array
     {
-        return array_merge($this->parentAttributes(), $this->attributes()->orderBy('sort')->getModels());
+//        $result = array_merge($this->parentAttributes(), $this->attributes()->orderBy('sort')->getModels());
+//        dd($result);
+        return $this->attributes()->orderBy('sort')->getModels();
     }
 
     public function attributes()

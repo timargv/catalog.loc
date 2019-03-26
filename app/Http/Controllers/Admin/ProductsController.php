@@ -78,6 +78,7 @@ class ProductsController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'categories' => 'required',
+            'vendor_code' => 'required|string|max:255|unique:products',
             'slug' => 'required|string|max:255|unique:products',
 //            'parent' => 'nullable|integer|exists:categories,id',
         ]);
@@ -221,6 +222,7 @@ class ProductsController extends Controller
             'name' => 'required|string|max:255',
             'price' => 'required',
             'categories' => 'required',
+            'vendor_code' => 'required|string|max:255|unique',
             'slug' => 'required|string|max:255|unique:products,slug,'. $product->id,
         ]);
 

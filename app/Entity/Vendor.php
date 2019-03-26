@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Vendor extends Model
 {
@@ -20,5 +21,14 @@ class Vendor extends Model
     public function products()
     {
         return $this->hasMany(Product::class, 'vendor_id');
+    }
+
+
+    //    COUNTS
+    public static function count()
+    {
+        return Cache::remember('count_vendors', 60, function () {
+            return static::query()->count();
+        });
     }
 }

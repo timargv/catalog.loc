@@ -153,14 +153,16 @@
                                 </div>
                                 <div class="tab-content bg-transparent">
                                     <div class="tab-pane active" id="tab_1">
-                                        {{ dd($product->getGroup($product->category)) }}
+
+
                                         @foreach($product->getGroup($product->category->allAttributes()) as $key => $groupAttribute)
                                             <div class="box box-solid mb-4">
-                                                <div class="box-header">{{ $key }}</div>
+                                                <div class="box-header">{{ $product->getGroupNameAttribute($key)->name }}</div>
                                                 <div class="box-body">
-                                                    {{ dd($groupAttribute) }}
                                                     @foreach($groupAttribute as $attribute)
-                                                        @if($product->getValue($attribute->id) && $attribute->status)
+
+                                                        @if($product->getValue($attribute->id))
+
                                                             <div class="col-xs-6">
                                                                 <div class="form-group">
                                                                     <label for=attribute_{{ $attribute->id }}" class="col-form-label w-100">
@@ -179,6 +181,7 @@
                                                                     @elseif ($attribute->isNumber())
                                                                         <input id="attribute_{{ $attribute->id }}" type="number" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]" value="{{ old('attributes.' . $attribute->id, $product->getValue($attribute->id)) }}">
                                                                     @else
+                                                                        <input id="attribute_{{ $attribute->id }}" type="text" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]" value="{{ old('attributes.' . $attribute->id, $product->getValue($attribute->id)) }}">
                                                                     @endif
                                                                     @if ($errors->has('parent'))
                                                                         <span class="invalid-feedback"><strong>{{ $errors->first('attributes.' . $attribute->id) }}</strong></span>
@@ -188,7 +191,7 @@
                                                         @endif
                                                     @endforeach
                                                     @foreach($groupAttribute as $attribute)
-                                                        @if(!$product->getValue($attribute->id) && !$attribute->status)
+                                                        @if(!$product->getValue($attribute->id) && !$attribute->status == 0)
                                                             <div class="col-xs-6">
                                                                 <div class="form-group">
                                                                     <label for=attribute_{{ $attribute->id }}" class="col-form-label w-100">

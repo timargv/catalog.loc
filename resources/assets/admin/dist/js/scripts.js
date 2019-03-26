@@ -38,6 +38,8 @@ $(document).ready(function (){
         format: 'dd/mm/yy'
     });
 
+    $('.my-colorpicker').colorpicker();
+
     //iCheck for checkbox and radio inputs
     $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
         checkboxClass: 'icheckbox_minimal-blue',
