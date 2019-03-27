@@ -11,11 +11,10 @@
 
         <div class="form-group @if($errors->has('color'))has-error @endif">
             <label for="color" class="col-form-label">{{ __('fillable.Color') }}</label>
-
-            <div class="input-group my-colorpicker colorpicker-element">
-                <input type="text" id="color" class="form-control" name="color" value="{{ old('color') }}" required>
+            <div class="input-group my-colorpicker">
+                <input type="text" id="color" class="form-control" name="color" value="{{ old('color') }}" placeholder="Выберите цвет с права пикером" required>
                 <div class="input-group-addon">
-                    <i></i>
+                    <i style="background-color: rgb(201, 201, 201);"></i>
                 </div>
             </div>
             @if ($errors->has('color'))

@@ -19,7 +19,7 @@ class ProductCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'mi:product {price-update?}';
+    protected $signature = 'mi:product {update-price?}';
 
     /**
      * The console command description.
@@ -116,6 +116,7 @@ class ProductCommand extends Command
 
                     if ($findProduct != null) {
 
+                        $this->product->priceHistory($findProduct, '', floatval($product->price->__toString()));
                         // Обновить Продукт
                         $findProduct->update([
                             'name' => $product->name->__toString(),
@@ -274,6 +275,8 @@ class ProductCommand extends Command
             $findProduct = Product::where('vendor_code_original', $product->vendorCode->__toString())->first();
 
             if ($findProduct != null) {
+
+                $this->product->priceHistory($findProduct, '', floatval($product->price->__toString()));
 
                 // Обновить Продукт
                 $findProduct->update([

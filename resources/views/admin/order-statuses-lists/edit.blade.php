@@ -3,7 +3,7 @@
 @section('title', 'Status')
 
 @section('content')
-    <form method="POST" action="{{ route('admin.order-statuses-list.update', $statusOrderList) }}">
+    <form method="POST" action="{{ route('admin.order-statuses-list.update', $status) }}">
         @csrf
         @method('PUT')
 
@@ -18,8 +18,6 @@
                     <!-- /.box-header -->
 
                     <div class="box-body">
-
-
                         <div class="form-group @if($errors->has('title'))has-error @endif">
                             <label for="title" class="col-form-label">{{ __('fillable.Title') }}</label>
                             <input id="title" class="form-control" placeholder="" name="title" value="{{ old('title', $status->title) }}" required>
@@ -30,7 +28,12 @@
 
                         <div class="form-group @if($errors->has('color'))has-error @endif">
                             <label for="color" class="col-form-label">{{ __('fillable.Color') }}</label>
-                            <input type="text" id="color" class="form-control" name="color" value="{{ old('slug', $status->color) }}" required>
+                            <div class="input-group my-colorpicker">
+                                <input type="text" id="color" class="form-control" name="color" value="{{old('color', $status->color) }}" placeholder="Выберите цвет с права пикером" required>
+                                <div class="input-group-addon">
+                                    <i style="background-color: {{ $status->color }};"></i>
+                                </div>
+                            </div>
                             @if ($errors->has('color'))
                                 <span class="help-block"><strong>{{ $errors->first('color') }}</strong></span>
                             @endif

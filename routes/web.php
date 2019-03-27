@@ -64,9 +64,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::group(['prefix' => 'order-statuses-list', 'as' => 'order-statuses-list.', 'namespace' => 'Shop'], function () {
         Route::get('/', 'OrderStatusesListController@index')->name('index');
         Route::post('/store', 'OrderStatusesListController@store')->name('store');
-        Route::get('/{statusOrderList}/edit', 'OrderStatusesListController@edit')->name('edit');
-        Route::put('/{statusOrderList}/update', 'OrderStatusesListController@update')->name('update');
-        Route::delete('/{id}/destroy', 'OrderStatusesListController@destroy');
+        Route::get('/{status}/edit', 'OrderStatusesListController@edit')->name('edit');
+        Route::put('/{status}/update', 'OrderStatusesListController@update')->name('update');
+        Route::delete('/{id}/destroy', 'OrderStatusesListController@destroy')->name('destroy');
     });
 
     Route::group(['namespace' => 'Shop\Attribute'], function () {

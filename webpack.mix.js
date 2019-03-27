@@ -42,6 +42,7 @@ mix.scripts([
     'resources/assets/admin/plugins/slimScroll/jquery.slimscroll.min.js',
     'resources/assets/admin/plugins/fastclick/fastclick.js',
     'resources/assets/admin/plugins/iCheck/icheck.min.js',
+    'resources/assets/admin/plugins/colorpicker/bootstrap-colorpicker.min.js',
     'resources/assets/admin/plugins/input-mask/jquery.inputmask.js',
     // 'resources/assets/admin/plugins/input-mask/jquery.inputmask.bundle.min.js',
     'resources/assets/admin/plugins/input-mask/jquery.inputmask.phone.extensions.js',

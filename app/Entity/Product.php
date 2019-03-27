@@ -6,6 +6,7 @@ use App\Entity\Shop\Attribute\Attribute;
 use App\Entity\Shop\Attribute\AttributeGroup;
 use App\Entity\Shop\Product\Photo;
 use App\Entity\Shop\Product\Value;
+use App\Entity\Shop\Product\PriceHistory;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
@@ -26,6 +27,9 @@ use Illuminate\Support\Facades\Cache;
  * @property mixed vendor_code
  * @property mixed $attributes
  * @property mixed $group_name
+ * @property mixed $price_history
+ * @property mixed price
+ * @property mixed vendor_price
  */
 class Product extends Model
 {
@@ -141,6 +145,12 @@ class Product extends Model
     public function photos()
     {
         return $this->hasMany(Photo::class, 'product_id');
+    }
+
+    //------------------- История цен
+    public function priceHistory()
+    {
+        return $this->hasMany(PriceHistory::class, 'product_id');
     }
 
 

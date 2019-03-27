@@ -77,6 +77,7 @@ class CreateProductsTable extends Migration
             $table->string('main')->nullable();
             $table->string('file');
         });
+
     }
 
     /**

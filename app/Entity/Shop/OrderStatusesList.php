@@ -11,8 +11,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class OrderStatusesList extends Model
 {
-    //
-
     protected $table = 'order_statuses_lists';
     protected $fillable = ['title', 'color'];
 

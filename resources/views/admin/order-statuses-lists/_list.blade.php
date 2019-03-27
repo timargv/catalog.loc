@@ -3,18 +3,18 @@
     <tbody>
     <tr>
         <th style="width: 50px">ID</th>
-        <th>Название</th>
-        <th>URL</th>
+        <th width="200px">{{ __('fillable.Title') }}</th>
+        <th>{{ __('fillable.Color') }}</th>
         <th style="width: 90px"></th>
     </tr>
 
     @foreach ($statuses as $status)
     <tr>
         <td>{{ $status->id }}</td>
-        <td><a href="{{ route('admin.order-statuses-list.show', $status) }}">{{ $status->title }}</a></td>
-        <td>{{ $status->slug }}</td>
+        <td><a href="{{ route('admin.order-statuses-list.edit', $status->id) }}">{{ $status->title }}</a></td>
+        <td><div style="width: 50px; height: 15px; background-color: {{ $status->color }}"></div></td>
         <td>
-            <form method="POST" action="{{ route('admin.order-statuses-list.destroy', $statusOrderList) }}" class="form-inline pull-right">
+            <form method="POST" action="{{ route('admin.order-statuses-list.destroy', $status) }}" class="form-inline pull-right">
                 @csrf
                 @method('DELETE')
                 <div class="btn-group btn-group-xs">

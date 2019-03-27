@@ -273,9 +273,11 @@
                                 <div class="box box-solid">
                                     <div class="box-body">
 
-                                        <div class="form-group @if($errors->has('original_url'))has-error @endif">
-                                            <label for="original_url" class="col-form-label">{{ __('fillable.OriginalUrl') }}</label>
+                                        <div class="form-group input-group @if($errors->has('original_url'))has-error @endif">
+                                            {{--<label for="original_url" class="col-form-label">{{ __('fillable.OriginalUrl') }}</label>--}}
+                                            <span class="input-group-addon bg-gray">{{ __('fillable.OriginalUrl') }}</span>
                                             <input id="original_url" class="form-control" name="original_url" value="{{ old('original_url', $product->original_url) }}">
+                                            <a class="input-group-addon" href="{{ $product->original_url }}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                                             @if ($errors->has('original_url'))
                                                 <span class="help-block"><strong>{{ $errors->first('original_url') }}</strong></span>
                                             @endif

@@ -17,7 +17,7 @@
             </span>
         </a>
     </li>
-    <li><a href="{{ route('admin.order-statuses-list.index') }}"><i class="fal fa-align-justify text-danger mr-2 pr-1"></i> <span>Статусы заказов</span></a></li>
+    <li><a href="{{ route('admin.order-statuses-list.index') }}"><i class="fas fa-exclamation-square text-danger mr-2 pr-1"></i> <span>Статусы заказов</span></a></li>
 
     <li class="header">Каталог Товаров</li>
     <li><a href="{{ route('admin.categories.index') }}"><i class="fas fa-th-list text-info mr-2"></i> <span>Категории товаров</span>

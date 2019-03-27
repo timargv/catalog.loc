@@ -336,4 +336,15 @@ class ProductService
         return $brand->id;
     }
 
+    public function setPriceHistory ($product, $price = '', $vendor_price) {
+        $product = $this->getProduct($product->id);
+        if ($product->vendor_price != $vendor_price || $product->price != $price) {
+            $product->priceHistory()->create([
+                'product_id' => $product->id,
+                'price' => $price,
+                'vendor_price' => $vendor_price,
+            ]);
+        }
+    }
+
 }

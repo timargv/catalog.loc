@@ -25,18 +25,20 @@ class ProductsController extends Controller
         $this->middleware('can:admin-panel');
     }
 
-
     public function index(Request $request)
     {
         //
         $categories = Category::defaultOrder()->withDepth()->get();
-        $products = Product::orderBy('id', 'DESC')->with('category', 'currency', 'vendor', 'photos');
-
+        if (empty($request->all())) {
+            $products = Product::orderBy('id', 'DESC')->with('category', 'currency', 'vendor', 'photos');
+        } else {
+            $products = Product::with('category', 'currency', 'vendor', 'photos');
+        }
 
         $query = $products;
 
         if (!empty($value = $request->get('name'))) {
-            $query->where([['name_original', 'like', '%' . $value . '%'],['name', 'like', '%' . $value . '%']])->orderBy('name', 'ASC');
+            $query->where([['name_original', 'like', '%' . $value . '%'],['name', 'like', '%' . $value . '%']]);
         }
 
         if (!empty($value = $request->get('vendor_code'))) {
@@ -44,7 +46,7 @@ class ProductsController extends Controller
         }
 
         if (!empty($value = $request->get('price'))) {
-            $query->where('price', 'like', '%' . $value . '%');
+            $query->where('price', '>=', $value)->orderBy('price', 'ASC');
         }
 
         if (!empty($value = $request->get('vendor_price'))) {
@@ -60,7 +62,6 @@ class ProductsController extends Controller
         return view('admin.products.index', compact('products', 'categories'));
     }
 
-
     public function create()
     {
         $categories = Category::defaultOrder()->withDepth()->get();
@@ -71,7 +72,6 @@ class ProductsController extends Controller
 
         return view('admin.products.create', compact('statuses', 'statusAvailable', 'categories', 'vendors', 'brands'));
     }
-
 
     public function store(Request $request)
     {
@@ -178,7 +178,6 @@ class ProductsController extends Controller
         return redirect()->route('admin.products.edit', $product)->with('success', 'Товар добавлен! Вы можете дополнить его!');
     }
 
-
     public function show(Product $product)
     {
         //
@@ -190,7 +189,6 @@ class ProductsController extends Controller
 
         return view('admin.products.show', compact('product','statuses', 'statusAvailable', 'categories', 'vendors', 'brands'));
     }
-
 
     public function edit(Product $product)
     {
@@ -214,7 +212,6 @@ class ProductsController extends Controller
         return view('admin.products.edit', compact('product','statuses', 'statusAvailable', 'categories', 'vendors', 'brands'));
     }
 
-
     public function update(Request $request, Product $product)
     {
         //
@@ -222,8 +219,8 @@ class ProductsController extends Controller
             'name' => 'required|string|max:255',
             'price' => 'required',
             'categories' => 'required',
-            'vendor_code' => 'required|string|max:255|unique',
-            'slug' => 'required|string|max:255|unique:products,slug,'. $product->id,
+            'vendor_code' => 'required|string|max:255|exists:products,vendor_code',
+            'slug' => 'required|string|max:255|exists:products,slug',
         ]);
 
         $product->values()->delete();
@@ -236,6 +233,11 @@ class ProductsController extends Controller
                 ]);
             }
         }
+
+        $price = str_replace([' ', ' ₽'],'', $request['price']);
+        $vendor_price = str_replace([' ', ' ₽'],'', $request['vendor_price']);
+
+        $this->service->setPriceHistory($product, $price, $vendor_price);
 
         $product->update([
             'user_id' => Auth::id(),
@@ -317,7 +319,6 @@ class ProductsController extends Controller
         return redirect()->back();
     }
 
-
     public function destroy(Product $product)
     {
         try {
@@ -328,7 +329,6 @@ class ProductsController extends Controller
 
         return redirect()->route('admin.products.index');
     }
-
 
     public function photosForm(Product $product)
     {
