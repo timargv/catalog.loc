@@ -17,6 +17,17 @@ Auth::routes();
 
 Route::get('/verify/{token}', 'Auth\RegisterController@verify')->name('register.verify');
 
+
+Route::group(['middleware' => ['auth']],  function () {
+
+    Route::group(['prefix' => 'cart', 'as' => 'cart.', 'namespace' => 'Shop'], function () {
+        Route::get('/', 'CartController@show')->name('index');
+//        Route::get('/', 'CartController@show')->name('index');
+    });
+
+});
+
+
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'can:admin-panel'] ], function () {
 
 
@@ -74,6 +85,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
         Route::resource('/attribute-groups', 'AttributeGroupController');
         // Атрибуты
         Route::resource('/attributes', 'AttributeController');
+    });
+
+    // Способы доставки
+    Route::group(['namespace' => 'Shop'], function () {
+        Route::resource('/deliveries', 'DeliveriesController');
+        Route::resource('/orders', 'OrdersController');
     });
 
     // IMPORT

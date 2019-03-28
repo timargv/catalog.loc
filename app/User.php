@@ -2,11 +2,15 @@
 
 namespace App;
 
+use App\Entity\Shop\Cart;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Str;
 
+/**
+ * @property mixed $cart
+ */
 class User extends Authenticatable
 {
     use Notifiable;
@@ -44,6 +48,11 @@ class User extends Authenticatable
             self::STATUS_WAIT => 'Disabled',
             self::STATUS_ACTIVE => 'Active',
         ];
+    }
+
+    //------------------- Корзина
+    public function cart() {
+        return $this->belongsTo(Cart::class, 'user_id');
     }
 
     public static function register(string $name, string $last_name, string $email, string $password): self

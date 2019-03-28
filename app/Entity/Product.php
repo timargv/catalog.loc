@@ -43,6 +43,8 @@ class Product extends Model
         'original_url',
         'name',
         'name_original',
+
+        'quantity',
         'price',
         'vendor_price',
         'picture',

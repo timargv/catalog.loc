@@ -56,7 +56,7 @@ class CreateProductsTable extends Migration
             $table->string('height')->nullable();               // Высота в упаковке : 580 мм
 
             $table->string('barcode')->nullable();              // Штрих Код
-            $table->string('weight')->nullable();                // Ширина
+            $table->string('weight')->nullable();               // Ширина
 
             $table->string('slug')->nullable();                // URL
 

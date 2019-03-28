@@ -164,7 +164,7 @@ class ProductService
 
     // GET REQUEST
 
-    private function getProduct($id): Product
+    public function getProduct($id): Product
     {
         return Product::findOrFail($id);
     }
