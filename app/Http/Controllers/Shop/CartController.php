@@ -25,19 +25,46 @@ class CartController extends Controller
         $this->productService = $productService;
     }
 
-    public function story ($id) {
+
+
+    public function add($id)
+    {
         if (!$product = $this->productService->getProduct($id)) {
             throw new \DomainException('The requested page does not exist.');
         }
+
+        try {
+            $this->service->add($product->id, 1);
+        } catch (\DomainException $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+        return redirect()->back()->with('Добавлен в корзину');
     }
 
-    public function store(Request $request)
-    {
-        //
-    }
+
 
     public function show()
     {
+
+        if (auth()->guest()) {
+            $cartItems = \Session::get('cart');
+            return view ('shop.cart.show-items', compact('cartItems'));
+        }
+
+        if (auth()->user()) {
+            $cartItemsSession = \Session::get('cart');
+
+            if ($cartItemsSession) {
+                try {
+                    $this->cart = $this->service->add($cartItemsSession);
+                    $cartItems = $this->cart;
+                } catch (\DomainException $e) {
+                    return redirect()->back()->with('error', $e->getMessage());
+                }
+            }
+
+            return view ('shop.cart.show-items', compact('cartItems'));
+        }
 
         try {
             $this->cart = $this->service->getCart();
@@ -48,19 +75,29 @@ class CartController extends Controller
         return view('shop.cart.show', compact('cartItems'));
     }
 
+
     public function update(Request $request, Cart $cart)
     {
         //
     }
 
-    public function deleteProductCart ($product) {
+
+
+    public function remove ($id) {
+
+        if (!$product = $this->productService->getProduct($id)) {
+            throw new \DomainException('The requested page does not exist.');
+        }
+
         try {
-            $this->service->delete($product);
+            $this->service->remove($product->id);
         } catch (\DomainException $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
         return redirect()->back()->with('info', 'Товар удален из корзины!');
     }
+
+
 
     public function destroy(Cart $cart)
     {

@@ -18,11 +18,12 @@ Auth::routes();
 Route::get('/verify/{token}', 'Auth\RegisterController@verify')->name('register.verify');
 
 
-Route::group(['middleware' => ['auth']],  function () {
+Route::group([],  function () {
 
     Route::group(['prefix' => 'cart', 'as' => 'cart.', 'namespace' => 'Shop'], function () {
         Route::get('/', 'CartController@show')->name('index');
-//        Route::get('/', 'CartController@show')->name('index');
+        Route::post('/{id}/add', 'CartController@add')->name('add');
+        Route::post('/{id}/remove', 'CartController@remove')->name('remove');
     });
 
 });

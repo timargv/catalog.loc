@@ -47,15 +47,25 @@
 
 
                             <div class="card-footer px-3">
-                               <strong>
-                                   <span id="price" >{{ $product->price }}</span>
-                               </strong>
-                                Руб.
-                                @if($product->price > $product->vendor_price)
-                                    <i class="fas fa-angle-up text-success mr-1"></i>
-                                @elseif($product->price < $product->vendor_price)
-                                    <i class="fas fa-angle-down text-danger mr-1"></i>
-                                @endif
+                               <div class="row">
+                                   <div class="col-xs-12">
+                                       <strong>
+                                           <span id="price" >{{ $product->price }}</span>
+                                       </strong>
+                                       Руб.
+                                       @if($product->price > $product->vendor_price)
+                                           <i class="fas fa-angle-up text-success mr-1"></i>
+                                       @elseif($product->price < $product->vendor_price)
+                                           <i class="fas fa-angle-down text-danger mr-1"></i>
+                                       @endif
+                                   </div>
+                                   <div class="col-xs-12">
+                                       <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                                           @csrf
+                                           <button><i class="fal fa-shopping-cart"></i> <span class="hidden-xs hidden-sm hidden-md">Add to Cart</span></button>
+                                       </form>
+                                   </div>
+                               </div>
                             </div>
 
                         </div>

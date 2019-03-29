@@ -4,12 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Entity\Category;
 use App\Entity\Product;
+use App\Entity\Shop\Cart;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+
     public function index(Request $request)
     {
+//        session()->forget('cart');
+
+
+
         $categories = Category::defaultOrder()->withDepth()->get();
         if (empty($request->all())) {
             $products = Product::orderBy('id', 'DESC')->with('category', 'currency', 'vendor', 'photos');

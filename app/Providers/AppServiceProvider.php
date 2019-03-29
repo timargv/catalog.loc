@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\Entity\Brand;
 use App\Entity\Category;
 use App\Entity\Product;
-use App\Entity\Shipper;
+use App\Entity\Shop\Cart;
 use App\Entity\Vendor;
 use Illuminate\Support\ServiceProvider;
 
@@ -33,6 +33,8 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('admin.layouts._sidebar', function($view){
             $view->with('countBrands', Brand::count());
         });
+
+
     }
 
     /**
