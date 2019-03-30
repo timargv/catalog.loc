@@ -35,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with('countBrands', Brand::count());
         });
 
-        view()->composer('layouts.navbar._right', function($view){
+        view()->composer(['layouts.navbar._right', 'layouts.navbar._right'], function($view){
             $view->with('countCart', Cart::count());
         });
     }

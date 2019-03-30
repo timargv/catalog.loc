@@ -46,9 +46,12 @@ class CartService
 
     public function getCart()
     {
-        $user = \Auth::user();
-        $card = $this->cart->where('user_id', $user->id)->with('product')->get();
-        return $card;
+        if ($user = \Auth::user()) {
+            $card = $this->cart->where('user_id', $user->id)->with('product')->get();
+            return $card;
+        } else {
+            return session()->get('cart');
+        }
     }
 
     public function add($productId, $quantity)
@@ -135,6 +138,25 @@ class CartService
                     return;
                 }
             }
+        } else {
+            $user = auth()->user();
+            $cartItem = $cartItem = Cart::where([
+                ['user_id', '=', $user->id],
+                ['product_id', '=', $id],
+            ])->first();
+
+            if ($cartItem) {
+                $cartItem->delete();
+            }
+        }
+    }
+
+    public function clear ($cartItems) {
+
+        foreach ($cartItems as $item) {
+            if (auth()->user()) {
+                $this->remove($item->product_id);
+            } session()->forget('cart');
         }
     }
 
@@ -151,7 +173,7 @@ class CartService
                 if ($cartItem) {
 
                     $cartItem->update([
-                        'quantity' => $item['quantity']
+                        'quantity' => $cartItem->quantity + $item['quantity']
                     ]);
 
                 } else {

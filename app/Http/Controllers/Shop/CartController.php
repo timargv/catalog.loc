@@ -26,7 +26,6 @@ class CartController extends Controller
     }
 
 
-
     public function add($id)
     {
         if (!$product = $this->productService->getProduct($id)) {
@@ -38,23 +37,31 @@ class CartController extends Controller
         } catch (\DomainException $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
-        $productPhoto = $product->photos()->get();
+        $productPhoto = $product->photos()->first();
+
         return redirect()->back()->with(
             [
                 'success'   =>  'Добавлен в корзину',
                 'success_title'    =>  $product->name,
-                'success_img'    =>  $productPhoto[0]->file ?:  '',
+                'success_img'    =>  $productPhoto == null ? '': $productPhoto->file,
             ]);
     }
 
 
-
     public function show()
     {
+        if (auth()->user()) {
+            $countCartItems = $this->service->getCart();
+        } else {
+            $countCartItems = $this->service->getCart();
+            if (!$countCartItems) {
+                $countCartItems = [];
+            }
+        }
 
         if (auth()->guest()) {
             $cartItems = \Session::get('cart');
-            return view ('shop.cart.show', compact('cartItems'));
+            return view ('shop.cart.show', compact('cartItems', 'countCartItems'));
         }
 
         try {
@@ -63,16 +70,8 @@ class CartController extends Controller
         } catch (\DomainException $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
-        return view('shop.cart.show', compact('cartItems'));
+        return view('shop.cart.show', compact('cartItems', 'countCartItems'));
     }
-
-
-    public function update(Request $request, Cart $cart)
-    {
-        //
-    }
-
-
 
     public function remove ($id) {
 
@@ -85,14 +84,29 @@ class CartController extends Controller
         } catch (\DomainException $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
-        return redirect()->back()->with('info', 'Товар удален из корзины!');
+
+        $productPhoto = $product->photos()->first();
+
+        return redirect()->back()->with(
+            [
+                'info'   =>  'Товар удален из корзины',
+                'success_title'    =>  $product->name,
+                'success_img'    =>  $productPhoto == null ? '': $productPhoto->file,
+            ]);
+    }
+
+    public function clear() {
+        if (!$cartItems = $this->service->getCart()) {
+            return view('shop.cart.show', compact('cartItems'));
+        }
+
+        try {
+            $this->service->clear($cartItems);
+        } catch (\DomainException $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+        return redirect()->back()->with('info', 'Товары удалены из корзины!');
     }
 
 
-
-    public function destroy(Cart $cart)
-    {
-//        $this->service
-        return redirect()->back()->with('Товар удален из корзины');
-    }
 }

@@ -4,7 +4,13 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                @if ($cartItems)
+                <div class="py-3">
+
+                    @if (count($countCartItems))<a class="btn btn-danger btn-sm" href="{{ route('cart.clear') }}"><i class="fal fa-trash"></i> Очистить корзину</a> @endif
+                </div>
+
+
+                @if (count($countCartItems))
                     <table class="table ">
                         <thead>
                         <tr>
@@ -31,6 +37,9 @@
                                             @break
                                         @endif
                                     @endforeach
+                                        @if (!count($item['product']->photos))
+                                            <img src="img/no_photo_product.jpg" alt="" class="mr-0 pr-0 w-100" >
+                                        @endif
                                 </td>
                                 <td>
                                     <div>

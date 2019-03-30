@@ -33,7 +33,7 @@ class Cart extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public static function count() {
+    public static function count() : int {
         $count = 0;
         if (!auth()->user()) {
             $items = session()->get('cart');
