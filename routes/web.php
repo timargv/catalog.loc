@@ -40,6 +40,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Пользователи
     Route::resource('/users', 'UsersController');
     Route::post('/users/{user}/verify', 'UsersController@verify')->name('users.verify');
+    Route::group(['prefix' => 'carts', 'as' => 'carts.'], function () {
+        Route::get('/', 'CartsController@index')->name('index');
+        Route::get('/user/{user}/show', 'CartsController@show')->name('show');
+    });
 
 
     // Категории

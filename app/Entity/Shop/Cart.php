@@ -24,7 +24,7 @@ class Cart extends Model
     //------------------- Товыра в заказе
     public function product()
     {
-        return $this->belongsTo(Product::class, 'product_id');
+        return $this->belongsTo(Product::class, 'product_id')->with('photos', 'vendor');
     }
 
     //------------------- Пользователь
@@ -32,6 +32,7 @@ class Cart extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
 
     public static function count() : int {
         $count = 0;
@@ -56,9 +57,25 @@ class Cart extends Model
     }
 
 
+    public function getGroup($cartItems) {
 
 
+        $cartItemsCollection = collect($cartItems);
 
+
+        $cartGroup = $cartItemsCollection->groupBy(function ($item, $key) {
+            return $item->user_id;
+        });
+
+        return $cartGroup;
+
+    }
+
+
+    public function getUser($id) : User {
+
+        return User::findOrFail($id);
+    }
 
 
 

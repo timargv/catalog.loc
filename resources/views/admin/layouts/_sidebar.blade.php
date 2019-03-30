@@ -23,6 +23,7 @@
                 </a>
             </li>
             <li><a href="{{ route('admin.order-statuses-list.index') }}"><i class="fal fa-circle pr-2"></i> <span>Статусы заказов</span></a></li>
+
         </ul>
     </li>
 
@@ -95,6 +96,7 @@
         <ul class="treeview-menu">
             <li><a href="{{ route('admin.users.index') }}"><i class="fal fa-users-class text-success mr-2"></i> <span>Список пользователей</span></a></li>
             <li><a href="#"><i class="fal fa-comment-alt-lines text-aqua mr-2"></i> <span>Комментария</span></a></li>
+            <li><a href="{{ route('admin.carts.index') }}"><i class="fal fa-shopping-basket pr-2"></i> <span>Корзины</span></a></li>
         </ul>
     </li>
 

@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Admin\Product\PhotosRequest;
 use App\UseCases\Product\ProductService;
+use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
 
 
@@ -29,6 +30,7 @@ class ProductsController extends Controller
     {
         //
         $categories = Category::defaultOrder()->withDepth()->get();
+
         if (empty($request->all())) {
             $products = Product::orderBy('id', 'DESC')->with('category', 'currency', 'vendor', 'photos');
         } else {
@@ -38,7 +40,7 @@ class ProductsController extends Controller
         $query = $products;
 
         if (!empty($value = $request->get('name'))) {
-            $query->where([['name_original', 'like', '%' . $value . '%'],['name', 'like', '%' . $value . '%']]);
+            $query->where('name_original', 'like', '%' . $value . '%');
         }
 
         if (!empty($value = $request->get('vendor_code'))) {
@@ -219,8 +221,8 @@ class ProductsController extends Controller
             'name' => 'required|string|max:255',
             'price' => 'required',
             'categories' => 'required',
-            'vendor_code' => 'required|string|max:255|exists:products,vendor_code',
-            'slug' => 'required|string|max:255|exists:products,slug',
+            'vendor_code' => 'required|'.Rule::unique('products', 'vendor_code')->ignore($product->id),
+            'slug' => 'required|string|max:255|'. Rule::unique('products', 'slug')->ignore($product->id),
         ]);
 
         $product->values()->delete();

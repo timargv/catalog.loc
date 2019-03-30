@@ -38,6 +38,10 @@ class CartService
         return $this->items;
     }
 
+    public function getCartAll() {
+        return $this->cart->all();
+    }
+
     public function getAmount ()
     {
         $this->loadItems();
