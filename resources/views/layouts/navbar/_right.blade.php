@@ -1,5 +1,8 @@
 <ul class="navbar-nav ml-auto">
-    <li class="nav-item"><a class="nav-link" href="{{ route('cart.index') }}">Cart ({{ count(session('cart')) }})</a></li>
+    <li class="nav-item"><a class="nav-link" href="{{ route('cart.index') }}">Cart
+            {{ $countCart }}
+            </a>
+    </li>
     <!-- Authentication Links -->
     @guest
         <li class="nav-item">

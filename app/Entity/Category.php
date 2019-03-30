@@ -61,7 +61,8 @@ class Category extends Model
     {
 //        $result = array_merge($this->parentAttributes(), $this->attributes()->orderBy('sort')->getModels());
 //        dd($result);
-        return $this->attributes()->orderBy('sort')->getModels();
+        $result =  $this->attributes()->orderBy('sort')->getModels();
+        return $result;
     }
 
     public function attributes()

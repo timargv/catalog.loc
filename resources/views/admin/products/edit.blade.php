@@ -155,73 +155,75 @@
                                     <div class="tab-pane active" id="tab_1">
 
 
-                                        @foreach($product->getGroup($product->category->allAttributes()) as $key => $groupAttribute)
-                                            <div class="box box-solid mb-4">
-                                                <div class="box-header">{{ $product->getGroupNameAttribute($key)->name }}</div>
-                                                <div class="box-body">
-                                                    @foreach($groupAttribute as $attribute)
+                                        @if ($product->category->allAttributes())
+                                            @foreach($product->getGroup($product->category->allAttributes()) as $key => $groupAttribute)
+                                                <div class="box box-solid mb-4">
+                                                    <div class="box-header">{{ $product->getGroupNameAttribute($key)->name }}</div>
+                                                    <div class="box-body">
+                                                        @foreach($groupAttribute as $attribute)
 
-                                                        @if($product->getValue($attribute->id))
+                                                            @if($product->getValue($attribute->id))
 
-                                                            <div class="col-xs-6">
-                                                                <div class="form-group">
-                                                                    <label for=attribute_{{ $attribute->id }}" class="col-form-label w-100">
-                                                                        {{ $attribute->name }}
-                                                                        <a href="{{ route('admin.attributes.edit', $attribute->id) }}" class="float-right text-muted font-weight-light small" target="_blank">{{ __('button.Edit') }}</a>
-                                                                    </label>
-                                                                    @if ($attribute->isSelect())
-                                                                        <select id="attribute_{{ $attribute->id }}" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]">
-                                                                            <option value=""></option>
-                                                                            @foreach ($attribute->variants as $variant)
-                                                                                <option value="{{ $variant }}"{{ $variant == old('attributes.' . $attribute->id, $product->getValue($attribute->id)) ? ' selected' : '' }}>
-                                                                                    {{ $variant }}
-                                                                                </option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                    @elseif ($attribute->isNumber())
-                                                                        <input id="attribute_{{ $attribute->id }}" type="number" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]" value="{{ old('attributes.' . $attribute->id, $product->getValue($attribute->id)) }}">
-                                                                    @else
-                                                                        <input id="attribute_{{ $attribute->id }}" type="text" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]" value="{{ old('attributes.' . $attribute->id, $product->getValue($attribute->id)) }}">
-                                                                    @endif
-                                                                    @if ($errors->has('parent'))
-                                                                        <span class="invalid-feedback"><strong>{{ $errors->first('attributes.' . $attribute->id) }}</strong></span>
-                                                                    @endif
+                                                                <div class="col-xs-6">
+                                                                    <div class="form-group">
+                                                                        <label for=attribute_{{ $attribute->id }}" class="col-form-label w-100">
+                                                                            {{ $attribute->name }}
+                                                                            <a href="{{ route('admin.attributes.edit', $attribute->id) }}" class="float-right text-muted font-weight-light small" target="_blank">{{ __('button.Edit') }}</a>
+                                                                        </label>
+                                                                        @if ($attribute->isSelect())
+                                                                            <select id="attribute_{{ $attribute->id }}" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]">
+                                                                                <option value=""></option>
+                                                                                @foreach ($attribute->variants as $variant)
+                                                                                    <option value="{{ $variant }}"{{ $variant == old('attributes.' . $attribute->id, $product->getValue($attribute->id)) ? ' selected' : '' }}>
+                                                                                        {{ $variant }}
+                                                                                    </option>
+                                                                                @endforeach
+                                                                            </select>
+                                                                        @elseif ($attribute->isNumber())
+                                                                            <input id="attribute_{{ $attribute->id }}" type="number" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]" value="{{ old('attributes.' . $attribute->id, $product->getValue($attribute->id)) }}">
+                                                                        @else
+                                                                            <input id="attribute_{{ $attribute->id }}" type="text" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]" value="{{ old('attributes.' . $attribute->id, $product->getValue($attribute->id)) }}">
+                                                                        @endif
+                                                                        @if ($errors->has('parent'))
+                                                                            <span class="invalid-feedback"><strong>{{ $errors->first('attributes.' . $attribute->id) }}</strong></span>
+                                                                        @endif
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        @endif
-                                                    @endforeach
-                                                    @foreach($groupAttribute as $attribute)
-                                                        @if(!$product->getValue($attribute->id) && !$attribute->status == 0)
-                                                            <div class="col-xs-6">
-                                                                <div class="form-group">
-                                                                    <label for=attribute_{{ $attribute->id }}" class="col-form-label w-100">
-                                                                        {{ $attribute->name }}
-                                                                        <a href="{{ route('admin.attributes.edit', $attribute->id) }}" class="float-right text-muted font-weight-light small" target="_blank">{{ __('button.Edit') }}</a>
-                                                                    </label>
-                                                                    @if ($attribute->isSelect())
-                                                                        <select id="attribute_{{ $attribute->id }}" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]">
-                                                                            <option value=""></option>
-                                                                            @foreach ($attribute->variants as $variant)
-                                                                                <option value="{{ $variant }}"{{ $variant == old('attributes.' . $attribute->id, $product->getValue($attribute->id)) ? ' selected' : '' }}>
-                                                                                    {{ $variant }}
-                                                                                </option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                    @elseif ($attribute->isNumber())
-                                                                        <input id="attribute_{{ $attribute->id }}" type="number" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]" value="{{ old('attributes.' . $attribute->id, $product->getValue($attribute->id)) }}">
-                                                                    @else
-                                                                        <input id="attribute_{{ $attribute->id }}" type="text" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]" value="{{ old('attributes.' . $attribute->id, $product->getValue($attribute->id)) }}">
-                                                                    @endif
-                                                                    @if ($errors->has('parent'))
-                                                                        <span class="invalid-feedback"><strong>{{ $errors->first('attributes.' . $attribute->id) }}</strong></span>
-                                                                    @endif
+                                                            @endif
+                                                        @endforeach
+                                                        @foreach($groupAttribute as $attribute)
+                                                            @if(!$product->getValue($attribute->id) && !$attribute->status == 0)
+                                                                <div class="col-xs-6">
+                                                                    <div class="form-group">
+                                                                        <label for=attribute_{{ $attribute->id }}" class="col-form-label w-100">
+                                                                            {{ $attribute->name }}
+                                                                            <a href="{{ route('admin.attributes.edit', $attribute->id) }}" class="float-right text-muted font-weight-light small" target="_blank">{{ __('button.Edit') }}</a>
+                                                                        </label>
+                                                                        @if ($attribute->isSelect())
+                                                                            <select id="attribute_{{ $attribute->id }}" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]">
+                                                                                <option value=""></option>
+                                                                                @foreach ($attribute->variants as $variant)
+                                                                                    <option value="{{ $variant }}"{{ $variant == old('attributes.' . $attribute->id, $product->getValue($attribute->id)) ? ' selected' : '' }}>
+                                                                                        {{ $variant }}
+                                                                                    </option>
+                                                                                @endforeach
+                                                                            </select>
+                                                                        @elseif ($attribute->isNumber())
+                                                                            <input id="attribute_{{ $attribute->id }}" type="number" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]" value="{{ old('attributes.' . $attribute->id, $product->getValue($attribute->id)) }}">
+                                                                        @else
+                                                                            <input id="attribute_{{ $attribute->id }}" type="text" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]" value="{{ old('attributes.' . $attribute->id, $product->getValue($attribute->id)) }}">
+                                                                        @endif
+                                                                        @if ($errors->has('parent'))
+                                                                            <span class="invalid-feedback"><strong>{{ $errors->first('attributes.' . $attribute->id) }}</strong></span>
+                                                                        @endif
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        @endif
-                                                    @endforeach
+                                                            @endif
+                                                        @endforeach
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        @endforeach
+                                            @endforeach
+                                        @endif
 
                                     </div>
                                     <!-- /.tab-pane -->

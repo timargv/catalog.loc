@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Entity\Shop\Cart;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\UseCases\Cart\CartService;
 use App\User;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
@@ -16,9 +18,12 @@ class LoginController extends Controller
 {
     use ThrottlesLogins;
 
-    public function __construct()
+    private $cart;
+
+    public function __construct(CartService $cart)
     {
         $this->middleware('guest')->except('logout');
+        $this->cart = $cart;
     }
 
     public function showLoginForm()
@@ -45,6 +50,12 @@ class LoginController extends Controller
             if ($user->isWait()) {
                 Auth::logout();
                 return back()->with('error', 'Вам необходимо подтвердить свою учетную запись. Пожалуйста, проверьте свой email.');
+            }
+
+            $items = session()->get('cart');
+            if ($items) {
+                $this->cart->addProductsCart($items);
+
             }
 
             return redirect()->intended(route('home'));

@@ -19,6 +19,7 @@
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/plug/plug.css">
 {{--    <link href="{{ mix('css/app.css') }}" rel="stylesheet">--}}
 </head>
 <body>
@@ -42,8 +43,8 @@
             </div>
         </nav>
 
-        <main class="py-4">
-            @include('admin.layouts.partials.flash')
+        <main class="py-4 position-relative" aria-live="polite" aria-atomic="true">
+            @include('layouts.partials.flash')
             @yield('content')
         </main>
     </div>

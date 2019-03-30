@@ -11,24 +11,24 @@ const mix = require('laravel-mix');
  |
  */
 //
-// mix.js('resources/js/app.js', 'public/js')
-//     .sass('resources/sass/app.scss', 'public/css')
-//     .version();
+mix.js('resources/js/app.js', 'public/js')
+    .sass('resources/sass/app.scss', 'public/css')
+    .version();
+
 //
 //
-//
-// mix.styles([
-//     'resources/assets/admin/bootstrap/css/bootstrap.min.css',
-//     // 'resources/assets/admin/ionicons/2.0.1/css/ionicons.min.css',
-//     'resources/assets/admin/plugins/iCheck/minimal/_all.css',
-//     'resources/assets/admin/plugins/datepicker/datepicker3.css',
-//     'resources/assets/admin/plugins/colorpicker/bootstrap-colorpicker.min.css',
-//     'resources/assets/admin/plugins/select2/select2.min.css',
-//     'resources/assets/admin/plugins/datatables/dataTables.bootstrap.css',
-//     'resources/assets/admin/dist/css/AdminLTE.css',
-//     'resources/assets/admin/dist/css/skins/_all-skins.min.css',
-//     'resources/assets/admin/dist/css/style.less'
-// ], 'public/css/admin.css').sass('resources/sass/plug.scss', 'public/css/plug').version();
+mix.styles([
+    'resources/assets/admin/bootstrap/css/bootstrap.min.css',
+    // 'resources/assets/admin/ionicons/2.0.1/css/ionicons.min.css',
+    'resources/assets/admin/plugins/iCheck/minimal/_all.css',
+    'resources/assets/admin/plugins/datepicker/datepicker3.css',
+    'resources/assets/admin/plugins/colorpicker/bootstrap-colorpicker.min.css',
+    'resources/assets/admin/plugins/select2/select2.min.css',
+    'resources/assets/admin/plugins/datatables/dataTables.bootstrap.css',
+    'resources/assets/admin/dist/css/AdminLTE.css',
+    'resources/assets/admin/dist/css/skins/_all-skins.min.css',
+    'resources/assets/admin/dist/css/style.less'
+], 'public/css/admin.css').sass('resources/sass/plug.scss', 'public/css/plug').version();
 
 
 

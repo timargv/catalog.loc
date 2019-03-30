@@ -7,6 +7,8 @@
 
 require('./bootstrap');
 
+$('.toast').toast('show');
+
 // window.Vue = require('vue');
 
 /**

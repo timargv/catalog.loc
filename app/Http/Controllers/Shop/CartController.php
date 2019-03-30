@@ -38,7 +38,13 @@ class CartController extends Controller
         } catch (\DomainException $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
-        return redirect()->back()->with('Добавлен в корзину');
+        $productPhoto = $product->photos()->get();
+        return redirect()->back()->with(
+            [
+                'success'   =>  'Добавлен в корзину',
+                'success_title'    =>  $product->name,
+                'success_img'    =>  $productPhoto[0]->file ?:  '',
+            ]);
     }
 
 
@@ -48,22 +54,7 @@ class CartController extends Controller
 
         if (auth()->guest()) {
             $cartItems = \Session::get('cart');
-            return view ('shop.cart.show-items', compact('cartItems'));
-        }
-
-        if (auth()->user()) {
-            $cartItemsSession = \Session::get('cart');
-
-            if ($cartItemsSession) {
-                try {
-                    $this->cart = $this->service->add($cartItemsSession);
-                    $cartItems = $this->cart;
-                } catch (\DomainException $e) {
-                    return redirect()->back()->with('error', $e->getMessage());
-                }
-            }
-
-            return view ('shop.cart.show-items', compact('cartItems'));
+            return view ('shop.cart.show', compact('cartItems'));
         }
 
         try {

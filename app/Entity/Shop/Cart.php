@@ -4,6 +4,7 @@ namespace App\Entity\Shop;
 
 use App\Entity\Product;
 use App\UseCases\Cart\CartService;
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -20,12 +21,40 @@ class Cart extends Model
     protected $fillable = ['user_id', 'product_id', 'quantity'];
 
 
-
     //------------------- Товыра в заказе
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id');
     }
+
+    //------------------- Пользователь
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public static function count() {
+        $count = 0;
+        if (!auth()->user()) {
+            $items = session()->get('cart');
+
+           if ($items) {
+               foreach ($items as $item) {
+                   $count += $item['quantity'];
+               }
+           }
+            return $count;
+        } else {
+            $cartItems = self::where('user_id', auth()->id())->get();
+
+            foreach ($cartItems as  $item) {
+                $count += $item['quantity'];
+            }
+            return $count;
+        }
+
+    }
+
 
 
 

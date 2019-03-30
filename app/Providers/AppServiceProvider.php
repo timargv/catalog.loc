@@ -7,6 +7,7 @@ use App\Entity\Category;
 use App\Entity\Product;
 use App\Entity\Shop\Cart;
 use App\Entity\Vendor;
+use App\UseCases\Cart\CartService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -34,7 +35,9 @@ class AppServiceProvider extends ServiceProvider
             $view->with('countBrands', Brand::count());
         });
 
-
+        view()->composer('layouts.navbar._right', function($view){
+            $view->with('countCart', Cart::count());
+        });
     }
 
     /**
