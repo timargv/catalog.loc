@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Entity\Shop\Cart;
+use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -10,6 +11,9 @@ use Illuminate\Support\Str;
 
 /**
  * @property mixed $cart
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $email_verified_at
+ * @property \Carbon\Carbon $created_at
  */
 class User extends Authenticatable
 {
@@ -24,13 +28,14 @@ class User extends Authenticatable
 
     
     protected $fillable = [
-        'name', 'last_name', 'email', 'password', 'status', 'role', 'verify_token'
+        'name', 'last_name', 'email', 'password', 'status', 'role', 'verify_token', 'email_verified_at', 'remember_token'
     ];
 
     
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token'
     ];
+
 
 
     public static function rolesList(): array
@@ -63,9 +68,12 @@ class User extends Authenticatable
             'email' => $email,
             'password' => bcrypt($password),
             'verify_token' => Str::uuid(),
+            'remember_token' => Str::uuid(),
             'role' => self::ROLE_USER,
             'status' => self::STATUS_WAIT,
         ]);
+
+
     }
 
     public function verify(): void
@@ -77,7 +85,9 @@ class User extends Authenticatable
         $this->update([
             'status' => self::STATUS_ACTIVE,
             'verify_token' => null,
+            'email_verified_at' => now(),
         ]);
+
     }
 
     public static function new($name, $last_name, $email): self

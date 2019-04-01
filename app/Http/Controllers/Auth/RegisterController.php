@@ -33,7 +33,7 @@ class RegisterController extends Controller
         $this->service->register($request);
 
         return redirect()->route('login')
-            ->with('success', 'Check your email and click on the link to verify. (Проверьте свою электронную почту и нажмите ссылку, чтобы подтвердить.)');
+            ->with('info', __('register.CheckYourEmail'));
     }
 
 
@@ -42,12 +42,12 @@ class RegisterController extends Controller
     {
         if (!$user = User::where('verify_token', $token)->first()) {
             return redirect()->route('login')
-                ->with('error', 'Sorry your link cannot be identified.');
+                ->with('error', __('register.ErrorLinkVerify'));
         }
 
         try {
             $this->service->verify($user->id);
-            return redirect()->route('login')->with('success', 'Your e-mail is verified. You can now login.');
+            return redirect()->route('login')->with('success', __('register.EmailVerified'));
         } catch (\DomainException $e) {
             return redirect()->route('login')->with('error', $e->getMessage());
         }

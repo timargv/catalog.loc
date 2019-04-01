@@ -3,6 +3,7 @@
 namespace App\UseCases\Auth;
 
 
+use App\UseCases\Cart\CartService;
 use App\User;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Mail\Auth\VerifyMail;
@@ -15,15 +16,18 @@ class RegisterService
 
     private $mailer;
     private $dispatcher;
+    private $cartService;
 
-    public function __construct(Mailer $mailer, Dispatcher $dispatcher)
+    public function __construct(Mailer $mailer, Dispatcher $dispatcher, CartService $cartService)
     {
         $this->mailer = $mailer;
         $this->dispatcher = $dispatcher;
+        $this->cartService = $cartService;
     }
 
     public function register(RegisterRequest $request)
     {
+
         $user = User::register(
             $request['name'],
             $request['last_name'],

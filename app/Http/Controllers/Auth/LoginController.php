@@ -18,12 +18,12 @@ class LoginController extends Controller
 {
     use ThrottlesLogins;
 
-    private $cart;
+    private $cartService;
 
-    public function __construct(CartService $cart)
+    public function __construct(CartService $cartService)
     {
         $this->middleware('guest')->except('logout');
-        $this->cart = $cart;
+        $this->cartService = $cartService;
     }
 
     public function showLoginForm()
@@ -54,7 +54,7 @@ class LoginController extends Controller
 
             $items = session()->get('cart');
             if ($items) {
-                $this->cart->addProductsCart($items);
+                $this->cartService->addProductsCart($items);
 
             }
 
