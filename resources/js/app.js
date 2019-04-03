@@ -9,6 +9,24 @@ require('./bootstrap');
 
 $('.toast').toast('show');
 
+$(document).ready(function() {
+    $(".megamenu").on("click", function(e) {
+        e.stopPropagation();
+    });
+
+
+
+    $('#aHref[data-id]').hover(function() {
+
+        $('.vertical-menu_block[data-id=' + $(this).attr('data-id') + ']').show();
+    }, function() {
+        $('.vertical-menu_block[data-id=' + $(this).attr('data-id') + ']').hide();
+    });
+});
+
+
+
+
 // window.Vue = require('vue');
 
 /**

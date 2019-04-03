@@ -24,7 +24,16 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+        <div class="top-line bg-purpl text-white py-1">
+            <div class="container">
+                <div class="city">
+                    <i class="fas fa-location-arrow"></i>
+                    <span>Регион:</span>
+                    <a class="text-white border-bottom border-white text-decoration-none" href="#">Воронеж</a>
+                </div>
+            </div>
+        </div>
+        <nav class="navbar navbar-expand-md navbar-light navbar-laravel shadow-none bg-white py-3">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
@@ -43,7 +52,7 @@
             </div>
         </nav>
 
-        <main class="py-4 position-relative" aria-live="polite" aria-atomic="true">
+        <main class="py-4 position-relative bg-white-50" aria-live="polite" aria-atomic="true">
             @include('layouts.partials.flash')
             @yield('content')
         </main>

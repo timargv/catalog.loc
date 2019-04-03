@@ -10660,3 +10660,27 @@ a.text-dark:focus {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
+.top-left-nav .dropdown-toggle::after {
+  display: none !important;
+}
+
+.bg-white-50 {
+  background: rgba(255, 255, 255, 0.5) !important;
+}
+
+.bg-purpl {
+  background: #9561e2;
+}
+
+.top-line {
+  font-size: 12px;
+}
+
+.top-line .city > i {
+  font-size: 0.7rem;
+}
+
+.dropdown-menu .vertical-menu_block {
+  display: none;
+}
+
