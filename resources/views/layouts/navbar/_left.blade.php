@@ -3,12 +3,12 @@
         <li class="nav-item dropdown" style="position: initial"><a class="nav-link bg-purpl rounded-sm py-2 text-white dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
                 <span class="px-0 font-weight-bold"><i class="far fa-bars pr-1"></i> Каталог товаров</span>
             </a>
-            <div class="dropdown-menu w-100 py-0 m-0 mt-4 rounded-0 border-0 shadow-sm bg-gray" aria-labelledby="dropdown01">
+            <div class="dropdown-menu w-100 py-0 m-0 mt-4 rounded-0 border-0 shadow-sm bg-gray animate slideIn" aria-labelledby="dropdown01">
                 <div class="container">
                     <div class="d-flex">
                         <ul class="list-menu list-unstyled n-navigation-vertical-category py-4">
                             @foreach($menuRoot as $category)
-                                <li id="aHref" data-id="{{ $category->id }}"><a href="{{ $category->slug }}"><span>{{ $category->name }}</span></a></li>
+                                <li id="aHref" data-id="{{ $category->id }}"><a href="{{ $category->id }}"><span>{{ $category->name }}</span></a></li>
                             @endforeach
                         </ul>
                         <div class="vertical-menu bg-white w-100 ">

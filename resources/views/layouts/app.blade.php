@@ -40,7 +40,6 @@
                     <span class="position-absolute">атис</span>
                 </a>
 
-
                 <div class="flex-grow-1">
                     <div class="d-flex bd-highlight">
                         <!-- Left Side Of Navbar -->
@@ -53,9 +52,16 @@
             </div>
         </nav>
 
-        <main class="py-4 position-relative bg-white-50" aria-live="polite" aria-atomic="true">
+        <main class="position-relative bg-white-50" aria-live="polite" aria-atomic="true">
             @include('layouts.partials.flash')
-            @yield('content')
+            <div class="bg-purpl p-3"></div>
+            <div class="container  wm-1140  position-relative " style="top: -20px">
+            @yield('slide')
+            </div>
+
+            <div class="container pt-4 px-4 wm-1140 rounded-top bg-white position-relative" style="top: -20px">
+                @yield('content')
+            </div>
         </main>
     </div>
 </body>

@@ -6,6 +6,16 @@
  */
 
 require('./bootstrap');
+window.AutoNumeric = require('./../../node_modules/autonumeric/dist/autoNumeric');
+
+const autoNumericOptionsRuble = {
+    currencySymbol: "\u202f ₽",
+    currencySymbolPlacement: "s",
+    decimalCharacterAlternative: ".",
+    digitGroupSeparator: " ",
+    minimumValue: "0",
+    decimalPlaces: "0"
+};
 
 $('.toast').toast('show');
 
@@ -39,6 +49,8 @@ $(document).ready(function() {
 
 
     });
+
+    AutoNumeric.multiple('#price', autoNumericOptionsRuble);
 
 });
 

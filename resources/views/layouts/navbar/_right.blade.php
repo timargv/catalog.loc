@@ -4,11 +4,11 @@
     <!-- Authentication Links -->
     @guest
         <li class="nav-item">
-            <a class="nav-link" href="{{ route('login') }}">{{ __('auth.Login') }}</a>
+            <a class="nav-link" href="{{ route('login') }}"><i class="fas fa-user"></i><span>{{ __('auth.Login') }}</span></a>
         </li>
         @if (Route::has('register'))
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('register') }}">{{ __('register.Register') }}</a>
+                <a class="nav-link" href="{{ route('register') }}"><i class="fas fa-user-plus" data-title="Title"></i><span>{{ __('register.Register') }}</span></a>
             </li>
         @endif
     @else
