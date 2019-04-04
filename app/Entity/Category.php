@@ -49,6 +49,11 @@ class Category extends Model
         return $this->belongsToMany(Product::class,'product_categories','category_id','product_id');
     }
 
+    public function parent()
+    {
+        return $this->belongsTo(self::class)->with('parent');
+    }
+
     public function parentAttributes(): array
     {
         return $this->parent ? $this->parent->allAttributes() : [];

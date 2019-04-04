@@ -15,6 +15,7 @@
                             @foreach($menuRoot as $categories)
                                 <div class="vertical-menu_block py-4 px-5" data-id="{{ $categories->id }}">
                                     <div class="card-columns">
+
                                         @foreach($categories->children as $category)
                                             <div class="pb-3 card border-0 py-0 px-0">
                                                 <div class="vertical-menu-block">

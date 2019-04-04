@@ -29,7 +29,7 @@ class CategoryService
     public static function getCategoryRoot() {
 
         return Cache::remember('categoriesRoot', 60, function () {
-            return Category::whereIsRoot()->defaultOrder()->getModels();
+            return Category::get()->toTree();
         });
     }
 }
