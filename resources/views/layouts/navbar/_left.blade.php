@@ -17,7 +17,7 @@
                                     <div class="card-columns">
 
                                         @foreach($categories->children as $category)
-                                            <div class="pb-3 card border-0 py-0 px-0">
+                                            <div class="pb-1 card border-0 py-0 px-0">
                                                 <div class="vertical-menu-block">
                                                     <div class="vertical-menu-block-title font-weight-bold"><a href="">{{ $category->name }}</a></div>
                                                     <ul class="vertical-menu-block-list-item list-unstyled">
