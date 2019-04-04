@@ -223,7 +223,7 @@ body {
 
 @keyframes slideIn {
     0% {
-        transform: translateY(4rem);
+        transform: translateY(7.0rem);
         opacity: 0;
     }
     100% {
@@ -231,14 +231,14 @@ body {
         opacity: 1;
     }
     0% {
-        transform: translateY(10rem);
+        transform: translateY(7.0rem);
         opacity: 0;
     }
 }
 
 @-webkit-keyframes slideIn {
     0% {
-        -webkit-transform: translateY(104rem);
+        -webkit-transform: translateY(7.0rem);
         -webkit-opacity: 0;
     }
     100% {
@@ -246,7 +246,7 @@ body {
         -webkit-opacity: 1;
     }
     0% {
-        -webkit-transform: translateY(10rem);
+        -webkit-transform: translateY(7.0rem);
         -webkit-opacity: 0;
     }
 }
