@@ -11,6 +11,7 @@ namespace App\UseCases\Category;
 use App\Entity\Category;
 use App\Jobs\MirInstrument\CategoryFix;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 class CategoryService
 {
@@ -26,7 +27,9 @@ class CategoryService
     }
 
     public static function getCategoryRoot() {
-        $categoriesRoot = Category::whereIsRoot()->defaultOrder()->getModels();
-        return $categoriesRoot;
+
+        return Cache::remember('categoriesRoot', 60, function () {
+            return Category::whereIsRoot()->defaultOrder()->getModels();
+        });
     }
 }
