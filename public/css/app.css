@@ -10755,7 +10755,7 @@ body {
 .top-left-nav .dropdown-menu > .container > .d-flex > .list-menu li > a {
   color: #000;
   display: inline-block;
-  padding: 0.32rem 1rem;
+  padding: 0.4rem 1rem;
   font-size: 0.93rem;
   line-height: inherit;
   white-space: nowrap;
@@ -10773,7 +10773,7 @@ body {
 
 .vertical-menu-block .vertical-menu-block-title,
 .vertical-menu-block .vertical-menu-block-title a {
-  font-size: 1.15rem;
+  font-size: 0.95rem;
   color: #000;
   text-decoration: none;
 }
