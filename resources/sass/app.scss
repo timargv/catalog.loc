@@ -1,5 +1,10 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+//@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i|PT+Sans:400,400i,700,700i|Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&subset=cyrillic');
+// font-family: 'Open Sans', sans-serif;
+// font-family: 'PT Sans', sans-serif;
+// font-family: 'Roboto', sans-serif;
+
 
 // Variables
 @import 'variables';
@@ -7,13 +12,65 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+body {
+    font-family: 'PT Sans', sans-serif !important;
+    background: $white !important;
+}
+
+body {
+    max-width: 100% !important;
+    width: 100% !important;
+    min-width: 1200px;
+}
+
 .navbar-laravel {
-  background-color: #fff;
+  background-color: $purple !important;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+.navbar-brand {
+}
+.navbar-brand span {
+    left: 0;
+    top: -20px;
+    font-size: 46px;
+    display: block;
+}
+.top-left-nav {
+    font-size: 18px;
+}
+
+.top-left-nav .nav-item {
+    width: 190px;
 }
 
 .top-left-nav .dropdown-toggle::after {
     display: none !important;
+}
+
+.top-left-nav .dropdown-menu{
+    position: absolute;
+    top: 0px !important;
+    width: 100% !important;
+    border-color: #fff !important;
+    max-width: 100% !important;
+    min-width: 1200px;
+}
+
+.top-left-nav > li .fa-bars {
+    width: 22px;
+    text-align: center;
+}
+
+.top-left-nav > li > a {
+    background: $catalog !important;
+}
+.top-left-nav > li.show > a {
+    color: $purple !important;
+    background: $white !important;
+}
+
+.top-left-nav > li.show .fa-bars:before {
+    content: "\f00d";
 }
 
 .bg-white-50 {
@@ -25,7 +82,10 @@
 }
 
 .top-line {
+    padding: 5px 0;
     font-size: 12px;
+    border-bottom: 1px solid;
+    border-bottom-color: #5d37cc;
 }
 .top-line .city {}
 .top-line .city > i {
@@ -34,21 +94,123 @@
 .top-line .city > span {}
 .top-line .city > a {}
 
+.top-left-nav .dropdown-menu {
+    background: linear-gradient(90deg,#f7f7f7 50%,#fff 50%);
 
-.dropdown-menu .vertical-menu_block { display: none; }
-//.dropdown-menu > .container { position: relative !important;}
-//.dropdown-menu > .container > .list-menu {}
-//.dropdown-menu > .container > .list-menu > li {}
-//.dropdown-menu > .container >  .list-menu > li > a {}
-//.dropdown-menu > .container > .list-menu > li > .vertical-menu {
-//    display: none;
-//    width: 100%;
-//    padding-left: 20%;
-//    position: absolute;
-//}
-//.dropdown-menu > .container > .list-menu > li > .vertical-menu > .vertical-menu-block {}
-//.dropdown-menu > .container > .list-menu > li > .vertical-menu > .vertical-menu-block > .vertical-menu-block-title {}
-//.dropdown-menu > .container > .list-menu > li > .vertical-menu > .vertical-menu-block > .vertical-menu-block-list-item {}
-//.dropdown-menu > .container > .list-menu > li > .vertical-menu > .vertical-menu-block > .vertical-menu-block-list-item > li {}
-//.dropdown-menu > .container > .list-menu > li > .vertical-menu > .vertical-menu-block > .vertical-menu-block-list-item > li a {}
-//.dropdown-menu > .container > .list-menu > li > a:hover + div.vertical-menu { display: block; }
+}
+.top-left-nav .dropdown-menu .container {
+    min-width: 1200px;
+}
+.top-left-nav .dropdown-menu .vertical-menu_block { display: none; }
+.top-left-nav .dropdown-menu > .container > .d-flex > .list-menu {
+    min-width: 220px;
+}
+.top-left-nav .dropdown-menu > .container > .d-flex > .list-menu > li {}
+.top-left-nav .dropdown-menu > .container > .d-flex > .list-menu li > a {
+    color: $black;
+    display: inline-block;
+    padding: 0.32rem 1rem;
+    font-size: 0.93rem;
+    line-height: inherit;
+    white-space: nowrap;
+    width: 100%;
+    text-decoration: none;
+}
+.top-left-nav .dropdown-menu > .container > .d-flex > .list-menu li.active > a {
+    background: $white;
+}
+.vertical-menu-block {
+    font-size: 1rem;
+}
+.vertical-menu-block .vertical-menu-block-title,
+.vertical-menu-block .vertical-menu-block-title a {
+    font-size: 1.15rem;
+    color: $black;
+    text-decoration: none;
+}
+.vertical-menu-block .vertical-menu-block-title a:hover {
+    opacity: .5;
+}
+.vertical-menu-block ul {}
+.vertical-menu-block ul li {}
+.vertical-menu-block ul li a {
+    text-decoration: none;
+    color: var(--gray);
+}
+.vertical-menu-block ul li a:hover {
+    opacity: .9;
+    color: $purple;
+}
+
+.card-columns {
+    @include media-breakpoint-only(xs) {
+        column-count: 2;
+    }
+    @include media-breakpoint-only(sm) {
+        column-count: 2;
+    }
+    @include media-breakpoint-only(md) {
+        column-count: 2;
+    }
+    @include media-breakpoint-only(lg) {
+        column-count: 2;
+    }
+    @include media-breakpoint-only(xl) {
+        column-count: 2;
+    }
+}
+
+
+.wm-1140 {
+    min-width: 1200px;
+}
+
+.search-form {}
+.search-form input {
+    padding: 10px 15px;
+    height: 44px;
+    width: 240px !important;
+}
+.search-form button {
+    background: $catalog !important;
+    border-color: $catalog !important;
+    color: $white !important;
+    font-size: 1rem;
+    font-weight: 600;
+}
+.search-form button {}
+
+.top-right-nav {
+    font-size: 1.09rem;
+    font-weight: 600;
+}
+.top-right-nav a {
+    color: $white;
+}
+
+.cart-mini {}
+.cart-mini-block {}
+.cart-mini-block i {
+    position: relative;
+}
+.cart-mini-block i span {
+    position: absolute;
+    background: $red;
+    border-radius: 25px;
+    overflow: hidden;
+    color: $white;
+    font-size: .7rem;
+    display: inline-block;
+    padding-top: 0.02rem;
+    padding-left: 0.15rem;
+    padding-right: 0.15rem;
+    padding-bottom: 0.02rem;
+    margin-right: 1rem;
+    line-height: inherit;
+    white-space: nowrap;
+    top: -5px;
+    right: -100%;
+}
+.cart-mini-block div {
+    display: inline-block;
+}

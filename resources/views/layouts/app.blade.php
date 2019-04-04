@@ -24,30 +24,31 @@
 </head>
 <body>
     <div id="app">
-        <div class="top-line bg-purpl text-white py-1">
-            <div class="container">
+        <div class="top-line bg-purpl text-white py-2">
+            <div class="container wm-1140">
                 <div class="city">
-                    <i class="fas fa-location-arrow"></i>
+                    <i class="fas fa-location-arrow text-muted"></i>
                     <span>Регион:</span>
                     <a class="text-white border-bottom border-white text-decoration-none" href="#">Воронеж</a>
                 </div>
             </div>
         </div>
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel shadow-none bg-white py-3">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+        <nav class="navbar-laravel shadow-none py-4">
+            <div class="container d-flex wm-1140">
+                <a class=" navbar-brand position-relative px-5 font-weight-bold text-white" href="{{ url('/') }}">
+                    {{--{{ config('app.name', 'SHOP VRN') }}--}}
+                    <span class="position-absolute">атис</span>
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    @include('layouts.navbar._left')
 
-                    <!-- Right Side Of Navbar -->
-                    @include('layouts.navbar._right')
+                <div class="flex-grow-1">
+                    <div class="d-flex bd-highlight">
+                        <!-- Left Side Of Navbar -->
+                        @include('layouts.navbar._left')
+
+                        <!-- Right Side Of Navbar -->
+                        @include('layouts.navbar._right')
+                    </div>
                 </div>
             </div>
         </nav>

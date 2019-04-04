@@ -29,23 +29,7 @@ class HomeController extends Controller
             $query->where([['name_original', 'like', '%' . $value . '%'],['name', 'like', '%' . $value . '%']])->orWhere('vendor_code', 'like', '%' . $value . '%');
         }
 
-        if (!empty($value = $request->get('vendor_code'))) {
-            $query->where('vendor_code', 'like', '%' . $value . '%');
-        }
-
-        if (!empty($value = $request->get('price'))) {
-            $query->where('price', '>=', $value)->orderBy('price', 'ASC');
-        }
-
-        if (!empty($value = $request->get('vendor_price'))) {
-            $query->where('vendor_price', 'like', '%' . $value . '%');
-        }
-
-        if (!empty($value = $request->get('category'))) {
-            $query->where('category_id', $value);
-        }
-
-        $products = $query->paginate(32);
+        $products = $query->orderBy('id', 'DESC')->paginate(32);
 
         return view('home', compact('products', 'categories'));
     }

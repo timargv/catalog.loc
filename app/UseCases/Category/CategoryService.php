@@ -8,6 +8,7 @@
 
 namespace App\UseCases\Category;
 
+use App\Entity\Category;
 use App\Jobs\MirInstrument\CategoryFix;
 use Illuminate\Support\Carbon;
 
@@ -22,5 +23,10 @@ class CategoryService
         dispatch($categoryJob);
 
         return redirect()->back()->with('info', 'Категории скоро будут Пофиксены');
+    }
+
+    public static function getCategoryRoot() {
+        $categoriesRoot = Category::whereIsRoot()->defaultOrder()->getModels();
+        return $categoriesRoot;
     }
 }

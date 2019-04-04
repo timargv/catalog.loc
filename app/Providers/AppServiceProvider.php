@@ -8,6 +8,7 @@ use App\Entity\Product;
 use App\Entity\Shop\Cart;
 use App\Entity\Vendor;
 use App\UseCases\Cart\CartService;
+use App\UseCases\Category\CategoryService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -37,6 +38,10 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer(['layouts.navbar._right', 'layouts.navbar._right'], function($view){
             $view->with('countCart', Cart::count());
+        });
+
+        view()->composer('layouts.navbar._left', function($view){
+            $view->with('menuRoot', CategoryService::getCategoryRoot());
         });
     }
 

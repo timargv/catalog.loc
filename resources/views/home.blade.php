@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container wm-1140">
     <div class="row justify-content-center">
         {{--<div class="col-md-12 mb-3">--}}
             {{--<select id="category" class="form-control select2 w-100 {{ $errors->has('category') ? ' is-invalid' : '' }} input-sm" name="category">--}}
@@ -19,7 +19,7 @@
 
             <div class="row pr-3">
                 @foreach ($products as $product)
-                    <div class="col-md-3 pr-0 mb-4">
+                    <div class="col-3 pr-0 mb-4">
                         <div class="card">
                             <div class="image p-3">
                                 @foreach($product->photos as $photo)
@@ -48,7 +48,7 @@
 
                             <div class="card-footer px-3">
                                <div class="row">
-                                   <div class="col-xs-12">
+                                   <div class="col-12">
                                        <strong>
                                            <span id="price" >{{ $product->price }}</span>
                                        </strong>

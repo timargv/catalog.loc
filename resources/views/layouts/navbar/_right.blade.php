@@ -1,8 +1,6 @@
-<ul class="navbar-nav ml-auto">
-    <li class="nav-item"><a class="nav-link" href="{{ route('cart.index') }}">Cart
-            {{ $countCart }}
-            </a>
-    </li>
+<div class="flex-fill">
+<ul class="list-unstyled ml-auto d-flex justify-content-end m-0 top-right-nav">
+
     <!-- Authentication Links -->
     @guest
         <li class="nav-item">
@@ -36,4 +34,14 @@
             </div>
         </li>
     @endguest
+    <li class="nav-item cart-mini"><a class="nav-link" href="{{ route('cart.index') }}">
+            <div class="cart-mini-block">
+                <i class="fal fa-shopping-cart">
+                    <span>{{ $countCart }}</span>
+                </i>
+                <div>Корзина</div>
+            </div>
+        </a>
+    </li>
 </ul>
+</div>

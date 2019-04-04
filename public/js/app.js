@@ -36588,13 +36588,25 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 $('.toast').toast('show');
 $(document).ready(function () {
-  $(".megamenu").on("click", function (e) {
+  $(".dropdown-menu").on("click", function (e) {
     e.stopPropagation();
-  });
-  $('#aHref[data-id]').hover(function () {
+  }); // $('#aHref[data-id]').hover(function () {
+  //     $('.vertical-menu_block[data-id=' + $(this).attr('data-id') + ']').show();
+  // }, function () {
+  //     var dataId = $('.vertical-menu_block[data-id=' + $(this).attr('data-id') + ']');
+  //     $(dataId).data('timer', setTimeout(function () {
+  //         $(dataId).hide();
+  //     }, 1000));
+  //
+  // });
+
+  var categoryDataId = $('#aHref[data-id]:first').addClass('active');
+  $('.vertical-menu_block[data-id=' + $(categoryDataId).attr('data-id') + ']').show();
+  $('#aHref[data-id]').on('mouseover', function (e) {
+    $('.n-navigation-vertical-category > li').removeClass('active');
+    $('.vertical-menu_block[data-id]').hide();
+    $(this).addClass('active');
     $('.vertical-menu_block[data-id=' + $(this).attr('data-id') + ']').show();
-  }, function () {
-    $('.vertical-menu_block[data-id=' + $(this).attr('data-id') + ']').hide();
   });
 }); // window.Vue = require('vue');
 
