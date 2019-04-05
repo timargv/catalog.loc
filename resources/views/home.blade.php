@@ -13,8 +13,8 @@
                     <div class="col-12 text-center mb-4">
                         <div class="w-100 h1 text-dark font-weight-bold">{{ $widgetHome->title }}</div>
                     </div>
-                    <div class="px-3 py-3 mb-3 row">
-                        @include('shop.widgets.home', ['products' => $widgetHome->getProducts()->take(6)])
+                    <div class="px-3 py-3 mb-3 row w-100">
+                        @include('shop.widgets.home', ['widgetProductItems' => $widgetHome->widgetProductItems])
                     </div>
                 @endforeach
 

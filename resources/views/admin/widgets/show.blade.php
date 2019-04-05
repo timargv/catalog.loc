@@ -66,11 +66,13 @@
                                 <th width="40px">{{ __('fillable.Status') }}</th>
 
                             </tr>
+
                             @foreach($widgetItems as $item)
+
                             <tr>
-                                <td>{{ $item->id }}</td>
-                                <td>{{ $item->name }}</td>
-                                <td><span id="price">{{ $item->price }}</span></td>
+                                <td>{{ $item->product->id }}</td>
+                                <td>{{ $item->product->name }}</td>
+                                <td><span id="price">{{ $item->product->price }}</span></td>
                                 <td>
                                     <form method="POST" action="{{ route('admin.widgets.product.delete', [$widget, $item->id]) }}" class="form-inline pull-right">
                                         @csrf

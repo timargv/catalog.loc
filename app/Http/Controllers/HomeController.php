@@ -25,7 +25,6 @@ class HomeController extends Controller
 
 
         $widgetsHome = $this->widgetService->getAll();
-//        $widgetProducts = $widgetWorthCloserLook->getProducts()->take(6);
 
 
 

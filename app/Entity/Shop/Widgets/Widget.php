@@ -12,24 +12,10 @@ class Widget extends Model
 
     //-------------------
     public function widgetProductItems () {
-        return $this->belongsToMany(Product::class,'widget_product_items','widget_id','product_id');
+        return $this->hasMany(WidgetProductItem::class,'widget_id')->with('product');
     }
 
-    public function setProducts($ids)
-    {
-        if($ids == null){return;}
-        $this->widgetProductItems()->sync($ids);
-    }
 
-    public function addProduct($ids)
-    {
-        foreach ($ids as $id) {
-            if ($this->hasInWidgetProductItems($id)) {
-                throw new \DomainException('Этот товар уже добавлен.');
-            }
-            $this->widgetProductItems()->attach($id);
-        }
-    }
 
     public function hasInWidgetProductItems($id): bool
     {

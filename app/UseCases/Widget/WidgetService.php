@@ -10,6 +10,7 @@ namespace App\UseCases\Widget;
 
 
 use App\Entity\Shop\Widgets\Widget;
+use App\Entity\Shop\Widgets\WidgetProductItem;
 
 class WidgetService
 {
@@ -26,11 +27,37 @@ class WidgetService
     }
 
     public function getAll() {
-        return Widget::all();
+        return Widget::with('widgetProductItems')->get();
     }
 
-    public function getProducts() {
-        return $this->widget->widgetProductItems()->orderBy('sort')->take(6);
+    public function getWidgetItem($id) {
+        return WidgetProductItem::findOrFail($id);
+    }
+
+    public function getWidgetItemWhereWidgetProduct($widgetId, $productId) {
+        return WidgetProductItem::where([
+            ['widget_id', $widgetId],
+            ['product_id', $productId]
+        ])->first();
+    }
+
+    public function deleteItem($itemId) {
+        $this->getWidgetItem($itemId)->delete();
+    }
+
+    public function addProduct($widget, $productId)
+    {
+        $widget = $this->getWidget($widget->id);
+
+        if (!empty($this->getWidgetItemWhereWidgetProduct($widget->id, $productId))) {
+            throw new \DomainException('Такой товар уже добавлен.');
+        }
+
+        WidgetProductItem::create([
+            'product_id' => $productId,
+            'widget_id' => $widget->id,
+        ]);
+
     }
 
 }

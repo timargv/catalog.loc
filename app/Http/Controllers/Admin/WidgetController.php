@@ -6,11 +6,19 @@ use App\Entity\Product;
 use App\Entity\Shop\Widgets\Widget;
 use App\Entity\Shop\Widgets\WidgetProductItem;
 use App\Http\Controllers\Controller;
+use App\UseCases\Widget\WidgetService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class WidgetController extends Controller
 {
+
+    public $service;
+
+    public function __construct(WidgetService $widgetService)
+    {
+        $this->service = $widgetService;
+    }
 
     public function index()
     {
@@ -77,7 +85,6 @@ class WidgetController extends Controller
     {
         $data = [];
 
-
         if($request->has('q')){
             $search = $request->q;
             $data = DB::table("products")
@@ -94,7 +101,7 @@ class WidgetController extends Controller
     public function add(Request $request, Widget $widget)
     {
         try {
-            $widget->addProduct($request->get('products'));
+            $this->service->addProduct($widget, $request->get('product'));
         } catch (\DomainException $e) {
             return back()->with('error', $e->getMessage());
         }
@@ -102,16 +109,20 @@ class WidgetController extends Controller
     }
 
 
-    public function deleteWidgetProductItem(Widget $widget, $productId)
+    public function deleteWidgetProductItem(Widget $widget, $itemId)
     {
-        $widget->widgetProductItems()->where('product_id', $productId)->delete();
+        try {
+            $this->service->deleteItem($itemId);
+        } catch (\DomainException $e) {
+            return back()->with('error', $e->getMessage());
+        }
+
         return redirect()->route('admin.widgets.show', $widget)->with('success', 'Товар удален из Виджета');
     }
 
 
     public function destroy(Widget $widget)
     {
-        $widget->widgetProductItems()->detach();
         $widget->delete();
         return redirect()->route('admin.widgets.index')->with('success', 'Виджет удален');
     }
