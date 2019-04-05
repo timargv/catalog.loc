@@ -35,9 +35,10 @@ class WidgetController extends Controller
         ]);
 
         $widget->setProducts($request->get('products'));
+        $widgetItems = $widget->widgetProductItems()->paginate(15);
 
 
-        return view('admin.widgets.show', compact('widget', 'products'));
+        return view('admin.widgets.show', compact('widget', 'products', 'widgetItems'));
 
     }
 

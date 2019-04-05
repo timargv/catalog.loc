@@ -53,7 +53,7 @@
                 </div>
                 <!-- /.box-header -->
 
-                @if (!empty(count($widgetItems)))
+                @if (count($widgetItems) > 0)
                 <div class="box-body table-responsive no-padding">
 
 
