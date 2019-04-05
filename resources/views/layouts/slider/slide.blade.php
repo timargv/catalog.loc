@@ -24,17 +24,11 @@
 
         </div>
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon rounded-circle" style="    background-color: #484646;
-    opacity: .8;
-    padding: 30px;
-    background-size: 50%; " aria-hidden="true"></span>
+            <span class="far fa-chevron-left rounded-circle fa-2x" style="background-color: #484646;padding: 10px 18px;" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
         </a>
         <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-            <span class="carousel-control-next-icon rounded-circle" style="    background-color: #484646;
-    opacity: .8;
-    padding: 30px;
-    background-size: 50%; " aria-hidden="true"></span>
+            <span class="far fa-chevron-right rounded-circle fa-2x" style="background-color: #484646;padding: 10px 18px;" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
         </a>
     </div>

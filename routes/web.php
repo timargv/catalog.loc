@@ -77,6 +77,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Поставщики
     Route::resource('/vendors', 'VendorsController');
 
+    // Виджеты
+    Route::resource('widgets', 'WidgetController');
+    Route::get('/widget/{widget}/product/add', 'WidgetController@add')->name('widgets.product.add');
+    Route::post('/widget/{widget}/product/add', 'WidgetController@add')->name('widgets.product.add');
+    Route::delete('/widget/{widget}/{productId}/delete', 'WidgetController@deleteWidgetProductItem')->name('widgets.product.delete');
+
+
     // Статусы
     Route::group(['prefix' => 'order-statuses-list', 'as' => 'order-statuses-list.', 'namespace' => 'Shop'], function () {
         Route::get('/', 'OrderStatusesListController@index')->name('index');

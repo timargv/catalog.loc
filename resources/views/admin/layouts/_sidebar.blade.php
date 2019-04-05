@@ -57,6 +57,11 @@
               <small class="label pull-right bg-red">{{ $countBrands }}</small>
             </span>
                 </a></li>
+
+            <li><a href="{{ route('admin.widgets.index') }}"><i class="far fa-bars text-info mr-2 pr-1"></i> <span>Виджеты</span>
+                    <span class="pull-right-container">
+            </span>
+                </a></li>
         </ul>
     </li>
 
