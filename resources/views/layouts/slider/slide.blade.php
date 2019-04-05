@@ -24,7 +24,7 @@
 
         </div>
         <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-            <span class="far fa-chevron-left rounded-circle fa-2x" style="background-color: #484646;padding: 10px 18px;" aria-hidden="true"></span>
+            <span class="far fa-chevron-left rounded-circle fa-2x" style="background-color: #484646;padding: 10px 18px 10px 16px" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
         </a>
         <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">

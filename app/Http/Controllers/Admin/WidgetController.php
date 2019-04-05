@@ -43,7 +43,7 @@ class WidgetController extends Controller
             'title' => $request['title']
         ]);
 
-        $widget->setProducts($request->get('products'));
+//        $widget->setProducts($request->get('products'));
         $widgetItems = $widget->widgetProductItems()->paginate(15);
 
 
@@ -123,6 +123,7 @@ class WidgetController extends Controller
 
     public function destroy(Widget $widget)
     {
+        $widget->widgetProductItems()->delete();
         $widget->delete();
         return redirect()->route('admin.widgets.index')->with('success', 'Виджет удален');
     }
