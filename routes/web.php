@@ -79,6 +79,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Виджеты
     Route::resource('widgets', 'WidgetController');
+    Route::get('/widgets-autocomplete-ajax', 'WidgetController@dataAjax');
     Route::get('/widget/{widget}/product/add', 'WidgetController@add')->name('widgets.product.add');
     Route::post('/widget/{widget}/product/add', 'WidgetController@add')->name('widgets.product.add');
     Route::delete('/widget/{widget}/{productId}/delete', 'WidgetController@deleteWidgetProductItem')->name('widgets.product.delete');

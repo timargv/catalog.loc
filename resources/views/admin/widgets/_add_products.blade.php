@@ -12,13 +12,13 @@
                 <!-- /.box-header -->
 
                 <div class="box-body">
-                    <select name="products[]" class="form-control select2 w-100" data-placeholder="Выберите Товары">
+                    <select id="widgetProduct" name="products[]" class="form-control select2 w-100" data-placeholder="Выберите Товары">
                         <option value="">-</option>
-                        @foreach ($products as $product)
-                            <option value="{{ $product->id }}" {{ $product->id == old('products') ? ' selected' : '' }}>
-                                {{ $product->name == null ? $product->name_original : $product->name }}
-                            </option>
-                        @endforeach;
+                        {{--@foreach ($products as $product)--}}
+                            {{--<option value="{{ $product->id }}" {{ $product->id == old('products') ? ' selected' : '' }}>--}}
+                                {{--{{ $product->name == null ? $product->name_original : $product->name }}--}}
+                            {{--</option>--}}
+                        {{--@endforeach;--}}
                     </select>
 
 

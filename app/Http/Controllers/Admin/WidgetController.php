@@ -7,6 +7,7 @@ use App\Entity\Shop\Widgets\Widget;
 use App\Entity\Shop\Widgets\WidgetProductItem;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WidgetController extends Controller
 {
@@ -70,6 +71,23 @@ class WidgetController extends Controller
         $widget->setProducts($request->get('products'));
 
         return redirect()->route('admin.widgets.show', $widget)->with('success', 'Виджет обнавлен');
+    }
+
+    public function dataAjax(Request $request)
+    {
+        $data = [];
+
+
+        if($request->has('q')){
+            $search = $request->q;
+            $data = DB::table("products")
+                ->select("id","name")
+                ->where('name','LIKE',"%$search%")
+                ->get();
+        }
+
+
+        return response()->json($data);
     }
 
 
