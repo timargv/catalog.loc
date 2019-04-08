@@ -87,9 +87,10 @@ class WidgetController extends Controller
 
         if($request->has('q')){
             $search = $request->q;
-            $data = DB::table("products")
-                ->select("id","name")
-                ->where('name','LIKE',"%$search%")
+            $data = Product::where('name','LIKE',"%$search%")
+                ->orWhere('name_original','LIKE',"%$search%")
+                ->orWhere('vendor_code','LIKE',"%$search%")
+                ->select('id', 'name')
                 ->get();
         }
 

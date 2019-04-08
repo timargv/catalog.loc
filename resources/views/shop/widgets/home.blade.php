@@ -1,7 +1,5 @@
 @foreach ($widgetProductItems as $product)
-
-
-    <div class="col-3 col-md-3 col-lg-2 pr-2 mb-4">
+    <div class="col-2 mb-4">
         <a class="card p-0 border-0 rounded-0 sh-product" href="{{ $product->id }}">
             <div class="image p-0">
                 @foreach($product->product->photos as $photo)
@@ -45,5 +43,4 @@
 
         </a>
     </div>
-
 @endforeach

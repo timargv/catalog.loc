@@ -6,11 +6,22 @@
 // font-family: 'Roboto', sans-serif;
 
 
+@import url('https://fonts.googleapis.com/css?family=Lobster|Pacifico&subset=cyrillic');
+// font-family: 'Pacifico', cursive;
+// font-family: 'Lobster', cursive;
+
+
+
 // Variables
 @import 'variables';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+.title_font_block {
+    font-family: 'Pacifico', cursive;
+    font-family: 'Lobster', cursive;
+}
 
 body {
     font-family: 'PT Sans', sans-serif !important;
@@ -54,7 +65,7 @@ body {
     width: 100% !important;
     border-color: #fff !important;
     max-width: 100% !important;
-    min-width: 1200px;
+    min-width: 965px;
 }
 
 .top-left-nav > li .fa-bars {

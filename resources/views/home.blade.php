@@ -11,9 +11,9 @@
             <div class="row pr-2">
                 @foreach($widgetsHome as $widgetHome)
                     <div class="col-12 text-center mb-4">
-                        <div class="w-100 h1 text-dark font-weight-bold">{{ $widgetHome->title }}</div>
+                        <div class="w-100 h1 text-dark font-weight-bold title_font_block">{{ $widgetHome->title }}</div>
                     </div>
-                    <div class="px-3 py-3 mb-3 row w-100">
+                    <div class="mb-3 row">
                         @include('shop.widgets.home', ['widgetProductItems' => $widgetHome->widgetProductItems])
                     </div>
                 @endforeach
