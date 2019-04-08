@@ -13,7 +13,7 @@
                     <div class="col-12 text-center mb-4">
                         <div class="w-100 h1 text-dark font-weight-bold title_font_block">{{ $widgetHome->title }}</div>
                     </div>
-                    <div class="mb-3 row">
+                    <div class="mb-3 row pl-1">
                         @include('shop.widgets.home', ['widgetProductItems' => $widgetHome->widgetProductItems])
                     </div>
                 @endforeach
