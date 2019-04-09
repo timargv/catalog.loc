@@ -71,5 +71,7 @@ $(document).ready(function (){
     boxPhoto.on("click", "#deletes-photo-product", productActionPhoto.getUrl);
     boxPhoto.on("click", "#delete-photo-product", productActionPhoto.getUrl);
 
+
+
 });
 

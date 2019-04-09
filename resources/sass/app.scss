@@ -10,7 +10,8 @@
 // font-family: 'Pacifico', cursive;
 // font-family: 'Lobster', cursive;
 
-
+@import '~owl.carousel/dist/assets/owl.carousel';
+@import '~owl.carousel/dist/assets/owl.theme.default';
 
 // Variables
 @import 'variables';
@@ -18,9 +19,73 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+
 .title_font_block {
     font-family: 'Pacifico', cursive;
     font-family: 'Lobster', cursive;
+}
+
+.owl-theme .owl-nav {
+    text-align: initial;
+    -webkit-tap-highlight-color: transparent;
+    position: absolute;
+    top: 50%;
+    margin-top: -142px;
+    width: 100%;
+}
+.owl-carousel .owl-nav .owl-next {
+    float: right;
+}
+
+.owl-carousel .owl-nav .owl-prev,
+.owl-carousel .owl-nav .owl-next,
+.owl-carousel .owl-dot {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.owl-carousel .owl-nav button.owl-prev,
+.owl-carousel .owl-nav button.owl-next,
+.owl-carousel button.owl-dot {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0 !important;
+    font: inherit;
+    height: 40px;
+    width: 40px;
+    background: #ececec !important;
+    border-radius: 50%;
+    z-index: 1;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+.owl-carousel .owl-nav button.owl-prev span,
+.owl-carousel .owl-nav button.owl-next span {
+    display: none;
+}
+
+.owl-carousel .owl-nav button.owl-prev,
+.owl-carousel .owl-nav button.owl-next {
+    font-family: "Font Awesome 5 Pro";
+    border-radius: 50%;
+    color: #343a40;
+    font-size: 30px;
+    padding: 0;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    z-index: 999;
+    position: relative;
+    font-weight: 100;
+}
+.owl-carousel .owl-nav button.owl-prev:before {
+    content: "\f060"
+}
+.owl-carousel .owl-nav button.owl-next:before {
+    content: "\f061";
 }
 
 body {
@@ -65,7 +130,8 @@ body {
     width: 100% !important;
     border-color: #fff !important;
     max-width: 100% !important;
-    min-width: 965px;
+    min-width: 960px;
+    overflow: hidden;
 }
 
 .top-left-nav > li .fa-bars {
@@ -121,12 +187,14 @@ body {
 .top-left-nav .dropdown-menu > .container > .d-flex > .list-menu li > a {
     color: $black;
     display: inline-block;
-    padding: 0.40rem 1rem;
+    padding: 0.4rem 1rem;
     font-size: 0.93rem;
     line-height: inherit;
-    white-space: nowrap;
     width: 100%;
     text-decoration: none;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }
 .top-left-nav .dropdown-menu > .container > .d-flex > .list-menu li.active > a {
     background: $white;
@@ -223,41 +291,41 @@ body {
     display: inline-block;
 }
 
-@media (min-width: 992px) {
-    .animate {
-        animation-duration: 0.3s;
-        -webkit-animation-duration: 0.3s;
-        animation-fill-mode: both;
-        -webkit-animation-fill-mode: both;
-    }
+
+
+.animate {
+    animation-duration: 0.3s;
+    -webkit-animation-duration: 0.3s;
+    animation-fill-mode: both;
+    -webkit-animation-fill-mode: both;
 }
 
 @keyframes slideIn {
     0% {
-        transform: translateY(7.0rem);
+        transform: translateY(8.0rem);
         opacity: 0;
     }
     100% {
-        transform:translateY(6.5rem);
+        transform:translateY(6.0rem);
         opacity: 1;
     }
     0% {
-        transform: translateY(7.0rem);
+        transform: translateY(8.0rem);
         opacity: 0;
     }
 }
 
 @-webkit-keyframes slideIn {
     0% {
-        -webkit-transform: translateY(7.0rem);
+        -webkit-transform: translateY(8.0rem);
         -webkit-opacity: 0;
     }
     100% {
-        -webkit-transform: translateY(6.5rem);
+        -webkit-transform: translateY(6.0rem);
         -webkit-opacity: 1;
     }
     0% {
-        -webkit-transform: translateY(7.0rem);
+        -webkit-transform: translateY(8.0rem);
         -webkit-opacity: 0;
     }
 }
@@ -302,7 +370,10 @@ body {
 .top-right-nav > li > a > i {
     display: none;
 }
-
+.slick-slide {
+    width: 200px !important;
+    padding: 0 10px;
+}
 .sh-product {
     text-decoration: none !important;
 }
@@ -315,6 +386,7 @@ body {
 .sh-product .title {
     font-size: 14px;
     line-height: 20px;
+    min-height: 60px;
     max-height: 60px;
     overflow: hidden;
     color: $black;

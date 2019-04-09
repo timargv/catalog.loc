@@ -14,7 +14,7 @@
                         <div class="w-100 h1 text-dark font-weight-bold title_font_block">{{ $widgetHome->title }}</div>
                     </div>
                     <div class="mb-3 row pl-1">
-                        @include('shop.widgets.home', ['widgetProductItems' => $widgetHome->widgetProductItems])
+                        @include('shop.widgets.home', ['widgetProductItems' => $widgetHome->widgetProductItems, 'widget_id' => $widgetHome->id])
                     </div>
                 @endforeach
 

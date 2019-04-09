@@ -8,6 +8,9 @@
 require('./bootstrap');
 window.AutoNumeric = require('./../../node_modules/autonumeric/dist/autoNumeric');
 
+require ('owl.carousel');
+
+
 const autoNumericOptionsRuble = {
     currencySymbol: "\u202f ₽",
     currencySymbolPlacement: "s",
@@ -35,7 +38,7 @@ $(document).ready(function() {
     //
     // });
 
-    var categoryDataId = $('#aHref[data-id]:first').addClass('active');
+    const categoryDataId = $('#aHref[data-id]:first').addClass('active');
     $('.vertical-menu_block[data-id=' + $(categoryDataId).attr('data-id') + ']').show();
 
 
@@ -51,6 +54,14 @@ $(document).ready(function() {
     });
 
     AutoNumeric.multiple('#price', autoNumericOptionsRuble);
+
+    $('.owl-carousel').owlCarousel({
+        loop:true,
+        dots: false,
+        margin:30,
+        nav:true,
+        items:6,
+    });
 
 });
 
