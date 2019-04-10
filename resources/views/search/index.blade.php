@@ -9,7 +9,7 @@
                     <div class="image p-0">
                         @foreach($product->photos as $photo)
                             @if($photo->main == 'yeas')
-                                <img src="{{Storage::get('public/storage/products/medium/', $photo->file) }}" alt="" class=" img-circle  mr-0 pr-0 w-100" >
+                                <img src="{{ url('storage\products\medium\\'). $photo->file }}" alt="" class=" img-circle  mr-0 pr-0 w-100" >
                                 @break
                             @endif
                         @endforeach
