@@ -42,7 +42,7 @@
 <div class="flex-fill search-form">
     <form action="{{ route('search.index' ,'?') }}" method="GET" class="form-inline">
         <div class="input-group ">
-            <input  id="name" type="text" class="form-control rounded-left-sm" name="text" value="{{ request('text') }}" placeholder="Я хочу найти..">
+            <input  id="name" type="search" class="form-control rounded-left-sm" name="text" value="{{ request('text') }}" placeholder="Я хочу найти..">
             <div class="input-group-append">
                 <button class="btn btn-outline-secondary" type="submit" >{{ __('button.Search') }}</button>
             </div>

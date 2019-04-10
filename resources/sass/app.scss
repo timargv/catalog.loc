@@ -25,14 +25,20 @@
     font-family: 'Lobster', cursive;
 }
 
-.breadcrumb {}
+.breadcrumb {
+    font-size: 16px;
+    padding: 0 0rem 0.75rem;
+    background: $white;
+}
 .breadcrumb-item {}
 .breadcrumb-item + .breadcrumb-item::before {
     font-family: "Font Awesome 5 Pro";
     content: '\f068';
     font-weight: 100;
 }
-.breadcrumb-item a {}
+.breadcrumb-item a {
+    color: #6c757d !important;
+}
 .breadcrumb-item.active {}
 .breadcrumb-item.active a {}
 

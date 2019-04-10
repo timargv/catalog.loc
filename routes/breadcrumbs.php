@@ -32,7 +32,7 @@ Breadcrumbs::register('password.reset', function (Crumbs $crumbs) {
 });
 
 Breadcrumbs::register('search.index', function (Crumbs $crumbs) {
-    $crumbs->parent('home');
+    // $crumbs->parent('home');
     $crumbs->push( __('fillable.Search'));
     if (request('text')) {
         $crumbs->push(request('text'));

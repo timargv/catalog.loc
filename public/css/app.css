@@ -10996,10 +10996,20 @@ a.text-dark:focus {
   font-family: "Lobster", cursive;
 }
 
+.breadcrumb {
+  font-size: 16px;
+  padding: 0 0rem 0.75rem;
+  background: #fff;
+}
+
 .breadcrumb-item + .breadcrumb-item::before {
   font-family: "Font Awesome 5 Pro";
   content: "\F068";
   font-weight: 100;
+}
+
+.breadcrumb-item a {
+  color: #6c757d !important;
 }
 
 .owl-stage {
