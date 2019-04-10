@@ -25,16 +25,25 @@
     font-family: 'Lobster', cursive;
 }
 
+.owl-stage {
+    padding-left: 0px !important;
+}
+
 .owl-theme .owl-nav {
     text-align: initial;
     -webkit-tap-highlight-color: transparent;
-    position: absolute;
-    top: 50%;
-    margin-top: -142px;
+    position: relative;
     width: 100%;
+    z-index: 0;
+    height: 0;
 }
 .owl-carousel .owl-nav .owl-next {
     float: right;
+}
+
+.owl-carousel .owl-nav .owl-prev.disabled,
+.owl-carousel .owl-nav .owl-next.disabled {
+    display: none;
 }
 
 .owl-carousel .owl-nav .owl-prev,
@@ -51,6 +60,7 @@
 .owl-carousel .owl-nav button.owl-next,
 .owl-carousel button.owl-dot {
     background: none;
+    display: block;
     color: inherit;
     border: none;
     padding: 0 !important;
@@ -66,20 +76,29 @@
 .owl-carousel .owl-nav button.owl-next span {
     display: none;
 }
-
+.owl-carousel .owl-nav button.owl-prev {
+    left: -25px;
+}
+.owl-carousel .owl-nav button.owl-next {
+    right: -25px;
+}
 .owl-carousel .owl-nav button.owl-prev,
 .owl-carousel .owl-nav button.owl-next {
     font-family: "Font Awesome 5 Pro";
     border-radius: 50%;
-    color: #343a40;
-    font-size: 30px;
+    color: #343a40 !important;
+    font-size: 18px;
     padding: 0;
     display: inline-block;
     vertical-align: middle;
     text-align: center;
     z-index: 999;
-    position: relative;
+    position: absolute;
     font-weight: 100;
+    outline: none !important;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+    top: 50%;
+    margin-top: -270px;
 }
 .owl-carousel .owl-nav button.owl-prev:before {
     content: "\f060"

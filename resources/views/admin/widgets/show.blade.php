@@ -29,6 +29,12 @@
                 <tr>
                     <th>{{ __('fillable.Title') }}</th><td>{{ $widget->title }}</td>
                 </tr>
+                <tr>
+                    <th>{{ __('fillable.Status') }}</th><td>{{ $widget->getStatusName() }}</td>
+                </tr>
+                <tr>
+                    <th>{{ __('fillable.Type') }}</th><td>{{ $widget->getTypeName() }}</td>
+                </tr>
 
                 <tbody>
                 </tbody>
@@ -49,47 +55,79 @@
         <div class="col-xs-8">
             <div class="box box-info">
                 <div class="box-header">
-                    <div class="box-title">Товары</div>
+                    <div class="box-title">@if($widget->isTypeProduct()) Товары @elseif($widget->isTypeCategory()) Популярные категории @endif </div>
                 </div>
                 <!-- /.box-header -->
 
                 @if (count($widgetItems) > 0)
                 <div class="box-body table-responsive no-padding">
-
-
+                    @if($widget->isTypeProduct())
                     <table class="table table-bordered table-striped">
                         <tbody>
-                            <tr>
-                                <th width="20px">ID</th>
-                                <th width="200px">{{ __('fillable.Title') }}</th>
-                                <th width="40px">{{ __('fillable.Price') }}</th>
-                                <th width="40px">{{ __('fillable.Status') }}</th>
+                        <tr>
+                            <th width="20px">ID</th>
+                            <th width="200px">{{ __('fillable.Title') }}</th>
+                            <th width="40px">{{ __('fillable.Price') }}</th>
+                            <th width="40px"></th>
 
-                            </tr>
+                        </tr>
 
-                            @foreach($widgetItems as $item)
+                        @foreach($widgetItems as $item)
 
                             <tr>
                                 <td>{{ $item->product->id }}</td>
                                 <td>{{ $item->product->name }}</td>
                                 <td><span id="price">{{ $item->product->price }}</span></td>
                                 <td>
-                                    <form method="POST" action="{{ route('admin.widgets.product.delete', [$widget, $item->id]) }}" class="form-inline pull-right">
+                                    <form method="POST" action="{{ route('admin.widgets.item.delete', [$widget, $item->id]) }}" class="form-inline pull-right">
                                         @csrf
                                         @method('DELETE')
                                         <div class="btn-group btn-group-xs">
-                                            <button onclick="return confirm('Удалить Товар из виджета?')" class="btn btn-default"><i class="fas fa-trash"></i></button>
+                                            <button onclick="return confirm('Удалено из виджета?')" class="btn btn-default"><i class="fas fa-trash"></i></button>
                                         </div>
 
                                     </form>
                                 </td>
                             </tr>
-                            @endforeach
+
+                        @endforeach
 
                         <tbody>
                         </tbody>
                     </table>
+                    @elseif($widget->isTypeCategory())
+                    <table class="table table-bordered table-striped">
+                        <tbody>
+                        <tr>
+                            <th width="20px">ID</th>
+                            <th width="200px">{{ __('fillable.Title') }}</th>
+                            <th width="40px"></th>
 
+                        </tr>
+
+                        @foreach($widgetItems as $item)
+
+                            <tr>
+                                <td>{{ $item->category->id }}</td>
+                                <td>{{ $item->category->name }}</td>
+                                <td>
+                                    <form method="POST" action="{{ route('admin.widgets.item.delete', [$widget, $item->id]) }}" class="form-inline pull-right">
+                                        @csrf
+                                        @method('DELETE')
+                                        <div class="btn-group btn-group-xs">
+                                            <button onclick="return confirm('Удалено из виджета?')" class="btn btn-default"><i class="fas fa-trash"></i></button>
+                                        </div>
+
+                                    </form>
+                                </td>
+                            </tr>
+
+                        @endforeach
+
+                        <tbody>
+                        </tbody>
+                    </table>
+                    @endif
                 </div>
                 <!-- /.box-body -->
 
@@ -101,7 +139,7 @@
                 @else
                     <div class="box-body table-responsive no-padding">
                         <div class="h4 font-weight-light text-muted text-center py-5">
-                            Товаров нет
+                            @if($widget->isTypeProduct()) Товаров @elseif($widget->isTypeCategory()) Популярных категории @endif нет
                         </div>
                     </div>
                 @endif
@@ -109,7 +147,11 @@
             </div>
         </div>
         <div class="col-xs-4">
-            @include('admin.widgets._add_products', [$widget, $products])
+            @if($widget->isTypeProduct())
+                @include('admin.widgets._add_products', [$widget, $products])
+            @elseif($widget->isTypeCategory())
+                @include('admin.widgets._add_products', [$widget, $categories])
+            @endif
         </div>
     </div>
 

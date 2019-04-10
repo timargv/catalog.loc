@@ -1,52 +1,63 @@
-<div class="container wm-1140 position-relative">
-<div class="owl-carousel owl-theme">
-    @foreach ($widgetProductItems as $product)
-        <div  class="mb-4 sh-product">
-            <a class="card p-0 border-0 rounded-0 sh-product" href="{{ $product->id }}">
-                <div class="image p-0">
-                    @foreach($product->product->photos as $photo)
-                        @if($photo->main == 'yeas')
-                            <img src="storage/products/medium/{{ $photo->file }}" alt="" class=" img-circle  mr-0 pr-0 w-100" >
-                            @break
-                        @endif
-                    @endforeach
-                    @if (!count($product->product->photos))
-                        <img src="img/no_photo_product.jpg" alt="" class="mr-0 pr-0 w-100" >
-                    @endif
-                </div>
-                <div class="card-body px-0 mb-3">
-
-                    <div class="price-block">
-                        <strong>
-                            <span id="price" >{{ $product->product->price }}</span>
-                        </strong>
-                        @if($product->product->price > $product->product->vendor_price)
-                            <i class="fas fa-angle-up text-success mr-1"></i>
-                        @elseif($product->product->price < $product->product->vendor_price)
-                            <i class="fas fa-angle-down text-danger mr-1"></i>
+<div class="container wm-1140 position-relative mb-5">
+    @if($widgetHome->isTypeProduct())
+    <div class="@if(count($widgetHome->widgetProductItems) > 5) owl-carousel owl-theme @else d-flex row @endif">
+        @foreach ($widgetHome->widgetProductItems as $product)
+            <div  class=" mb-4 sh-product" style="@if(count($widgetHome->widgetProductItems) < 6) width:20%; padding: 0 15px; @endif">
+                <a class="card p-0 border-0 rounded-0 sh-product" href="{{ $product->id }}">
+                    <div class="image p-0">
+                        @foreach($product->product->photos as $photo)
+                            @if($photo->main == 'yeas')
+                                <img src="storage/products/medium/{{ $photo->file }}" alt="" class=" img-circle  mr-0 pr-0 w-100" >
+                                @break
+                            @endif
+                        @endforeach
+                        @if (!count($product->product->photos))
+                            <img src="img/no_photo_product.jpg" alt="" class="mr-0 pr-0 w-100" >
                         @endif
                     </div>
+                    <div class="card-body px-0 mb-0 pb-0">
 
-                    <div class="mb-3 title">
-                        {{ $product->product->name }}
+                        <div class="price-block">
+                            <strong>
+                                <span id="price" >{{ $product->product->price }}</span>
+                            </strong>
+                            @if($product->product->price > $product->product->vendor_price)
+                                <i class="fas fa-angle-up text-success mr-1"></i>
+                            @elseif($product->product->price < $product->product->vendor_price)
+                                <i class="fas fa-angle-down text-danger mr-1"></i>
+                            @endif
+                        </div>
+
+                        <div class="mb-3 title">
+                            {{ $product->product->name }}
+                        </div>
+
+                        <div class="small mb-3">{{ $product->vendor_code }}</div>
+
+                        <div class="btn_group">
+                            <form action="{{ route('cart.add', $product->product->id) }}" method="POST">
+                                @csrf
+                                <button class="btn btn-sm text-white"><span class="hidden-xs hidden-sm hidden-md">В корзину</span></button>
+                            </form>
+                        </div>
+
                     </div>
 
-                    <div class="small mb-3">{{ $product->vendor_code }}</div>
-
-                    <div class="btn_group">
-                        <form action="{{ route('cart.add', $product->product->id) }}" method="POST">
-                            @csrf
-                            <button class="btn btn-sm text-white"><span class="hidden-xs hidden-sm hidden-md">В корзину</span></button>
-                        </form>
-                    </div>
-
+                </a>
+            </div>
+        @endforeach
+    </div>
+    @elseif($widgetHome->isTypeCategory())
+        <div class="row">
+            @foreach ($widgetHome->widgetCategoryItems as $widget)
+                <div  class="col-2 mb-4 sh-product">
+                    <a href="{{ $widget->category->id }}">{{ $widget->category->name }}</a>
                 </div>
-
-            </a>
+            @endforeach
         </div>
-    @endforeach
+    @endif
 </div>
-</div>
+
 
 
 

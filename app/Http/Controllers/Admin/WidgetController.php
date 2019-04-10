@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Entity\Category;
 use App\Entity\Product;
 use App\Entity\Shop\Widgets\Widget;
 use App\Entity\Shop\Widgets\WidgetProductItem;
@@ -9,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\UseCases\Widget\WidgetService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class WidgetController extends Controller
 {
@@ -29,54 +31,76 @@ class WidgetController extends Controller
 
     public function create()
     {
-        return view('admin.widgets.create');
+        $statuses = Widget::statusesAvailable();
+        $options = Widget::optionsList();
+        $types = Widget::typesList();
+
+        return view('admin.widgets.create', compact('options', 'statuses', 'types'));
     }
 
     public function store(Request $request)
     {
         $products = Product::all();
+        $categories = Category::all();
         $request->validate([
-            'title' => 'required'
+            'title' => 'required',
+            'type' => ['required', 'string', 'max:255', Rule::in(array_keys(Widget::typesList()))],
+            'status' => ['required', 'string', 'max:255', Rule::in(array_keys(Widget::statusesAvailable()))],
         ]);
 
         $widget = Widget::create([
-            'title' => $request['title']
+            'title' => $request['title'],
+            'type' => $request['type'],
+            'status' => $request['status'],
         ]);
 
 //        $widget->setProducts($request->get('products'));
-        $widgetItems = $widget->widgetProductItems()->paginate(15);
-
-
-        return view('admin.widgets.show', compact('widget', 'products', 'widgetItems'));
+        if ($widget->type === Widget::TYPE_PRODUCT) {
+            $widgetItems = $widget->widgetProductItems()->paginate(15);
+            return view('admin.widgets.show', compact('widget', 'products', 'widgetItems'));
+        }
+        $widgetItems = $widget->widgetCategoryItems()->paginate(15);
+        return view('admin.widgets.show', compact('widget', 'categories', 'widgetItems'));
 
     }
 
     public function show(Widget $widget)
     {
-        $products = Product::all();
-        $widgetItems = $widget->widgetProductItems()->paginate(15);
-        return view('admin.widgets.show', compact('widget', 'products', 'widgetItems'));
+        if ($widget->isTypeProduct()) {
+            $products = Product::all();
+            $widgetItems = $widget->widgetProductItems()->paginate(15);
+            return view('admin.widgets.show', compact('widget', 'products', 'widgetItems'));
+        }
+        $categories = Category::defaultOrder()->withDepth()->get();
+        $widgetItems = $widget->widgetCategoryItems()->paginate(15);
+        return view('admin.widgets.show', compact('widget', 'categories', 'widgetItems'));
+
     }
 
 
     public function edit(Widget $widget)
     {
-        return view('admin.widgets.edit', compact('widget'));
+        $statuses = Widget::statusesAvailable();
+        $options = Widget::optionsList();
+        $types = Widget::typesList();
+
+        return view('admin.widgets.edit', compact('widget', 'options', 'statuses', 'types'));
     }
 
 
     public function update(Request $request, Widget $widget)
     {
         $request->validate([
-            'title' => 'required'
+            'title' => 'required',
+            'type' => ['required', 'string', 'max:255', Rule::in(array_keys(Widget::typesList()))],
+            'status' => ['required', 'string', 'max:255', Rule::in(array_keys(Widget::statusesAvailable()))],
         ]);
 
         $widget->update([
-            'title' => $request['title']
+            'title' => $request['title'],
+            'type' => $request['type'],
+            'status' => $request['status'],
         ]);
-
-//        $widget->products()->detach();
-        $widget->setProducts($request->get('products'));
 
         return redirect()->route('admin.widgets.show', $widget)->with('success', 'Виджет обнавлен');
     }
@@ -102,22 +126,21 @@ class WidgetController extends Controller
     public function add(Request $request, Widget $widget)
     {
         try {
-            $this->service->addProduct($widget, $request->get('product'));
+            $this->service->addVariant($widget, $request->get('widgetItemId'));
         } catch (\DomainException $e) {
             return back()->with('error', $e->getMessage());
         }
-        return redirect()->route('admin.widgets.show', $widget)->with('success', 'Добавлены товары в Виджет');
+        return redirect()->route('admin.widgets.show', $widget)->with('success', 'Добавлен в Виджет');
     }
 
 
-    public function deleteWidgetProductItem(Widget $widget, $itemId)
+    public function deleteWidgetItem(Widget $widget, $itemId)
     {
         try {
-            $this->service->deleteItem($itemId);
+            $this->service->deleteItem($widget, $itemId);
         } catch (\DomainException $e) {
             return back()->with('error', $e->getMessage());
         }
-
         return redirect()->route('admin.widgets.show', $widget)->with('success', 'Товар удален из Виджета');
     }
 

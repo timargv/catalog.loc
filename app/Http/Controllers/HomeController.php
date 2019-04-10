@@ -26,6 +26,7 @@ class HomeController extends Controller
 
         $widgetsHome = $this->widgetService->getAll();
 
+
         $categories = Category::defaultOrder()->withDepth()->get();
         if (empty($request->all())) {
             $products = Product::orderBy('id', 'DESC')->with('category', 'currency', 'vendor', 'photos');

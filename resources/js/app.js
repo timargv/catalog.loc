@@ -56,11 +56,12 @@ $(document).ready(function() {
     AutoNumeric.multiple('#price', autoNumericOptionsRuble);
 
     $('.owl-carousel').owlCarousel({
-        loop:true,
+        loop: false,
         dots: false,
         margin:30,
         nav:true,
-        items:6,
+        items:5,
+        stagePadding: 50,
     });
 
 });

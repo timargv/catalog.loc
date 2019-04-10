@@ -35,5 +35,6 @@ class CreateWidgetsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('widgets');
+        Schema::dropIfExists('widget_product_items');
     }
 }

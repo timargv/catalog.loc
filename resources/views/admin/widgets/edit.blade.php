@@ -27,6 +27,45 @@
                             @endif
                         </div>
 
+                        <div class="form-group">
+                            <label for="status" class="col-form-label">{{ __('fillable.Status') }}</label>
+                            <select id="status" class="form-control{{ $errors->has('status') ? ' is-invalid' : '' }}" name="status">
+                                @foreach ($statuses as $status => $label)
+                                    <option value="{{ $status }}"{{ $status == old('status') ? ' selected' : '' }}>{{ $label }}</option>
+                                @endforeach;
+                            </select>
+                            @if ($errors->has('status'))
+                                <span class="invalid-feedback"><strong>{{ $errors->first('status') }}</strong></span>
+                            @endif
+                        </div>
+
+                        <div class="form-group">
+                            <label for="type" class="col-form-label">{{ __('fillable.Type') }}</label>
+                            <select id="type" class="form-control{{ $errors->has('type') ? ' is-invalid' : '' }}" name="type">
+                                @foreach ($types as $type => $label)
+                                    <option value="{{ $type }}"{{ $type == old('type', $widget->type) ? ' selected' : '' }}>{{ $label }}</option>
+                                @endforeach;
+                            </select>
+                            @if ($errors->has('type'))
+                                <span class="invalid-feedback"><strong>{{ $errors->first('type') }}</strong></span>
+                            @endif
+                        </div>
+
+
+                        @if($widget->isTypeProduct())
+                            <div class="form-group">
+                                <label for="option" class="col-form-label">{{ __('fillable.Option') }}</label>
+                                <select id="option" class="form-control{{ $errors->has('option') ? ' is-invalid' : '' }}" name="option">
+                                    <option value="">--</option>
+                                    @foreach ($options as $option => $label)
+                                        <option value="{{ $option }}"{{ $type == old('option', $widget->option) ? ' selected' : '' }}>{{ $label }}</option>
+                                    @endforeach;
+                                </select>
+                                @if ($errors->has('option'))
+                                    <span class="invalid-feedback"><strong>{{ $errors->first('option') }}</strong></span>
+                                @endif
+                            </div>
+                        @endif
 
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary"><i class="fas fa-save pr-2"></i> {{ __('button.Save') }}</button>
