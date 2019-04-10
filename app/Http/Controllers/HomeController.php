@@ -28,20 +28,8 @@ class HomeController extends Controller
 
 
         $categories = Category::defaultOrder()->withDepth()->get();
-        if (empty($request->all())) {
-            $products = Product::orderBy('id', 'DESC')->with('category', 'currency', 'vendor', 'photos');
-        } else {
-            $products = Product::with('category', 'currency', 'vendor', 'photos');
-        }
 
-        $query = $products;
 
-        if (!empty($value = $request->get('name'))) {
-            $query->where([['name_original', 'like', '%' . $value . '%'],['name', 'like', '%' . $value . '%']])->orWhere('vendor_code', 'like', '%' . $value . '%');
-        }
-
-        $products = $query->orderBy('id', 'DESC')->paginate(36);
-
-        return view('home', compact('products', 'categories', 'widgetsHome'));
+        return view('home', compact('categories', 'widgetsHome'));
     }
 }

@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('breadcrumbs', '')
+
 @section('slide')
     @include('layouts.slider.slide')
 @stop

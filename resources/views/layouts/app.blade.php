@@ -33,7 +33,7 @@
                 </div>
             </div>
         </div>
-        <nav class="navbar-laravel shadow-none py-4">
+        <nav class="navbar-laravel shadow-none pt-4 pb-2">
             <div class="container d-flex wm-1140">
                 <a class=" navbar-brand position-relative px-5 font-weight-bold text-white" href="{{ url('/') }}">
                     {{--{{ config('app.name', 'SHOP VRN') }}--}}
@@ -56,10 +56,12 @@
             @include('layouts.partials.flash')
             <div class="bg-purpl p-3"></div>
             <div class="container  wm-1140  position-relative " style="top: -20px">
-            @yield('slide')
+                @yield('slide')
             </div>
 
             <div class="container pt-4 px-4 wm-1140 rounded-top bg-white position-relative" style="top: -20px">
+                @section('breadcrumbs', Breadcrumbs::render())
+                @yield('breadcrumbs')
                 @yield('content')
             </div>
         </main>

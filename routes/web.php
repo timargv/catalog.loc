@@ -29,6 +29,10 @@ Route::group([],  function () {
 
 });
 
+Route::group(['prefix' => 'search', 'as' => 'search.', 'namespace' => 'Product'], function () {
+    Route::get('/product', 'SearchController@index')->name('index');
+});
+
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'can:admin-panel'] ], function () {
 
