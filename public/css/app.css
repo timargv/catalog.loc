@@ -11485,3 +11485,11 @@ body {
   left: initial !important;
 }
 
+button.bg-light-active {
+  background-color: #ececec !important;
+}
+
+.border-light-active {
+  border-color: #ececec !important;
+}
+

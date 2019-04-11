@@ -54,7 +54,11 @@ class LoginController extends Controller
 
             $items = session()->get('cart');
             if ($items) {
-                $this->cartService->addProductsCart($items);
+                try {
+                    $this->cartService->addProductsCart($items);
+                } catch (\DomainException $e) {
+                    return redirect()->intended(route('home'));
+                }
 
             }
 

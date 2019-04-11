@@ -26,14 +26,19 @@ class CartController extends Controller
     }
 
 
-    public function add($id)
+    public function add($id, Request $request)
     {
         if (!$product = $this->productService->getProduct($id)) {
             throw new \DomainException('The requested page does not exist.');
         }
 
+        $quantity = 1;
+        if ($request['quantity']) {
+            $quantity = $request['quantity'];
+        }
+
         try {
-            $this->service->add($product->id, 1);
+            $this->service->add($product->id, $quantity);
         } catch (\DomainException $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -45,6 +50,37 @@ class CartController extends Controller
                 'success_title'    =>  $product->name,
                 'success_img'    =>  $productPhoto == null ? '': $productPhoto->file,
             ]);
+    }
+
+    public function updateQuantity($id, Request $request)
+    {
+        if (!$product = $this->productService->getProduct($id)) {
+            throw new \DomainException('The requested page does not exist.');
+        }
+
+        if ($request['minus'] === 'delete') {
+            try {
+                $this->service->removeOneQuantityProduct($product->id);
+            } catch (\DomainException $e) {
+                return redirect()->back()->with('error', $e->getMessage());
+            }
+            return redirect()->back()->with('success', 'Удален');
+        }
+
+        try {
+            $this->service->update($product, $request['quantity']);
+        } catch (\DomainException $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+
+        $quantity = $request['quantity'];
+
+        if ($quantity == 0) {
+            $quantity = 1;
+        }
+
+        return redirect()->back()->with('success', 'Количество товара обновлено ');
+
     }
 
 

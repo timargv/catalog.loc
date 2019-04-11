@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\Cache;
  * @property mixed $price_history
  * @property mixed price
  * @property mixed vendor_price
+ * @property mixed quantity
  */
 class Product extends Model
 {

@@ -311,7 +311,7 @@
                             <!-- /.box-header -->
                             <div class="box-body">
                                 <div class="row">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-4 pr-1">
                                         <div class="form-group @if($errors->has('status'))has-error @endif">
                                             <label for="status" class="col-form-label">{{ __('fillable.Status') }}</label>
                                             <select id="status" class="form-control{{ $errors->has('status') ? ' is-invalid' : '' }}" name="status">
@@ -324,18 +324,31 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group @if($errors->has('available'))has-error @endif">
-                                            <label for="available" class="col-form-label">{{ __('fillable.Available') }}</label>
-                                            <select id="available" class="form-control{{ $errors->has('available') ? ' is-invalid' : '' }}" name="available">
-                                                @foreach ($statusAvailable as $available => $label)
-                                                    <option value="{{ $available }}"{{ $available == old('available', $product->available) ? ' selected' : '' }}>{{ $label }}</option>
-                                                @endforeach;
-                                            </select>
-                                            @if ($errors->has('available'))
-                                                <span class="help-block"><strong>{{ $errors->first('available') }}</strong></span>
-                                            @endif
+                                    <div class="col-sm-8 pl-0">
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6 @if($errors->has('available'))has-error @endif pr-0">
+                                                <label for="available" class="col-form-label">{{ __('fillable.Available') }}</label>
+                                                <select id="available" class="form-control{{ $errors->has('available') ? ' is-invalid' : '' }}" name="available">
+                                                    @foreach ($statusAvailable as $available => $label)
+                                                        <option value="{{ $available }}"{{ $available == old('available', $product->available) ? ' selected' : '' }}>{{ $label }}</option>
+                                                    @endforeach;
+                                                </select>
+                                                @if ($errors->has('available'))
+                                                    <span class="help-block"><strong>{{ $errors->first('available') }}</strong></span>
+                                                @endif
+                                            </div>
+
+                                            <div class="form-group  @if($errors->has('quantity'))has-error @endif col-md-6">
+                                                <label for="quantity" class="col-form-label">Количество</label>
+                                                <input type="text" class="form-control" name="quantity" value="{{ old('quantity', $product->quantity) }}" >
+                                                @if ($errors->has('quantity'))
+                                                    <span class="help-block"><strong>{{ $errors->first('quantity') }}</strong></span>
+                                                @endif
+                                            </div>
                                         </div>
+
+
                                     </div>
                                 </div>
                             </div>

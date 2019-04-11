@@ -80,6 +80,7 @@ class ProductsController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'categories' => 'required',
+            'quantity' => 'required|numeric',
             'vendor_code' => 'required|string|max:255|unique:products',
             'slug' => 'required|string|max:255|unique:products',
 //            'parent' => 'nullable|integer|exists:categories,id',
@@ -106,6 +107,9 @@ class ProductsController extends Controller
 
             // Ссылка на сайт
             'original_url' => $request['original_url'],
+
+            // Количество в наличии
+            'quantity' => $request['quantity'],
 
             // Цена
             'price' => str_replace([' ', ' ₽'],'', $request['price']),
@@ -221,6 +225,7 @@ class ProductsController extends Controller
             'name' => 'required|string|max:255',
             'price' => 'required',
             'categories' => 'required',
+            'quantity' => 'required|numeric',
             'vendor_code' => 'required|'.Rule::unique('products', 'vendor_code')->ignore($product->id),
             'slug' => 'required|string|max:255|'. Rule::unique('products', 'slug')->ignore($product->id),
         ]);
@@ -261,6 +266,9 @@ class ProductsController extends Controller
 
             // Ссылка на сайт
             'original_url' => $request['original_url'],
+
+            // Количество в наличии
+            'quantity' => $request['quantity'],
 
             // Цена
             'price' => str_replace([' ', ' ₽'],'', $request['price']),

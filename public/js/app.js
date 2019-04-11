@@ -55109,6 +55109,7 @@ var autoNumericOptionsRuble = {
 };
 $('.toast').toast('show');
 $(document).ready(function () {
+  $('[data-toggle="tooltip"]').tooltip();
   $(".dropdown-menu").on("click", function (e) {
     e.stopPropagation();
   }); // $('#aHref[data-id]').hover(function () {

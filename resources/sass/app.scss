@@ -484,3 +484,10 @@ body {
     right: 0 !important;
     left: initial !important;
 }
+
+button.bg-light-active {
+    background-color: $silver !important;
+}
+.border-light-active {
+    border-color: $silver !important;
+}

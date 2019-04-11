@@ -60,10 +60,10 @@ class CartService
 
     public function add($productId, $quantity)
     {
+        $product = $this->productService->getProduct($productId);
+
         if (!auth()->user()) {
             $items = \Session::get('cart', []);
-
-            $product = $this->productService->getProduct($productId);
 
             $items[] = [
                 'id' => $this->getIdMd($product->id),
@@ -71,11 +71,15 @@ class CartService
                 'quantity' => $quantity
             ];
 
+
             $this->loadItems();
             if ($this->items) {
                 foreach ($this->items as $i => $item) {
                     if ($item['id'] == $this->getIdMd($productId)) {
-                        $this->set($productId, 0);
+                        if ($this->compareQuantityProduct($this->productService->getProduct($productId), $item['quantity'])) {
+                            return;
+                        }
+                        $this->set($productId, $quantity);
                         return;
                     }
                 }
@@ -89,8 +93,6 @@ class CartService
 
     public function addItemsCartDB($productId, $quantity){
 
-
-
         $product = $this->productService->getProduct($productId);
 
         if (!$product) { return; }
@@ -100,6 +102,9 @@ class CartService
             ['product_id', '=', $productId],
         ])->first();
 
+        if ($this->compareQuantityProduct($this->productService->getProduct($productId), $cardItems->quantity)) {
+            return;
+        }
 
         if ($cardItems) {
             $cardItems->update([
@@ -116,18 +121,172 @@ class CartService
         }
     }
 
-    public function set($id, $quantity): void
+    public function set($productId, $quantity): void
     {
         if (!auth()->user()) {
             $this->loadItems();
             foreach ($this->items as $i => $item) {
-                if ($item['id'] == $this->getIdMd($id)) {
-                    $this->items[$i]['quantity'] += 1;
+                if ($item['id'] == $this->getIdMd($productId)) {
+                    $this->items[$i]['quantity'] += $quantity;
                     $this->saveItems();
                     return;
                 }
             }
             throw new \DomainException('Item is not found.');
+        }
+    }
+
+
+    public function update($product, $quantity)
+    {
+
+
+        if ($quantity == 0) {
+            $quantity = 1;
+        }
+
+        if (!auth()->user()) {
+            $items = \Session::get('cart', []);
+
+            $items[] = [
+                'id' => $this->getIdMd($product->id),
+                'product' => $product,
+                'quantity' => $quantity
+            ];
+
+
+            $this->loadItems();
+            if ($this->items) {
+                foreach ($this->items as $i => $item) {
+                    if ($item['id'] == $this->getIdMd($product->id)) {
+                        if ($this->compareQuantityProduct($product, $quantity)) {
+                            return;
+                        }
+                        $this->setUpdate($product->id, $quantity);
+                        return;
+                    }
+                }
+            }
+            \Session::put('cart', $items);
+        } else {
+            $this->updateItemsCartDB($product, $quantity);
+        }
+
+    }
+
+    public function updateItemsCartDB($product, $quantity){
+
+        if (!$product) { return; }
+
+        $cardItems = $this->cart->where([
+            ['user_id', '=', auth()->id()],
+            ['product_id', '=', $product->id],
+        ])->first();
+
+        if ($this->compareQuantityProduct($product, $quantity)) {
+            return;
+        }
+
+        if ($cardItems) {
+            $cardItems->update([
+                'quantity' => $quantity
+            ]);
+
+        } else {
+            $cartItem = $this->cart->make([
+                'product_id' => $product->id,
+                'quantity' => $quantity
+            ]);
+            $cartItem->user()->associate(auth()->user());
+            $cartItem->saveOrFail();
+        }
+    }
+
+    public function setUpdate($productId, $quantity): void
+    {
+
+        if (!auth()->user()) {
+            $this->loadItems();
+            foreach ($this->items as $i => $item) {
+                if ($item['id'] == $this->getIdMd($productId)) {
+                    $this->items[$i]['quantity'] = $quantity;
+                    $this->saveItems();
+                    return;
+                }
+            }
+            throw new \DomainException('Item is not found.');
+        }
+    }
+
+    // Проверка наличия товара
+    public function compareQuantityProduct($product, $quantity)
+    {
+        if ($product->quantity >= $quantity && $product->quantity > 1) {
+            return;
+        } throw new \DomainException('Товар в наличии '. $product->quantity .' шт.');
+
+    }
+
+    // Обновление количества товара в корзине
+    public function compareUpdateQuantityProduct($product, $quantity)
+    {
+
+        if (!auth()->user()) {
+            $items = \Session::get('cart', []);
+
+            $items[] = [
+                'id' => $this->getIdMd($product->id),
+                'product' => $product,
+                'quantity' => $quantity
+            ];
+
+
+            $this->loadItems();
+            if ($this->items) {
+                foreach ($this->items as $i => $item) {
+                    if ($item['id'] == $this->getIdMd($product->id)) {
+                        if ($this->compareQuantityProduct($product, $item['quantity'])) {
+                            return;
+                        }
+                        $this->update($product->id, $quantity);
+                        return;
+                    }
+                }
+            }
+            \Session::put('cart', $items);
+        } else {
+            $this->addItemsCartDB($product->id, $quantity);
+        }
+
+    }
+
+
+    public function removeOneQuantityProduct($id) {
+        if (!auth()->user()) {
+            $this->loadItems();
+            foreach ($this->items as $i => $item) {
+                if ($item['id'] == $this->getIdMd($id)) {
+                    if ($this->compareQuantityProduct($this->productService->getProduct($id), $item['quantity'])) {
+                        return;
+                    }
+                    $this->items[$i]['quantity'] -= 1;
+                    $this->saveItems();
+                    return;
+                }
+            }
+        } else {
+            $user = auth()->user();
+            $cartItem = $cartItem = Cart::where([
+                ['user_id', '=', $user->id],
+                ['product_id', '=', $id],
+            ])->first();
+
+
+            if ($cartItem) {
+                $cartItem->update([
+                    'quantity' => $cartItem->quantity -= 1,
+                ]);
+            }
         }
     }
 
@@ -174,13 +333,24 @@ class CartService
                     ['product_id', '=', $item['product']->id],
                 ])->first();
 
+                if ($this->compareQuantityProduct($this->productService->getProduct($item['product']->id), $item['quantity'])) {
+                    return;
+                }
+
                 if ($cartItem) {
+
+                    if ($cartItem->quantity + $item['quantity'] > $this->productService->getProduct($item['product']->id)->quantity) {
+                        return;
+                    }
 
                     $cartItem->update([
                         'quantity' => $cartItem->quantity + $item['quantity']
                     ]);
 
                 } else {
+                    if ($this->compareQuantityProduct($this->productService->getProduct($item['product']->id), $item['quantity'])) {
+                        return;
+                    }
                     $itemCart = $this->cart->make([
                         'product_id' => $item['product']->id,
                         'quantity' => $item['quantity']

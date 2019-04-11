@@ -1,11 +1,17 @@
 @extends('layouts.app')
 
-@section('content')
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <div class="py-3">
+@php
+   $cartValue = __('В корзине '). count($countCartItems).  __(' товара');
+@endphp
 
-                    @if (count($countCartItems))<a class="btn btn-danger btn-sm" href="{{ route('cart.clear') }}"><i class="fal fa-trash"></i> Очистить корзину</a> @endif
+@section('breadcrumbs', '')
+
+@section('content')
+        <h1 class="text-dark font-weight-bold">{{ $cartValue }}</h1>
+        <div class="row justify-content-start">
+            <div class="col-md-8">
+                <div class="py-3">
+                @if (count($countCartItems))<a class="btn btn-danger btn-sm" href="{{ route('cart.clear') }}"><i class="fal fa-trash"></i> Очистить корзину</a> @endif
                 </div>
 
 
@@ -16,7 +22,7 @@
                             <th>ID</th>
                             <th width="50px">Image</th>
                             <th>{{ __('fillable.Title') }}</th>
-                            <th>Amount</th>
+                            <th width="150px">Amount</th>
                             <th>{{ __('fillable.Price') }}</th>
                             <th></th>
                         </tr>
@@ -46,12 +52,44 @@
                                     </div>
                                     <small>{{ $item['product']->vendor_code }}</small>
                                 </td>
-                                <td>{{ $item['quantity'] }}</td>
+                                <td>
+                                    <div class="input-group input-group-sm">
+
+                                        <div class="form-inline input-group-sm">
+                                            <form action="{{ route('cart.update.quantity', $item['product']->id) }}" method="POST" class="form-inline">
+                                                @csrf
+                                                <input name="minus" value="delete" hidden>
+
+                                                <div class="input-group-prepend">
+                                                    <button class="btn btn-sm btn-outline-secondary bg-light-active border-light-active text-dark  rounded-left" style="border-radius: 0;"  @if($item['quantity'] < 2) disabled @endif><i class="far fa-minus"></i></button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="form-inline input-group-sm" >
+                                            <form action="{{ route('cart.update.quantity', $item['product']->id) }}" method="POST" class="form-inline">
+                                                @csrf
+                                                <input name="quantity" style="width: 40px;height: 28px;" type="text" class="form-control form-control-sm text-center border-light-active px-1 rounded-0 m-0 outline" placeholder="0" value="{{ $item['quantity'] }}">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-sm btn-outline-secondary bg-light-active border-light-active text-dark rounded-0" data-toggle="tooltip" data-placement="top" title="Обновить количество"><i class="far fa-sync"></i></button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="form-inline input-group-sm">
+                                            <form action="{{ route('cart.add', $item['product']->id) }}" method="POST" class="form-inline">
+                                                @csrf
+                                                <input name="plus" value="plus" hidden>
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-sm btn-outline-secondary bg-light-active border-light-active text-dark rounded-right" style="border-radius: 0;"><i class="far fa-plus"></i></button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td>{{ $item['product']->price * $item['quantity'] }}</td>
                                 <td>
                                     <form action="{{ route('cart.remove', $item['product']->id) }}" method="POST">
                                         @csrf
-                                        <button><i class="fal fa-trash"></i> <span class="hidden-xs hidden-sm hidden-md">Удалить</span></button>
+                                        <button class="btn btn-sm bg-transparent text-dark text-muted"><i class="fas fa-trash"></i></button>
                                     </form>
                                 </td>
                             </tr>
@@ -61,7 +99,7 @@
                         <tr>
                             <td colspan="4"></td>
                             <td colspan="2">
-                                <div id="price" ><strong>Итого: </strong> {{ $price }}</div>
+                                <div ><strong>Итого: </strong> <span id="price" >{{ $price }}</span></div>
                             </td>
                         </tr>
                         </tfoot>
@@ -70,6 +108,9 @@
                     Корзина пуста
                 @endif
 
+            </div>
+            <div class="col-md-4">
+                asdsa
             </div>
         </div>
 @endsection

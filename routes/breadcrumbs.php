@@ -6,6 +6,10 @@ Breadcrumbs::register('home', function (Crumbs $crumbs) {
     $crumbs->push(__('fillable.Home'), route('home'));
 });
 
+Breadcrumbs::register('cart.index', function (Crumbs $crumbs) {
+    $crumbs->push('Корзина', route('cart.index'));
+});
+
 Breadcrumbs::register('login', function (Crumbs $crumbs) {
     $crumbs->parent('home');
     $crumbs->push('Login', route('login'));

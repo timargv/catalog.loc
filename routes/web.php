@@ -24,6 +24,7 @@ Route::group([],  function () {
         Route::get('/', 'CartController@show')->name('index');
         Route::post('/{id}/add', 'CartController@add')->name('add');
         Route::post('/{id}/remove', 'CartController@remove')->name('remove');
+        Route::post('/{id}/update/quantity', 'CartController@updateQuantity')->name('update.quantity');
         Route::get('/clear', 'CartController@clear')->name('clear');
     });
 
