@@ -1,13 +1,15 @@
 @extends('layouts.app')
 
 @php
-   $cartValue = __('В корзине '). count($countCartItems).  __(' товара');
+    if ($countCartItems) {
+       $cartValue = __('В корзине '). count($countCartItems).  __(' товара');
+    } $cartValue = __('В корзине нет товаров');
 @endphp
 
 @section('breadcrumbs', '')
 
 @section('content')
-        <h1 class="text-dark font-weight-bold">{{ $cartValue }}</h1>
+        <h1 class="text-dark" style="font-weight: 500">{{ $cartValue }}</h1>
         <div class="row justify-content-start">
             <div class="col-md-8">
                 <div class="py-3">

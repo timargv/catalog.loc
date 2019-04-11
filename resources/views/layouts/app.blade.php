@@ -26,10 +26,20 @@
     <div id="app">
         <div class="top-line bg-purpl text-white py-2">
             <div class="container wm-1140">
-                <div class="city">
-                    <i class="fas fa-location-arrow text-muted"></i>
-                    <span>Регион:</span>
-                    <a class="text-white border-bottom border-white text-decoration-none" href="#">Воронеж</a>
+                <div class="d-flex">
+                    <div class="city mr-auto">
+                        <i class="fas fa-location-arrow text-muted"></i>
+                        <span>Регион:</span>
+                        <a class="text-white border-bottom border-white text-decoration-none" href="#">Воронеж</a>
+                    </div>
+
+                    <div class="top-head-nav">
+                        <ul class="list-unstyled nav p-0 text-white">
+                            <li class="pl-3">Бесплатная <a class="text-white" href="#">доставка</a></li>
+                            <li class="pl-3">Удобная <a class="text-white" href="#">оплата</a></li>
+                            <li class="pl-3">Лёгкий <a class="text-white" href="#">Лёгкий возврат</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
