@@ -50,8 +50,12 @@
     @elseif($widgetHome->isTypeCategory())
         <div class="row">
             @foreach ($widgetHome->widgetCategoryItems as $widget)
-                <div  class="col-2 mb-4 sh-product">
-                    <a href="{{ $widget->category->id }}">{{ $widget->category->name }}</a>
+                <div  class="col-2 mb-4 sh-product text-center">
+                    <a class="text-muted text-decoration-none" href="{{ $widget->category->id }}" style="font-size: 17px">
+                    <div class="image mb-3">
+                        <img class="w-100 rounded-circle" src="{{ $widget->category->image == null ? Storage::disk('public')->url('image/no_photo.jpg') : Storage::disk('public')->url('category/medium/'.  $widget->category->image) }}" alt="">
+                    </div>
+                    {{ $widget->category->name }}</a>
                 </div>
             @endforeach
         </div>
@@ -85,7 +89,7 @@
                                             {{--@endif--}}
                                         {{--@endforeach--}}
                                         {{--@if (!count($product->product->photos))--}}
-                                            {{--<img src="img/no_photo_product.jpg" alt="" class="mr-0 pr-0 w-100" >--}}
+                                            {{--<img src="img/no_photo.jpg" alt="" class="mr-0 pr-0 w-100" >--}}
                                         {{--@endif--}}
                                     {{--</div>--}}
                                     {{--<div class="card-body px-0 mb-3">--}}

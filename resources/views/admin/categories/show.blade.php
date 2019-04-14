@@ -51,10 +51,16 @@
                     <th>{{ __('category.Count') }}</th><td>{{ $category->count }}</td>
                 </tr>
                 <tr>
-                    <th>{{ __('category.Image') }}</th><td>{{ $category->image }}</td>
+                    <th>{{ __('category.Image') }}</th>
+                    <td>
+                        <img width="50px" src="{{ $category->image == null ? Storage::disk('public')->url('image/no_photo.jpg') : Storage::disk('public')->url('category/medium/'.  $category->image) }}" alt="Attachment">
+                    </td>
                 </tr>
                 <tr>
-                    <th>{{ __('category.Icon') }}</th><td>{{ $category->icon }}</td>
+                    <th>{{ __('category.Icon') }}</th>
+                    <td>
+                        <img width="50px" src="{{ $category->icon == null ? Storage::disk('public')->url('image/no_photo.jpg') : Storage::disk('public')->url('category/icon/medium/'.  $category->icon) }}" alt="Attachment">
+                    </td>
                 </tr>
 
                 <tr>

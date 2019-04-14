@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Entity\Category;
 use App\Http\Controllers\Controller;
-use App\UseCases\Auth\RegisterService;
+use App\Http\Requests\Admin\Category\CreateRequest;
+use App\Http\Requests\Admin\Category\UpdateRequest;
 use App\UseCases\Category\CategoryService;
 use Illuminate\Http\Request;
 
@@ -12,11 +13,11 @@ use Illuminate\Http\Request;
 class CategoriesController extends Controller
 {
 
-    private $register;
+    private $service;
 
-    public function __construct(RegisterService $register)
+    public function __construct(CategoryService $service)
     {
-        $this->register = $register;
+        $this->service = $service;
         $this->middleware('can:manage-users');
     }
 
@@ -40,7 +41,6 @@ class CategoriesController extends Controller
         return view('admin.categories.index', compact('categories'));
     }
 
-
     public function create()
     {
         $parents = Category::defaultOrder()->withDepth()->get();
@@ -48,28 +48,13 @@ class CategoriesController extends Controller
     }
 
 
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $this->validate($request, [
-            'name' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|unique:categories',
-            'parent' => 'nullable|integer|exists:categories,id',
-        ]);
-
-        $category = Category::create([
-            'name' => $request['name'],
-            'name_original' => $request['name_original'],
-
-            'name_h1' => $request['name_h1'],
-            'meta_description' => $request['meta_description'],
-            'meta_title' => $request['meta_title'],
-            'meta_keywords' => $request['meta_keywords'],
-
-            'status' => Category::STATUS_ACTIVE,
-            'slug' => $request['slug'],
-            'parent_id' => $request['parent'],
-        ]);
-
+        try {
+             $category = $this->service->create($request);
+        } catch (\DomainException $e) {
+             return back()->with('error', $e->getMessage());
+        }
         return redirect()->route('admin.categories.show', $category);
     }
 
@@ -86,7 +71,6 @@ class CategoriesController extends Controller
         return view('admin.categories.show', compact('category', 'categories'));
     }
 
-
     public function edit(Category $category)
     {
         $parents = Category::defaultOrder()->withDepth()->get();
@@ -95,26 +79,13 @@ class CategoriesController extends Controller
     }
 
 
-    public function update(Request $request, Category $category)
+    public function update(Category $category, UpdateRequest $request)
     {
-        $this->validate($request, [
-            'name' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|exists:categories,slug',
-            'parent' => 'nullable|integer|exists:categories,id',
-        ]);
-
-        $category->update([
-            'name' => $request['name'],
-            'name_original' => $request['name_original'],
-
-            'name_h1' => $request['name_h1'],
-            'meta_description' => $request['meta_description'],
-            'meta_title' => $request['meta_title'],
-            'meta_keywords' => $request['meta_keywords'],
-
-            'slug' => $request['slug'],
-            'parent_id' => $request['parent'],
-        ]);
+        try {
+            $this->service->edit($category, $request);
+        } catch (\DomainException $e) {
+            return back()->with('error', $e->getMessage());
+        }
 
         return redirect()->route('admin.categories.show', $category);
     }
@@ -129,7 +100,6 @@ class CategoriesController extends Controller
         return redirect()->route('admin.categories.index');
     }
 
-
     public function up(Category $category)
     {
         $category->up();
@@ -137,14 +107,12 @@ class CategoriesController extends Controller
         return redirect()->route('admin.categories.index');
     }
 
-
     public function down(Category $category)
     {
         $category->down();
 
         return redirect()->route('admin.categories.index');
     }
-
 
     public function last(Category $category)
     {
@@ -154,7 +122,6 @@ class CategoriesController extends Controller
 
         return redirect()->route('admin.categories.index');
     }
-
 
     public function toggleStatus(Request $request)
     {

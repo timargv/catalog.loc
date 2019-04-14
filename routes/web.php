@@ -52,12 +52,24 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
 
     // Категории
-    Route::resource('categories', 'CategoriesController');
-    Route::group(['prefix' => 'categories/{category}', 'as' => 'categories.'], function () {
-        Route::post('/first', 'CategoriesController@first')->name('first');
-        Route::post('/up', 'CategoriesController@up')->name('up');
-        Route::post('/down', 'CategoriesController@down')->name('down');
-        Route::post('/last', 'CategoriesController@last')->name('last');
+//    Route::resource('categories', 'CategoriesController');
+    Route::group(['prefix' => 'categories', 'as' => 'categories.'], function () {
+
+        Route::get('/', 'CategoriesController@index')->name('index');
+        Route::get('/create', 'CategoriesController@create')->name('create');
+        Route::get('/{category}/show', 'CategoriesController@show')->name('show');
+        Route::get('/{category}/edit', 'CategoriesController@edit')->name('edit');
+
+        Route::put('/{category}/update', 'CategoriesController@update')->name('update');
+        Route::put('/store', 'CategoriesController@store')->name('store');
+        Route::delete('/{category}/destroy', 'CategoriesController@destroy')->name('destroy');
+
+        Route::group(['prefix' => '/{category}'], function () {
+            Route::post('/first', 'CategoriesController@first')->name('first');
+            Route::post('/up', 'CategoriesController@up')->name('up');
+            Route::post('/down', 'CategoriesController@down')->name('down');
+            Route::post('/last', 'CategoriesController@last')->name('last');
+        });
     });
     Route::post('/categories/toggle-status', 'CategoriesController@toggleStatus')->name('categories.toggle.status');
 

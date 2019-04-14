@@ -31,7 +31,7 @@
                                     {{--@endif--}}
                                 {{--@endforeach--}}
                                 {{--@if (!count($product->photos))--}}
-                                    {{--<img src="img/no_photo_product.jpg" alt="" class="mr-0 pr-0 w-100" >--}}
+                                    {{--<img src="img/no_photo.jpg" alt="" class="mr-0 pr-0 w-100" >--}}
                                 {{--@endif--}}
                             {{--</div>--}}
                             {{--<div class="card-body px-0 mb-3">--}}

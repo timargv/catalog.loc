@@ -29,7 +29,6 @@ class Photo extends Model
 
     public function isDraftPhotoMain()
     {
-        dd('ss');
         $this->update([
             'main' => self::STATUS_NOT_MAIN_PHOTO,
         ]);

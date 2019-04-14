@@ -3,7 +3,7 @@
 @section('title', $category->name == null ? 'Категория '. $category->name_original : 'Категория '. $category->name)
 
 @section('content')
-    <form method="POST" action="{{ route('admin.categories.update', $category) }}">
+    <form method="POST" action="{{ route('admin.categories.update', $category) }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -37,21 +37,6 @@
                             @endif
                         </div>
 
-                        <div class="form-group @if($errors->has('name_h1'))has-error @endif">
-                            <label for="name_h1" class="col-form-label">Name H1</label>
-                            <input id="name_h1" class="form-control" name="name_h1" value="{{ old('name_h1', $category->name_h1) }}" >
-                            @if ($errors->has('name_h1'))
-                                <span class="help-block"><strong>{{ $errors->first('name_h1') }}</strong></span>
-                            @endif
-                        </div>
-
-                        <div class="form-group @if($errors->has('name_menu'))has-error @endif">
-                            <label for="name_menu" class="col-form-label">Name Menu</label>
-                            <input id="name_menu" class="form-control" name="name_menu" value="{{ old('name_menu', $category->name_menu) }}" >
-                            @if ($errors->has('name_menu'))
-                                <span class="help-block"><strong>{{ $errors->first('name_menu') }}</strong></span>
-                            @endif
-                        </div>
 
                         <div class="form-group @if($errors->has('description'))has-error @endif">
                             <label for="description" class="col-form-label">Description</label>
@@ -88,22 +73,6 @@
                             @endif
                         </div>
 
-                        <div class="form-group @if($errors->has('icon'))has-error @endif">
-                            <label for="icon" class="col-form-label">Icon</label>
-                            <input id="icon" class="form-control" name="icon" value="{{ old('icon', $category->icon) }}" >
-                            @if ($errors->has('icon'))
-                                <span class="help-block"><strong>{{ $errors->first('icon') }}</strong></span>
-                            @endif
-                        </div>
-
-                        <div class="form-group @if($errors->has('image'))has-error @endif">
-                            <label for="image" class="col-form-label">Image</label>
-                            <input id="image" class="form-control" name="image" value="{{ old('image', $category->image) }}" >
-                            @if ($errors->has('image'))
-                                <span class="help-block"><strong>{{ $errors->first('image') }}</strong></span>
-                            @endif
-                        </div>
-
                         <div class="form-group @if($errors->has('slug'))has-error @endif">
                             <label for="slug" class="col-form-label">Slug</label>
                             <input id="slug" type="text" class="form-control slug" name="slug" value="{{ old('slug', $category->slug == null ? str_slug($category->name_original) : $category->slug ) }}" required>
@@ -129,8 +98,8 @@
                         </div>
 
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-save pr-2"></i> Save</button>
-                            <a href="{{ route('admin.categories.index') }}" class="btn btn-danger pull-right"><i class="far fa-times pr-2"></i> Отменить</a>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save pr-2"></i> {{ __('button.Save') }}</button>
+                            <a href="{{ route('admin.categories.index') }}" class="btn btn-danger pull-right"><i class="far fa-arrow-left pr-2"></i> {{ __('button.Back') }}</a>
                         </div>
                     </div>
 
@@ -139,6 +108,86 @@
 
             {{-- Мета-данные --}}
             <div class="col-xs-6">
+                <div class="box box-widget">
+                    <div class="box-header with-border">
+                        <div class="box-title">
+                            Картинка
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+
+                    <div class="box-body">
+                        <div class="col-xs-4">
+                            <ul class="mailbox-attachments clearfix">
+                                <li>
+                                    <span class="mailbox-attachment-icon has-img"><img src="{{ $category->image == null ? Storage::disk('public')->url('image/no_photo.jpg') : Storage::disk('public')->url('category/medium/'.  $category->image) }}" alt="Attachment"></span>
+
+                                    <div class="mailbox-attachment-info">
+                                        <a href="{{ $category->image == null ? Storage::disk('public')->url('image/no_photo.jpg') : Storage::disk('public')->url('category/medium/'.  $category->image) }}" target="_blank" class="mailbox-attachment-name"><i class="fa fa-camera"></i> {{ $category->image }}</a>
+                                        <span class="mailbox-attachment-size">
+                                                {{--{{ $category->getSize() }}--}}
+                                                {{--<div class="bnt-group ">--}}
+                                                  {{--<a href="#" class="btn btn-default btn-xs "><i class="fa fa-cloud-download"></i></a>--}}
+                                                  {{--<a href="#" data-url="{{ route('admin.products.photos.main', [$product, $photo->id]) }}" id="main-photo-product" data-id="{{ $photo->id }}" class="btn btn-{{ $photo->main == 'yeas' ? 'success disabled' : 'default' }} btn-xs " data-toggle="tooltip" data-placement="top" title="" data-original-title="Сделать Главным"><i class="fas fa-check-circle"></i></a>--}}
+                                                  {{--<a href="#" data-url="{{ route('admin.products.photos.delete', [$product, $photo->id]) }}" id="delete-photo-product" data-id="{{ $photo->id }}" class="btn btn-default btn-xs " data-toggle="tooltip" data-placement="top" title="" data-original-title="Удалить"><i class="fas fa-trash"></i></a>--}}
+                                              {{--</div>--}}
+                                            </span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <div class="btn btn-default btn-file">
+                                    <i class="far fa-paperclip"></i> Добавить картинки
+                                    <input id="image" type="file" class="form-control{{ $errors->has('image') ? ' is-invalid' : '' }}" name="image" >
+                                </div>
+                                <p class="help-block">Max. 32MB</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="box box-widget">
+                    <div class="box-header with-border">
+                        <div class="box-title">
+                            Иконка
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+
+                    <div class="box-body">
+                        <div class="col-xs-2">
+                            <ul class="mailbox-attachments clearfix">
+                                <li style="width: 110px;">
+                                    <span class="mailbox-attachment-icon has-img"><img src="{{ $category->icon == null ? Storage::disk('public')->url('image/no_photo.jpg') : Storage::disk('public')->url('category/icon/medium/'.  $category->icon) }}" alt="Attachment"></span>
+
+                                    <div class="mailbox-attachment-info">
+                                        <a style="font-size: 11px" href="{{ $category->icon == null ? Storage::disk('public')->url('image/no_photo.jpg') : Storage::disk('public')->url('category/icon/medium/'.  $category->icon) }}" target="_blank" class="mailbox-attachment-name"><i class="fa fa-camera"></i> {{ $category->icon }}</a>
+                                        <span class="mailbox-attachment-size">
+                                                {{--{{ $category->getSize() }}--}}
+                                            {{--<div class="bnt-group ">--}}
+                                            {{--<a href="#" class="btn btn-default btn-xs "><i class="fa fa-cloud-download"></i></a>--}}
+                                            {{--<a href="#" data-url="{{ route('admin.products.photos.main', [$product, $photo->id]) }}" id="main-photo-product" data-id="{{ $photo->id }}" class="btn btn-{{ $photo->main == 'yeas' ? 'success disabled' : 'default' }} btn-xs " data-toggle="tooltip" data-placement="top" title="" data-original-title="Сделать Главным"><i class="fas fa-check-circle"></i></a>--}}
+                                            {{--<a href="#" data-url="{{ route('admin.products.photos.delete', [$product, $photo->id]) }}" id="delete-photo-product" data-id="{{ $photo->id }}" class="btn btn-default btn-xs " data-toggle="tooltip" data-placement="top" title="" data-original-title="Удалить"><i class="fas fa-trash"></i></a>--}}
+                                            {{--</div>--}}
+                                            </span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="form-group">
+                                <div class="btn btn-default btn-file">
+                                    <i class="far fa-paperclip"></i> Добавить инконку
+                                    <input id="icon" type="file" class="form-control{{ $errors->has('icon') ? ' is-invalid' : '' }}" name="icon" >
+                                </div>
+                                <p class="help-block">Max. 32MB</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
                 <div class="box box-widget">
                     <div class="box-header with-border">
                         <div class="box-title">
@@ -188,6 +237,7 @@
                     </div>
 
                 </div>
+
             </div>
     </div>
     </form>
