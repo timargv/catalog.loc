@@ -30,6 +30,7 @@ class SearchService
 
         return $this->product
                 ->where('name_original', 'like', '%' . $value . '%')
-                ->orWhere('name', 'like', '%' . $value . '%')->orderBy('id', 'DESC')->with('photos')->paginate(15);        
+                ->orWhere('name', 'like', '%' . $value . '%')
+                ->orWhere('vendor_code', 'like', '%' . $value . '%')->orderBy('id', 'DESC')->with('photos')->paginate(15);        
     }
 }

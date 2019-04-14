@@ -102,7 +102,7 @@ class CartService
             ['product_id', '=', $productId],
         ])->first();
 
-        if ($this->compareQuantityProduct($this->productService->getProduct($productId), $cardItems->quantity)) {
+        if ($this->compareQuantityProduct($this->productService->getProduct($productId), $cardItems['quantity'])) {
             return;
         }
 
