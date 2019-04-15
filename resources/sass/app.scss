@@ -493,6 +493,12 @@ button.bg-light-active {
     border-color: $silver !important;
 }
 
+.category-show-left-menu {}
+.category-show-left-menu a {}
+.category-show-left-menu a:hover {
+    opacity: .6;
+}
+
 footer {
     background-color: $catalog;
 }

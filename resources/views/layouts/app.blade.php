@@ -69,7 +69,7 @@
                 @yield('slide')
             </div>
 
-            <div class="container pt-4 px-4 wm-1140 rounded-top bg-white position-relative" style="top: -20px">
+            <div class="container pt-4 px-4 wm-1140 rounded-top bg-white position-relative" style="top: -20px; min-height: 600px">
                 @section('breadcrumbs', Breadcrumbs::render())
                 @yield('breadcrumbs')
                 @yield('content')
@@ -81,7 +81,7 @@
                 <div class="row w-100">
                     <div class="col-3">
                         <div class="footer-logo mb-3">
-                            <a class="text-white h2 font-weight-bold text-decoration-none" href="/">{{ config('app.name', 'атис') }}</a>
+                            <a class="text-white h2 font-weight-bold text-decoration-none" href="/">атис</a>
                         </div>
                         <div class="footer-copy text-white-50">
                             © 2014 ООО «Атис» — интернет магазин с низкими ценами!

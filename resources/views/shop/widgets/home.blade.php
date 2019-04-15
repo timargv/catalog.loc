@@ -5,14 +5,15 @@
             <div  class=" mb-4 sh-product" style="@if(count($widgetHome->widgetProductItems) < 6) width:20%; padding: 0 15px; @endif">
                 <a class="card p-0 border-0 rounded-0 sh-product" href="{{ $product->id }}">
                     <div class="image p-0">
-                        @foreach($product->product->photos as $photo)
+                        @if (!empty($product->photos))
+                        @foreach($product->photos as $photo)
                             @if($photo->main == 'yeas')
-                                <img src="{{ url('storage\products\medium\\'). $photo->file }}" alt="" class=" img-circle  mr-0 pr-0 w-100" >
+                                <img src="{{ Storage::disk('public')->url('products/medium/'.  $photo->file) }}" alt="" class=" img-circle  mr-0 pr-0 w-100" >
                                 @break
                             @endif
                         @endforeach
-                        @if (!count($product->product->photos))
-                            <img src="img/no_photo_product.jpg" alt="" class="mr-0 pr-0 w-100" >
+                        @else
+                            <img src="{{ Storage::disk('public')->url('image/no_photo.jpg') }}" alt="" class="mr-0 pr-0 w-100" >
                         @endif
                     </div>
                     <div class="card-body px-0 mb-0 pb-0">

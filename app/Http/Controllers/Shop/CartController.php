@@ -42,7 +42,7 @@ class CartController extends Controller
         } catch (\DomainException $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
-        $productPhoto = $product->photos()->first();
+        $productPhoto = $product->photos()->where('main', 'yeas')->first();
 
         return redirect()->back()->with(
             [

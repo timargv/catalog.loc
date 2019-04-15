@@ -6,12 +6,12 @@
                     <div class="image p-0">
                         @foreach($product->photos as $photo)
                             @if($photo->main == 'yeas')
-                                <img src="{{ url('storage\products\medium\\'). $photo->file }}" alt="" class=" img-circle  mr-0 pr-0 w-100" >
+                                <img src="{{ $photo->file == null ? Storage::disk('public')->url('image/no_photo.jpg') : Storage::disk('public')->url('products/medium/'.  $photo->file) }}" alt="" class=" img-circle  mr-0 pr-0 w-100" >
                                 @break
                             @endif
                         @endforeach
                         @if (!count($product->photos))
-                            <img src="img/no_photo_product.jpg" alt="" class="mr-0 pr-0 w-100" >
+                            <img src="{{ Storage::disk('public')->url('image/no_photo.jpg') }}" alt="" class="mr-0 pr-0 w-100" >
                         @endif
                     </div>
                     <div class="card-body px-0 mb-0 pb-0">

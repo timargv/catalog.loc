@@ -33,13 +33,12 @@ Route::group(['prefix' => 'search', 'as' => 'search.', 'namespace' => 'Product']
     Route::get('/product', 'SearchController@index')->name('index');
 });
 
-Route::group(['prefix' => '', 'as' => 'categories.'], function () {
-    Route::get('/{category}', 'HomeController@category')->name('show');
+Route::group(['as' => 'categories.'], function () {
+    Route::get('/category/{category}', 'HomeController@category')->name('show');
 });
 
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'can:admin-panel'] ], function () {
-
 
     // Панель Администратора
     Route::get('/', 'DashboardController@index')->name('home');
@@ -55,9 +54,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
 
     // Категории
-//    Route::resource('categories', 'CategoriesController');
+    // Route::resource('categories', 'CategoriesController');
+    
     Route::group(['prefix' => 'categories', 'as' => 'categories.'], function () {
-
         Route::get('/', 'CategoriesController@index')->name('index');
         Route::get('/create', 'CategoriesController@create')->name('create');
         Route::get('/{category}/show', 'CategoriesController@show')->name('show');

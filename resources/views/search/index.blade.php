@@ -2,7 +2,9 @@
 
 
 @section('content')
-<div class="d-flex row">
+    <h1 class="text-dark font-weight-bold mb-5" style="font-weight: 500">Товаров найдено {{ count($products) }}</h1>
+
+    <div class="d-flex row">
     @foreach($products as $product)
         <div  class="mb-5 sh-product col-2" >
                 <a class="card p-0 border-0 rounded-0 sh-product" href="#{{ $product->id }}">

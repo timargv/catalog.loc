@@ -11494,6 +11494,10 @@ button.bg-light-active {
   border-color: #ececec !important;
 }
 
+.category-show-left-menu a:hover {
+  opacity: 0.6;
+}
+
 footer {
   background-color: #610de0;
 }

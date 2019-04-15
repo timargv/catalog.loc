@@ -40,13 +40,14 @@
                                 <td>
                                     @foreach($item['product']->photos as $photo)
                                         @if($photo->main == 'yeas')
-                                            <img src="storage/products/medium/{{ $photo->file }}" alt="" class=" img-circle  mr-0 pr-0 w-100" >
+                                            <img src="{{ $photo->file == null ? Storage::disk('public')->url('image/no_photo.jpg') : Storage::disk('public')->url('products/medium/'.  $photo->file) }}" alt="" class=" img-circle  mr-0 pr-0 w-100" >
                                             @break
                                         @endif
-                                    @endforeach
+                                        @endforeach
                                         @if (!count($item['product']->photos))
-                                            <img src="img/no_photo_product.jpg" alt="" class="mr-0 pr-0 w-100" >
+                                            <img src="{{ Storage::disk('public')->url('image/no_photo.jpg') }}" alt="" class="mr-0 pr-0 w-100" >
                                         @endif
+
                                 </td>
                                 <td>
                                     <div>

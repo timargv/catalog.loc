@@ -5,7 +5,13 @@
         <h1 class="text-dark pt-0" style="font-weight: 500">{{ $category->name }}</h1>
     </div>
     <div class="row justify-content-start">
-        <div class="col-3"></div>
+        <div class="col-3">
+             <nav class="nav flex-column category-show-left-menu">
+                @foreach($categories as $category)
+                    <a class="nav-link active pl-0 text-dark py-1" href="{{ route('categories.show', $category) }}">{{ $category->name }}</a>
+                @endforeach
+            </nav>
+        </div>
         <div class="col-9">
             <div class="row"></div>
             <div class="row">
