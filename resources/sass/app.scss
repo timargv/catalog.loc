@@ -27,7 +27,8 @@
 
 .breadcrumb {
     font-size: 16px;
-    padding: 0 0rem 0.75rem;
+    padding: 0 0rem 0;
+    margin-bottom: 0.5rem;
     background: $white;
 }
 .breadcrumb-item {}
@@ -475,8 +476,8 @@ body {
 .page-item.active .page-link {
     z-index: 1;
     color: #ffffff;
-    background-color: #8432ff;
-    border-color: #8432ff;
+    background-color: $catalog;
+    border-color: $catalog;
 }
 
 .profile-nave-top {
@@ -490,4 +491,8 @@ button.bg-light-active {
 }
 .border-light-active {
     border-color: $silver !important;
+}
+
+footer {
+    background-color: $catalog;
 }

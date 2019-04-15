@@ -10998,7 +10998,8 @@ a.text-dark:focus {
 
 .breadcrumb {
   font-size: 16px;
-  padding: 0 0rem 0.75rem;
+  padding: 0 0rem 0;
+  margin-bottom: 0.5rem;
   background: #fff;
 }
 
@@ -11153,7 +11154,7 @@ body {
 }
 
 .top-left-nav > li > a {
-  background: #8432ff !important;
+  background: #610de0 !important;
 }
 
 .top-left-nav > li.show > a {
@@ -11284,8 +11285,8 @@ body {
 }
 
 .search-form button {
-  background: #8432ff !important;
-  border-color: #8432ff !important;
+  background: #610de0 !important;
+  border-color: #610de0 !important;
   color: #fff !important;
   font-size: 1rem;
   font-weight: 600;
@@ -11438,7 +11439,7 @@ body {
 
 .sh-product button {
   font-family: "Roboto", sans-serif;
-  background: #8432ff;
+  background: #610de0;
   font-weight: 500;
   font-size: 14px;
   height: 32px;
@@ -11475,8 +11476,8 @@ body {
 .page-item.active .page-link {
   z-index: 1;
   color: #ffffff;
-  background-color: #8432ff;
-  border-color: #8432ff;
+  background-color: #610de0;
+  border-color: #610de0;
 }
 
 .profile-nave-top {
@@ -11491,5 +11492,9 @@ button.bg-light-active {
 
 .border-light-active {
   border-color: #ececec !important;
+}
+
+footer {
+  background-color: #610de0;
 }
 

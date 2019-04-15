@@ -1,6 +1,7 @@
 <?php
 
 use DaveJamesMiller\Breadcrumbs\BreadcrumbsGenerator as Crumbs;
+use App\Entity\Category;
 
 Breadcrumbs::register('home', function (Crumbs $crumbs) {
     $crumbs->push(__('fillable.Home'), route('home'));
@@ -41,4 +42,11 @@ Breadcrumbs::register('search.index', function (Crumbs $crumbs) {
     if (request('text')) {
         $crumbs->push(request('text'));
     }
+});
+
+Breadcrumbs::register('categories.show', function (Crumbs $crumbs, Category $category) {
+    if ($parent = $category->parent) {
+        $crumbs->parent('categories.show', $parent);
+    }
+    $crumbs->push($category->name == null ? $category->name_original : $category->name, route('categories.show', $category));
 });

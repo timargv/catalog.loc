@@ -37,7 +37,7 @@
                         <ul class="list-unstyled nav p-0 text-white">
                             <li class="pl-3">Бесплатная <a class="text-white" href="#">доставка</a></li>
                             <li class="pl-3">Удобная <a class="text-white" href="#">оплата</a></li>
-                            <li class="pl-3">Лёгкий <a class="text-white" href="#">Лёгкий возврат</a></li>
+                            <li class="pl-3">Лёгкий <a class="text-white" href="#">возврат</a></li>
                         </ul>
                     </div>
                 </div>
@@ -75,6 +75,69 @@
                 @yield('content')
             </div>
         </main>
+
+        <footer class="p-5 text-white">
+            <div class="container d-flex wm-1140">
+                <div class="row w-100">
+                    <div class="col-3">
+                        <div class="footer-logo mb-3">
+                            <a class="text-white h2 font-weight-bold text-decoration-none" href="/">{{ config('app.name', 'атис') }}</a>
+                        </div>
+                        <div class="footer-copy text-white-50">
+                            © 2014 ООО «Атис» — интернет магазин с низкими ценами!
+                            <a class="text-white w-100 mt-3 d-block" href="#">Пользовательское соглашение</a>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="title-footer-menu mb-3 font-weight-bold h5">
+                                    Меню
+                                </div>
+                                <ul class="nav flex-column list-unstyled">
+                                    <li class="nav-item h6"><a class="text-white text-decoration-none" href="#">Обратная связь</a></li>
+                                    <li class="nav-item h6"><a class="text-white text-decoration-none" href="#">Мои заказы</a></li>
+                                    <li class="nav-item h6"><a class="text-white text-decoration-none" href="#">Настройки</a></li>
+                                    <li class="nav-item h6"><a class="text-white text-decoration-none" href="#">О сервисе</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-4">
+                                <div class="title-footer-menu mb-3 font-weight-bold h5">
+                                    Как купить
+                                </div>
+                                <ul class="nav flex-column list-unstyled">
+                                    <li class="nav-item h6"><a class="text-white text-decoration-none" href="#">Оплата и доставка</a></li>
+                                    <li class="nav-item h6"><a class="text-white text-decoration-none" href="#">Возврат</a></li>
+                                    <li class="nav-item h6"><a class="text-white text-decoration-none" href="#">Помощь</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-4">
+                                <div class="title-footer-menu mb-3 font-weight-bold h5">
+                                    Партнёрам
+                                </div>
+                                <ul class="nav flex-column list-unstyled">
+                                    <li class="nav-item h6"><a class="text-white text-decoration-none" href="#">Как начать сотрудничество</a></li>
+                                    <li class="nav-item h6"><a class="text-white text-decoration-none" href="#">Справка для партнёров</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="footer-social-block">
+                            <div class="title-footer-menu mb-3 font-weight-bold h5">
+                                Атис в социальных сетях
+                            </div>
+                            <ul class="nav list-unstyled">
+                                <li class="nav-item mr-2"><a class="text-white" href="#"><i class="fab fa-vk fa-2x"></i></a></li>
+                                <li class="nav-item mr-2"><a class="text-white" href="#"><i class="fab fa-facebook fa-2x"></i></a></li>
+                                <li class="nav-item mr-2"><a class="text-white" href="#"><i class="fab fa-ok fa-2x"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
 </body>
 </html>
+

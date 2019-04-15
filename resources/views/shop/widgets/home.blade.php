@@ -53,7 +53,7 @@
                 <div  class="col-2 mb-5 sh-product text-center">
                     <a class="text-muted text-decoration-none" href="{{ $widget->category->id }}" style="font-size: 17px">
                     <div class="image mb-3">
-                        <img class="w-100 rounded-circle" src="{{ $widget->category->image == null ? Storage::disk('public')->url('image/no_photo.jpg') : Storage::disk('public')->url('category/medium/'.  $widget->category->image) }}" alt="">
+                        <img class="w-100 rounded-circle" src="{{ $widget->category->image == null ? Storage::disk('public')->url('image/no_photo.jpg') : Storage::disk('public')->url('category/thumbnail_category/'.  $widget->category->image) }}" alt="">
                     </div>
                     {{ $widget->category->name }}</a>
                 </div>

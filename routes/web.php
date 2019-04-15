@@ -19,7 +19,6 @@ Route::get('/verify/{token}', 'Auth\RegisterController@verify')->name('register.
 
 
 Route::group([],  function () {
-
     Route::group(['prefix' => 'cart', 'as' => 'cart.', 'namespace' => 'Shop'], function () {
         Route::get('/', 'CartController@show')->name('index');
         Route::post('/{id}/add', 'CartController@add')->name('add');
@@ -32,6 +31,10 @@ Route::group([],  function () {
 
 Route::group(['prefix' => 'search', 'as' => 'search.', 'namespace' => 'Product'], function () {
     Route::get('/product', 'SearchController@index')->name('index');
+});
+
+Route::group(['prefix' => '', 'as' => 'categories.'], function () {
+    Route::get('/{category}', 'HomeController@category')->name('show');
 });
 
 

@@ -9,8 +9,6 @@
 namespace App\UseCases\Category;
 
 use App\Entity\Category;
-use App\Http\Requests\Admin\Category\IconRequest;
-use App\Http\Requests\Admin\Category\PhotosRequest;
 use App\Http\Requests\Admin\Category\UpdateRequest;
 use App\Http\Requests\Admin\Category\CreateRequest;
 use App\Jobs\MirInstrument\CategoryFix;
@@ -18,6 +16,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Intervention\Image\Facades\Image;
+use Intervention\Image\ImageManager;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -57,7 +56,8 @@ class CategoryService
 
             $category->saveOrFail();
 
-            $this->addPhoto($category);
+            $this->addPhoto($category, $request->only(['image']));
+            $this->addIcon($category, $request->only(['icon']));
 
             return $category;
         });
@@ -88,11 +88,6 @@ class CategoryService
             'slug',
             'parent_id',
         ]));
-
-
-//
-//        'image'
-//            'icon'
     }
 
 
@@ -117,6 +112,7 @@ class CategoryService
         $paths = [
             'original' => public_path() . '\storage\category\original\\',
             'thumbnail' => public_path() . '\storage\category\thumbnail\\',
+            'thumbnail_category' => public_path() . '\storage\category\thumbnail_category\\',
             'item' => public_path() . '\storage\category\item\\',
             'small' => public_path() . '\storage\category\small\\',
             'medium' => public_path() . '\storage\category\medium\\',
@@ -150,31 +146,46 @@ class CategoryService
 
         DB::transaction(function () use ($request, $category) {
             $path = $this->pathPhoto()['original'];
+            $thumbCategoryPath = $this->pathPhoto()['thumbnail_category'];
             $thumbPath = $this->pathPhoto()['thumbnail'];
             $itemPath = $this->pathPhoto()['item'];
             $smallPath = $this->pathPhoto()['small'];
             $middlePath = $this->pathPhoto()['medium'];
             $largePath = $this->pathPhoto()['large'];
 
-            $img = Image::make($request['image']);
+//            $img = new ImageManager;
+            $img = [
+                Image::make($request['image']),
+                Image::make($request['image']),
+                Image::make($request['image']),
+                Image::make($request['image']),
+                Image::make($request['image']),
+                Image::make($request['image']),
+                Image::make($request['image']),
+            ];
+//            $img->make($request['image']);
 
             if (!file_exists($path) && !file_exists($itemPath) && !file_exists($thumbPath) && !file_exists($smallPath) && !file_exists($middlePath) && !file_exists($largePath)) {
                 mkdir($path, 666, true);
                 mkdir($thumbPath, 666, true);
                 mkdir($itemPath, 666, true);
                 mkdir($smallPath, 666, true);
+                mkdir($thumbCategoryPath, 666, true);
                 mkdir($middlePath, 666, true);
                 mkdir($largePath, 666, true);
             }
 
             $fileName = $category->id.'-'.uniqid().'-'. (new \DateTime)->getTimeStamp() . '.png';
 
-            $img->save($path . $fileName);
-            $img->fit(1000, 1000)->save($largePath .$fileName, 100);
-            $img->fit(450, 450)->save($middlePath . $fileName, 100);
-            $img->fit(150, 100)->save($smallPath . $fileName, 100);
-            $img->fit(320, 180)->save($thumbPath . $fileName, 100);
-            $img->fit(80, 60)->save($itemPath . $fileName, 100);
+
+
+            $img[6]->save($path . $fileName);
+            $img[0]->resize(1024, null, function ($constraint) {$constraint->aspectRatio();})->resizeCanvas(1280, 1024, 'center', false, 'ffffff')->save($largePath .$fileName, 100);
+            $img[1]->resize(412, null, function ($constraint) {$constraint->aspectRatio();})->resizeCanvas(512, 512, 'center', false, 'ffffff')->save($middlePath . $fileName, 100);
+            $img[2]->resize(206, null, function ($constraint) {$constraint->aspectRatio();})->resizeCanvas(256, 256, 'center', false, 'ffffff')->save($smallPath . $fileName, 100);
+            $img[3]->resize(120, null, function ($constraint) {$constraint->aspectRatio();})->resizeCanvas(170, 170, 'center', false, 'f4f4f4')->save($thumbCategoryPath . $fileName, 100);
+            $img[4]->resize(98, null, function ($constraint) {$constraint->aspectRatio();})->resizeCanvas(128, 128, 'center', false, 'ffffff')->save($thumbPath . $fileName, 100);
+            $img[5]->resize(44, null, function ($constraint) {$constraint->aspectRatio();})->resizeCanvas(64, 64, 'center', false, 'ffffff')->save($itemPath . $fileName, 100);
 
             $category->update([
                 'image' => $fileName
@@ -188,6 +199,7 @@ class CategoryService
         Storage::disk('public')->delete([
             '\category\original\\'.$category->image,
             '\category\thumbnail\\'.$category->image,
+            '\category\thumbnail_category\\'.$category->image,
             '\category\small\\'.$category->image,
             '\category\medium\\'.$category->image,
             '\category\large\\'.$category->image,
@@ -217,7 +229,14 @@ class CategoryService
             $middlePath = $this->pathIcon()['medium'];
             $largePath = $this->pathIcon()['large'];
 
-            $img = Image::make($request['icon']);
+            $img = [
+                Image::make($request['icon']),
+                Image::make($request['icon']),
+                Image::make($request['icon']),
+                Image::make($request['icon']),
+                Image::make($request['icon']),
+                Image::make($request['icon']),
+            ];
 
             if (!file_exists($path) && !file_exists($itemPath) && !file_exists($thumbPath) && !file_exists($smallPath) && !file_exists($middlePath) && !file_exists($largePath)) {
                 mkdir($path, 666, true);
@@ -230,12 +249,12 @@ class CategoryService
 
             $fileName = $category->id.'-'.uniqid().'-'. (new \DateTime)->getTimeStamp() . '.png';
 
-            $img->save($path . $fileName);
-            $img->fit(1000, 1000)->save($largePath .$fileName, 100);
-            $img->fit(450, 450)->save($middlePath . $fileName, 100);
-            $img->fit(150, 150)->save($smallPath . $fileName, 100);
-            $img->fit(320, 320)->save($thumbPath . $fileName, 100);
-            $img->fit(80, 80)->save($itemPath . $fileName, 100);
+            $img[5]->save($path . $fileName);
+            $img[0]->resize(1024, null, function ($constraint) {$constraint->aspectRatio();})->resizeCanvas(1280, 1024, 'center', false, 'rgba(255, 255, 255, 0)')->save($largePath .$fileName, 100);
+            $img[1]->resize(412, null, function ($constraint) {$constraint->aspectRatio();})->resizeCanvas(512, 512, 'center', false, 'rgba(255, 255, 255, 0)')->save($middlePath . $fileName, 100);
+            $img[2]->resize(206, null, function ($constraint) {$constraint->aspectRatio();})->resizeCanvas(256, 256, 'center', false, 'rgba(255, 255, 255, 0)')->save($smallPath . $fileName, 100);
+            $img[3]->resize(98, null, function ($constraint) {$constraint->aspectRatio();})->resizeCanvas(128, 128, 'center', false, 'rgba(255, 255, 255, 0)')->save($thumbPath . $fileName, 100);
+            $img[4]->resize(44, null, function ($constraint) {$constraint->aspectRatio();})->resizeCanvas(64, 64, 'center', false, 'rgba(255, 255, 255, 0)')->save($itemPath . $fileName, 100);
 
             $category->update([
                 'icon' => $fileName

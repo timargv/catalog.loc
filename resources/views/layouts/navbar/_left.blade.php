@@ -8,7 +8,7 @@
                     <div class="d-flex">
                         <ul class="list-menu list-unstyled n-navigation-vertical-category py-4">
                             @foreach($menuRoot as $category)
-                                <li id="aHref" data-id="{{ $category->id }}" title="{{ $category->name }}"><a href="{{ $category->id }}"><span>{{ $category->name }}</span></a></li>
+                                <li id="aHref" data-id="{{ $category->id }}" title="{{ $category->name }}"><a href="{{ route('categories.show', $category) }}"><span>{{ $category->name }}</span></a></li>
                             @endforeach
                         </ul>
                         <div class="vertical-menu bg-white py-2 w-100 ">
@@ -19,10 +19,10 @@
                                         @foreach($categories->children as $category)
                                             <div class="pb-1 card border-0 py-0 px-0">
                                                 <div class="vertical-menu-block">
-                                                    <div class="vertical-menu-block-title font-weight-bold"><a href="">{{ $category->name }}</a></div>
+                                                    <div class="vertical-menu-block-title font-weight-bold"><a href="{{ route('categories.show', $category) }}">{{ $category->name }}</a></div>
                                                     <ul class="vertical-menu-block-list-item list-unstyled">
                                                         @foreach($category->children as $child)
-                                                            <li><a href="">{{ $child->name }}</a></li>
+                                                            <li><a href="{{ route('categories.show', $child) }}">{{ $child->name }}</a></li>
                                                         @endforeach
                                                     </ul>
                                                 </div>

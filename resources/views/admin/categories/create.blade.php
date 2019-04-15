@@ -3,8 +3,9 @@
 @section('title', __('category.Create'))
 
 @section('content')
-    <form method="POST" action="{{ route('admin.categories.store') }}">
+    <form method="POST" action="{{ route('admin.categories.store') }}" enctype="multipart/form-data">
         @csrf
+        @method('PUT')
         <div class="row">
             <div class="col-xs-6">
                 <div class="box box-info">
