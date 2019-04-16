@@ -36,10 +36,26 @@ class HomeController extends Controller
         $query = $category ? $category->children()->where('status', 'active') : Category::whereIsRoot();
         $categories = $query->defaultOrder()->getModels();
 
+        $categoryIds = $category->descendants()->pluck('id');
 
         $category = Category::where('id', $category->id)->with('products')->firstOrFail();
         $products = $category->products()->paginate(16);
 
+        if (count($products) == 0) {
+            $products = Product::whereIn('category_id', $categoryIds)->paginate(16);
+        }
+
         return view('shop.category.show', compact('category', 'categories', 'products'));
+    }
+
+    //----------------------------------
+    public function product(Product $product)
+    {
+        $product = $product->where([
+            ['id', $product->id],
+            ['status', 'active']
+        ])->firstOrFail();
+
+        return view('shop.products.show', compact('product'));
     }
 }

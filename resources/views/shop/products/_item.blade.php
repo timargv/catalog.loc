@@ -2,7 +2,7 @@
     @forelse ($chunk as $product)
 
             <div  class="mb-0 sh-product col-3">
-                <a class="card p-0 border-0 rounded-0 sh-product" href="{{ $product->id }}">
+                <a class="card p-0 border-0 rounded-0 sh-product" href="{{ route('product.show', $product) }}">
                     <div class="image p-0">
                         @foreach($product->photos as $photo)
                             @if($photo->main == 'yeas')
@@ -49,7 +49,7 @@
     @endforelse
 
     @if (!$loop->last)
-        <div class="w-100 clearfix border-bottom mx-3 my-3 py-3"></div>
+        <div class="w-100 clearfix border-bottom mx-3 mt-3 py-3 mb-5"></div>
     @endif
 
 @empty

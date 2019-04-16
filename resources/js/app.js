@@ -11,6 +11,7 @@ window.AutoNumeric = require('./../../node_modules/autonumeric/dist/autoNumeric'
 require ('owl.carousel');
 
 
+
 const autoNumericOptionsRuble = {
     currencySymbol: "\u202f ₽",
     currencySymbolPlacement: "s",
@@ -57,13 +58,30 @@ $(document).ready(function() {
 
     AutoNumeric.multiple('#price', autoNumericOptionsRuble);
 
-    $('.owl-carousel').owlCarousel({
+    $('.owl-carousel.slide-home').owlCarousel({
         loop: false,
         dots: false,
         margin:30,
         nav:true,
         items:5,
         stagePadding: 50,
+    });
+
+    $('.owl-carousel.owl-carousel_product_image').owlCarousel({
+        items:1,
+        lazyLoad:true,
+        loop:true,
+        margin:10,
+        dots: false,
+    });
+
+    $('.thumbnail').on('click', function() {
+        var clicked = $(this);
+        var newSelection = clicked.data('big');
+        var $img = $('.primary').css("background-image","url(" + newSelection + ")");
+        clicked.parent().find('.thumbnail').removeClass('selected');
+        clicked.addClass('selected');
+        $('.primary').empty().append($img.hide().fadeIn('slow'));
     });
 
 });

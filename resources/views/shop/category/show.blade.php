@@ -4,9 +4,9 @@
     <div class=" mb-3 pb-3 border-light-active border-bottom">
         <h1 class="text-dark pt-0" style="font-weight: 500">{{ $category->name }}</h1>
     </div>
-    <div class="row justify-content-start">
+    <div class="row justify-content-start pt-5">
         <div class="col-3">
-             <nav class="nav flex-column category-show-left-menu">
+             <nav class="nav flex-column category-show-left-menu mb-5">
                 @foreach($categories as $category)
                     <a class="nav-link active pl-0 text-dark py-1" href="{{ route('categories.show', $category) }}">{{ $category->name }}</a>
                 @endforeach

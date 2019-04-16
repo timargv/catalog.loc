@@ -1,5 +1,6 @@
 <?php
 
+use App\Entity\Product;
 use DaveJamesMiller\Breadcrumbs\BreadcrumbsGenerator as Crumbs;
 use App\Entity\Category;
 
@@ -44,9 +45,17 @@ Breadcrumbs::register('search.index', function (Crumbs $crumbs) {
     }
 });
 
+// Category SHOW
 Breadcrumbs::register('categories.show', function (Crumbs $crumbs, Category $category) {
     if ($parent = $category->parent) {
         $crumbs->parent('categories.show', $parent);
     }
     $crumbs->push($category->name == null ? $category->name_original : $category->name, route('categories.show', $category));
 });
+
+// Product SHOW
+Breadcrumbs::register('product.show', function (Crumbs $crumbs, Product $product) {
+    $crumbs->parent('categories.show', $product->category);
+    $crumbs->push($product->brand->title, route('product.show', $product));
+});
+

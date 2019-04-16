@@ -37,6 +37,9 @@ Route::group(['as' => 'categories.'], function () {
     Route::get('/category/{category}', 'HomeController@category')->name('show');
 });
 
+Route::group(['as' => 'product.'], function () {
+    Route::get('/show/{product}', 'HomeController@product')->name('show');
+});
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth', 'can:admin-panel'] ], function () {
 

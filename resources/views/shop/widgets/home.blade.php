@@ -1,20 +1,18 @@
 <div class="container wm-1140 position-relative mb-5">
     @if($widgetHome->isTypeProduct())
-    <div class="@if(count($widgetHome->widgetProductItems) > 5) owl-carousel owl-theme @else d-flex row @endif">
+    <div class="@if(count($widgetHome->widgetProductItems) > 5) owl-carousel slide-home owl-theme @else d-flex row @endif">
         @foreach ($widgetHome->widgetProductItems as $product)
             <div  class=" mb-4 sh-product" style="@if(count($widgetHome->widgetProductItems) < 6) width:20%; padding: 0 15px; @endif">
                 <a class="card p-0 border-0 rounded-0 sh-product" href="{{ $product->id }}">
                     <div class="image p-0">
-                        @if (!empty($product->photos))
-                        @foreach($product->photos as $photo)
+                        @forelse($product->product->photos as $photo)
                             @if($photo->main == 'yeas')
                                 <img src="{{ Storage::disk('public')->url('products/medium/'.  $photo->file) }}" alt="" class=" img-circle  mr-0 pr-0 w-100" >
                                 @break
                             @endif
-                        @endforeach
-                        @else
+                        @empty
                             <img src="{{ Storage::disk('public')->url('image/no_photo.jpg') }}" alt="" class="mr-0 pr-0 w-100" >
-                        @endif
+                        @endforelse
                     </div>
                     <div class="card-body px-0 mb-0 pb-0">
 
