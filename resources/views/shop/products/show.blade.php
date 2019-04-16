@@ -51,7 +51,7 @@
                     <div class="price-product-full">
                         <div id="price" class="price text-dark">{{ $product->price }} </div>
                     </div>
-                    <div class="quantity-product-full mb-4">@if(!empty($product->quantity)) <span class="text-success">В наличии на складе</span> @else <span class="text-danger">Нет на складе</span> @endif  </div>
+                    <div class="quantity-product-full mb-2">@if(!empty($product->quantity)) <span class="text-success">В наличии на складе</span> @else <span class="text-danger">Нет на складе</span> @endif  </div>
                     <div class="add-cart-product-full-block mb-4">
                         <div class="row">
                             <div class="col-6 pr-1">
