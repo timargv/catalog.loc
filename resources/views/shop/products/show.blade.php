@@ -12,7 +12,7 @@
                                 <div class="image-gallery">
                                     <aside class="thumbnails">
                                         @foreach($product->photos as $photo)
-                                        <div class="@if ($loop->first) selected @endif thumbnail" data-big="{{ Storage::disk('public')->url('products/medium/'.  $photo->file) }}">
+                                        <div class="@if ($loop->first) selected @endif thumbnail" data-big="{{ Storage::disk('public')->url('products/large/'.  $photo->file) }}">
                                             <div class="thumbnail-image" style="background-image: url('{{ Storage::disk('public')->url('products/item/'.  $photo->file) }}')"></div>
                                         </div>
                                         @endforeach
@@ -20,28 +20,17 @@
                                 </div>
                             </div>
                             <div class="col-10">
-                                @foreach($product->photos as $photo)
-                                <div class="primary" style="background-image: url('{{ Storage::disk('public')->url('products/medium/'.  $photo->file) }}');"></div>
+                                @forelse($product->photos as $photo)
+                                <div class="primary" style="background-image: url('{{ Storage::disk('public')->url('products/large/'.  $photo->file) }}');"></div>
                                     @if ($loop->first)
                                         @break
                                     @endif
-                                @endforeach
-
+                                @empty
+                                <div class="primary" style="background-image: url('{{ Storage::disk('public')->url('image/no_photo.jpg') }}');"></div>
+                                @endforelse
                             </div>
                         </div>
-                        {{--<div class="owl-carousel owl-carousel_product_image owl-theme owl-loaded">--}}
-                            {{--<div class="owl-stage-outer">--}}
-                                {{--<div class="owl-stage">--}}
-                                    {{--@foreach($product->photos as $photo)--}}
-                                        {{--<div class="owl-item"><img src="{{ Storage::disk('public')->url('products/medium/'.  $photo->file) }}" alt="" style="width: 200px;"></div>--}}
-                                    {{--@endforeach--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-
-                            {{--<div class="owl-dots"><button role="button" class="owl-dot active"><span></span></button><button role="button" class="owl-dot"><span></span></button><button role="button" class="owl-dot"><span></span></button></div>--}}
-                        {{--</div>--}}
                     </div>
-
                 </div>
                 <div class="col-6 pl-5">
                     <div class="title-product-full">
@@ -63,7 +52,7 @@
                             <div class="col-6 pl-1">
                                 <form action="{{ route('cart.add', $product->id) }}" method="POST">
                                     @csrf
-                                    @if(empty($countCart))
+                                    @if(empty(auth()->user()->checkCartProduct($product->id)))
                                         <button class="btn bg-catalog border-catalog-2 btn-lg w-100 text-white"><span class="hidden-xs hidden-sm hidden-md" @if(!$product->quantity) disabled @endif>В корзину</span></button>
                                     @else
                                         <a href="{{ route('cart.index') }}" class="btn btn-outline border-catalog-2 btn-lg text-catalog w-100"><span class="hidden-xs hidden-sm hidden-md" @if(!$product->quantity) disabled @endif>В корзине</span></a>
@@ -72,144 +61,56 @@
                             </div>
                         </div>
                     </div>
+                    @if(!empty($product->brand->title))
                     <div class="brand-product-full-block">
                         <div class=""><span class="h5 pr-2">Бренд: </span> <span class="h5 text-dark">{{ $product->brand->title }}</span></div>
                     </div>
+                    @endif
                 </div>
             </div>
             <div class="row my-5">
-                <div class="col-6 pr-0">
+                <div class="col-10 pr-0">
+                    @if ($product->category->allAttributes())
                     <div class="spec-product-full-block text-dark">
-                        <div class="spec-product-full-block-title mb-4">Характеристики</div>
-                        <div class="spec-product-full-title mb-4">
-                            Общие характеристики
-                        </div>
-                        <div class="mb-4">
-                            <div class="spec-product-full mb-3 row">
-                                <div class="spec-product-full-left col-5 pr-0">
-                                    <div>Тип</div>
-                                    <div class="spec-product-full-left-bef"></div>
-                                </div>
-                                <div class="spec-product-full-value col-7 pr-0">
-                                    электромеханический
-                                </div>
-                            </div>
-                            <div class="spec-product-full mb-3 row">
-                                <div class="spec-product-full-left col-5 pr-0">
-                                    <div>Тип</div>
-                                    <div class="spec-product-full-left-bef"></div>
-                                </div>
-                                <div class="spec-product-full-value col-7 pr-0">
-                                    электромеханический
-                                </div>
-                            </div>
-                            <div class="spec-product-full mb-3 row">
-                                <div class="spec-product-full-left col-5 pr-0">
-                                    <div>Тип</div>
-                                    <div class="spec-product-full-left-bef"></div>
-                                </div>
-                                <div class="spec-product-full-value col-7 pr-0">
-                                    электромеханический
-                                </div>
-                            </div>
-                            <div class="spec-product-full mb-3 row">
-                                <div class="spec-product-full-left col-5 pr-0">
-                                    <div>Тип</div>
-                                    <div class="spec-product-full-left-bef"></div>
-                                </div>
-                                <div class="spec-product-full-value col-7 pr-0">
-                                    электромеханический
-                                </div>
-                            </div>
-                            <div class="spec-product-full mb-3 row">
-                                <div class="spec-product-full-left col-5 pr-0">
-                                    <div>Тип</div>
-                                    <div class="spec-product-full-left-bef"></div>
-                                </div>
-                                <div class="spec-product-full-value col-7 pr-0">
-                                    электромеханический
-                                </div>
-                            </div>
-                            <div class="spec-product-full mb-3 row">
-                                <div class="spec-product-full-left col-5 pr-0">
-                                    <div>Тип</div>
-                                    <div class="spec-product-full-left-bef"></div>
-                                </div>
-                                <div class="spec-product-full-value col-7 pr-0">
-                                    электромеханический
-                                </div>
-                            </div>
-                        </div>
-                        <div class="spec-product-full-title mb-4">
-                            Общие характеристики
-                        </div>
-                        <div class="mb-4">
-                            <div class="spec-product-full mb-3 row">
-                                <div class="spec-product-full-left col-5 pr-0">
-                                    <div>Тип</div>
-                                    <div class="spec-product-full-left-bef"></div>
-                                </div>
-                                <div class="spec-product-full-value col-7 pr-0">
-                                    электромеханический
-                                </div>
-                            </div>
-                            <div class="spec-product-full mb-3 row">
-                                <div class="spec-product-full-left col-5 pr-0">
-                                    <div>Тип</div>
-                                    <div class="spec-product-full-left-bef"></div>
-                                </div>
-                                <div class="spec-product-full-value col-7 pr-0">
-                                    электромеханический
-                                </div>
-                            </div>
-                            <div class="spec-product-full mb-3 row">
-                                <div class="spec-product-full-left col-5 pr-0">
-                                    <div>Тип</div>
-                                    <div class="spec-product-full-left-bef"></div>
-                                </div>
-                                <div class="spec-product-full-value col-7 pr-0">
-                                    электромеханический
-                                </div>
-                            </div>
-                            <div class="spec-product-full mb-3 row">
-                                <div class="spec-product-full-left col-5 pr-0">
-                                    <div>Тип</div>
-                                    <div class="spec-product-full-left-bef"></div>
-                                </div>
-                                <div class="spec-product-full-value col-7 pr-0">
-                                    электромеханический
-                                </div>
-                            </div>
-                            <div class="spec-product-full mb-3 row">
-                                <div class="spec-product-full-left col-5 pr-0">
-                                    <div>Тип</div>
-                                    <div class="spec-product-full-left-bef"></div>
-                                </div>
-                                <div class="spec-product-full-value col-7 pr-0">
-                                    электромеханический
-                                </div>
-                            </div>
-                            <div class="spec-product-full mb-3 row">
-                                <div class="spec-product-full-left col-5 pr-0">
-                                    <div>Тип</div>
-                                    <div class="spec-product-full-left-bef"></div>
-                                </div>
-                                <div class="spec-product-full-value col-7 pr-0">
-                                    электромеханический
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 pl-5">
-                    <div class="spec-product-full-block text-dark">
-                        <div class="spec-product-full-block-title text-dark mb-4">Описание товара</div>
-                        <div class="product-full-description">
+                        <div class="spec-product-full-block-title mb-4">Характеристики и описание</div>
+
+
+                        <div class="product-full-description mb-5">
                             {{ $product->desc }}
                         </div>
+
+
+                        @foreach($product->getGroup($product->category->allAttributes()) as $key => $groupAttribute)
+                        <div class="spec-product-full-title mb-3">
+                            {{ $product->getGroupNameAttribute($key)->name }}
+                        </div>
+                        <div class="mb-5">
+
+                            @foreach($groupAttribute as $attribute)
+                            @if($product->getValue($attribute->id) && $attribute->status == 1)
+                            <div class="spec-product-full mb-3 row">
+                                <div class="spec-product-full-left col-7 pr-0">
+                                    <div>{{ $attribute->name }}</div>
+                                    <div class="spec-product-full-left-bef"></div>
+                                </div>
+                                <div class="spec-product-full-value col-5 pr-0">
+                                    {{ $product->getValue($attribute->id) }}
+                                </div>
+                            </div>
+                            @endif
+                            @endforeach
+
+                        </div>
+                        @endforeach
+                         
                     </div>
+                    @endif
+
                 </div>
+                
             </div>
         </div>
     </div>
 @endsection
+
+

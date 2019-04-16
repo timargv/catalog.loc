@@ -56,8 +56,8 @@ class User extends Authenticatable
     }
 
     //------------------- Корзина
-    public function cart() {
-        return $this->belongsTo(Cart::class, 'user_id');
+    public function carts() {
+        return $this->hasMany(Cart::class, 'user_id', 'id')->with('product');
     }
 
     public static function register(string $name, string $last_name, string $email, string $password): self
@@ -146,6 +146,13 @@ class User extends Authenticatable
             throw new \DomainException('Status is already assigned.');
         }
         $this->update(['status' => $status]);
+    }
+
+
+    
+    public function checkCartProduct($productId)
+    {
+        return auth()->user()->carts()->where('product_id', $productId)->first();
     }
 
 }

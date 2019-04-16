@@ -56,6 +56,9 @@ Breadcrumbs::register('categories.show', function (Crumbs $crumbs, Category $cat
 // Product SHOW
 Breadcrumbs::register('product.show', function (Crumbs $crumbs, Product $product) {
     $crumbs->parent('categories.show', $product->category);
-    $crumbs->push($product->brand->title, route('product.show', $product));
+
+    if (!empty($product->brand->title)) {
+        $crumbs->push($product->brand->title, route('product.show', $product));
+    }
 });
 

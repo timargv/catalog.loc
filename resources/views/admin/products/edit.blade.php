@@ -230,11 +230,11 @@
                                     <div class="tab-pane pt-3" id="tab_2">
                                         <div class="box box-solid mb-4">
                                             <div class="box-header">
-                                                <label for="desc" class="col-form-label">{{ __('fillable.Description') }}</label>
+                                                <label for="summernote" class="col-form-label">{{ __('fillable.Description') }}</label>
                                             </div>
                                             <div class="box-body">
                                                 <div class="form-group @if($errors->has('desc'))has-error @endif">
-                                                    <textarea rows="10" id="desc" type="text" class="form-control{{ $errors->has('desc') ? ' is-invalid' : '' }}" name="desc">{{ old('desc', $product->desc) }}</textarea>
+                                                    <textarea rows="10" id="summernotes" type="text" class="form-control{{ $errors->has('desc') ? ' is-invalid' : '' }}" name="desc">{{ old('desc', $product->desc) }}</textarea>
                                                     @if ($errors->has('desc'))
                                                         <span class="help-block"><strong>{{ $errors->first('desc') }}</strong></span>
                                                     @endif

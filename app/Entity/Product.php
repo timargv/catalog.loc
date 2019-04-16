@@ -147,7 +147,7 @@ class Product extends Model
     //------------------- Фотография
     public function photos()
     {
-        return $this->hasMany(Photo::class, 'product_id');
+        return $this->hasMany(Photo::class, 'product_id')->orderBy('main', 'DESC');
     }
 
     //------------------- История цен
