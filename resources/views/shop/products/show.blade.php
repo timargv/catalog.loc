@@ -4,7 +4,7 @@
 
     <div class="row justify-content-start pt-5">
         <div class="col-12">
-            <div class="row">
+            <div class="row" style="min-height: 400px;">
                 <div class="col-6">
                     <div class="content-carousel">
                         <div id="gallery" class="row">
