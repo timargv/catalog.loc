@@ -63,7 +63,11 @@
                             <div class="col-6 pl-1">
                                 <form action="{{ route('cart.add', $product->id) }}" method="POST">
                                     @csrf
-                                    <button class="btn bg-catalog border-catalog-2 btn-lg w-100 text-white"><span class="hidden-xs hidden-sm hidden-md" @if(!$product->quantity) disabled @endif>В корзину</span></button>
+                                    @if(empty($countCart))
+                                        <button class="btn bg-catalog border-catalog-2 btn-lg w-100 text-white"><span class="hidden-xs hidden-sm hidden-md" @if(!$product->quantity) disabled @endif>В корзину</span></button>
+                                    @else
+                                        <a href="{{ route('cart.index') }}" class="btn btn-outline border-catalog-2 btn-lg text-catalog w-100"><span class="hidden-xs hidden-sm hidden-md" @if(!$product->quantity) disabled @endif>В корзине</span></a>
+                                    @endif
                                 </form>
                             </div>
                         </div>
