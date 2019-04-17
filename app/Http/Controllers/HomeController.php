@@ -30,15 +30,16 @@ class HomeController extends Controller
         return view('home', compact('categories', 'widgetsHome'));
     }
 
-    public function category(Category $category) {
+    public function category(Category $category, $slug) {
 
+
+        $category = $category->where('slug', $slug)->orWhere('id', $slug)->with('products')->firstOrFail();
 
         $query = $category ? $category->children()->where('status', 'active') : Category::whereIsRoot();
         $categories = $query->defaultOrder()->getModels();
 
         $categoryIds = $category->descendants()->pluck('id');
 
-        $category = Category::where('id', $category->id)->with('products')->firstOrFail();
         $products = $category->products()->paginate(16);
 
         if (count($products) == 0) {
@@ -49,10 +50,13 @@ class HomeController extends Controller
     }
 
     //----------------------------------
-    public function product(Product $product)
+    public function product(Product $product, $slug)
     {
         $product = $product->where([
-            ['id', $product->id],
+            ['slug', $slug],
+            ['status', 'active']
+        ])->orWhere([
+            ['id', $slug],
             ['status', 'active']
         ])->firstOrFail();
 

@@ -222,7 +222,7 @@ class CartService
     public function compareQuantityProduct($product, $quantity)
     {
         if ($product->quantity >= $quantity && $product->quantity > 1) {
-            return;
+            return null;
         } throw new \DomainException('Товар в наличии '. $product->quantity .' шт.');
 
     }

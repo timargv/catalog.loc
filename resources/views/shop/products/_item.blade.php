@@ -2,16 +2,16 @@
     @forelse ($chunk as $product)
 
             <div  class="mb-0 sh-product col-3">
-                <a class="card p-0 border-0 rounded-0 sh-product" href="{{ route('product.show', $product) }}">
+                <a class="card p-0 border-0 rounded-0 sh-product" href="{{ route('product.show', $product->slug?:$product->id) }}">
                     <div class="image p-0">
                         @foreach($product->photos as $photo)
                             @if($photo->main == 'yeas')
-                                <img src="{{ $photo->file == null ? Storage::disk('public')->url('image/no_photo.jpg') : Storage::disk('public')->url('products/medium/'.  $photo->file) }}" alt="" class=" img-circle  mr-0 pr-0 w-100" >
+                                <img src="{{ $photo->file == null ? url('/storage/image/no_photo.jpg') : url('/storage/products/medium/'.  $photo->file) }}" alt="" class=" img-circle  mr-0 pr-0 w-100" >
                                 @break
                             @endif
                         @endforeach
                         @if (!count($product->photos))
-                            <img src="{{ Storage::disk('public')->url('image/no_photo.jpg') }}" alt="" class="mr-0 pr-0 w-100" >
+                            <img src="{{ url('/storage/image/no_photo.jpg') }}" alt="" class="mr-0 pr-0 w-100" >
                         @endif
                     </div>
                     <div class="card-body px-0 mb-0 pb-0">
@@ -31,7 +31,7 @@
                             {{ $product->name }}
                         </div>
 
-                        <div class="small mb-3">{{ $product->vendor_code }}</div>
+                        {{--<div class="small mb-3">{{ $product->vendor_code }}</div>--}}
 
                         <div class="btn_group">
                             <form action="{{ route('cart.add', $product->id) }}" method="POST">

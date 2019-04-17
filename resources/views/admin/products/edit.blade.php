@@ -377,7 +377,7 @@
                                         @foreach($product->photos as $photo)
                                             <div class="position-relative">
                                                 @if($photo->main == 'yeas')
-                                                    <img class="img-responsive border w-100 " src="{{ Storage::disk('public')->url('products/thumbnail/'. $photo->file) }}" >
+                                                    <img class="img-responsive border w-100 " src="{{ url('/storage/products/thumbnail/'. $photo->file) }}" >
                                                 @endif
 
                                             </div>
@@ -390,7 +390,7 @@
                                                 @if($photo->main == 'no')
                                                     <li class="col-xs-6 pr-0 mb-3">
                                                         <div class="position-relative">
-                                                            <img class="img-responsive border " src="{{ Storage::disk('public')->url('products/item/'. $photo->file) }}" >
+                                                            <img class="img-responsive border " src="{{ url('/storage/products/item/'. $photo->file) }}" >
                                                             <div class="btn-group position-absolute fixed-bottom">
                                                                 <a href="#" data-url="{{ route('admin.products.photos.delete', [$product, $photo->id]) }}" id="delete-photo-product" data-id="{{ $photo->id }}" class="fas fa-trash btn btn-xs btn-flat bg-transparent text-danger  py-2 float-left" data-toggle="tooltip" data-placement="top" title="" data-original-title="Удалить"></a>
                                                                 <a href="#" data-url="{{ route('admin.products.photos.main', [$product, $photo->id]) }}" id="main-photo-product" data-id="{{ $photo->id }}" class="fas fa-check-circle btn btn-xs btn-flat bg-transparent text-info py-2 float-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Сделать Главным"></a>
@@ -522,10 +522,10 @@
                             <ul class="mailbox-attachments clearfix">
                                 @foreach($product->photos as $photo)
                                     <li>
-                                        <span class="mailbox-attachment-icon has-img"><img src="{{ Storage::disk('public')->url('products/thumbnail/'. $photo->file) }}" alt="Attachment"></span>
+                                        <span class="mailbox-attachment-icon has-img"><img src="{{ url('/storage/products/thumbnail/'. $photo->file) }}" alt="Attachment"></span>
 
                                         <div class="mailbox-attachment-info">
-                                            <a href="{{ Storage::disk('public')->url('products/original/'. $photo->file) }}" target="_blank" class="mailbox-attachment-name"><i class="fa fa-camera"></i> {{ $photo->file }}</a>
+                                            <a href="{{ url('/storage/products/original/'. $photo->file) }}" target="_blank" class="mailbox-attachment-name"><i class="fa fa-camera"></i> {{ $photo->file }}</a>
                                             <span class="mailbox-attachment-size">
                                                 {{ $photo->getSize() }}
                                                 <div class="bnt-group ">

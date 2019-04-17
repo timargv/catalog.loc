@@ -1,13 +1,13 @@
-<div class="container wm-1140 position-relative mb-5">
+<div class="container wm-1140 position-relative mb-5" style="padding-left: 30px !important; padding-right: 50px !important;">
     @if($widgetHome->isTypeProduct())
     <div class="@if(count($widgetHome->widgetProductItems) > 5) owl-carousel slide-home owl-theme @else d-flex row @endif">
         @foreach ($widgetHome->widgetProductItems as $product)
             <div  class=" mb-4 sh-product" style="@if(count($widgetHome->widgetProductItems) < 6) width:20%; padding: 0 15px; @endif">
-                <a class="card p-0 border-0 rounded-0 sh-product" href="{{ $product->id }}">
+                <a class="card p-0 border-0 rounded-0 sh-product" href="{{ route('product.show', $product->slug?:$product->id) }}">
                     <div class="image p-0">
                         @forelse($product->product->photos as $photo)
                             @if($photo->main == 'yeas')
-                                <img src="{{ Storage::disk('public')->url('products/medium/'.  $photo->file) }}" alt="" class=" img-circle  mr-0 pr-0 w-100" >
+                                <img src="{{ url('/storage/products/medium/'.  $photo->file) }}" alt="" class=" img-circle  mr-0 pr-0 w-100" >
                                 @break
                             @endif
                         @empty
@@ -15,7 +15,6 @@
                         @endforelse
                     </div>
                     <div class="card-body px-0 mb-0 pb-0">
-
                         <div class="price-block">
                             <strong>
                                 <span id="price" >{{ $product->product->price }}</span>
@@ -50,11 +49,12 @@
         <div class="row">
             @foreach ($widgetHome->widgetCategoryItems as $widget)
                 <div  class="col-2 mb-5 sh-product text-center">
-                    <a class="text-muted text-decoration-none" href="{{ $widget->category->id }}" style="font-size: 17px">
-                    <div class="image mb-3">
-                        <img class="w-100 rounded-circle" src="{{ $widget->category->image == null ? Storage::disk('public')->url('image/no_photo.jpg') : Storage::disk('public')->url('category/thumbnail_category/'.  $widget->category->image) }}" alt="">
-                    </div>
-                    {{ $widget->category->name }}</a>
+                    <a class="text-muted text-decoration-none" href="{{ $widget->category->slug?:$widget->category->id }}" style="font-size: 17px">
+                        <div class="image mb-3">
+                            <img class="w-100 rounded-circle" src="{{ $widget->category->image == null ? url('/storage/image/no_photo.jpg') : url('/storage/category/thumbnail_category/'.  $widget->category->image) }}" alt="">
+                        </div>
+                        {{ $widget->category->name }}
+                    </a>
                 </div>
             @endforeach
         </div>

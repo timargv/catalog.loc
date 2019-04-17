@@ -56,7 +56,7 @@
                 <div class="col-xs-1 pr-0 text-right">
                     @foreach($product->photos as $photo)
                         @if($photo->main == 'yeas')
-                            <img src="../storage/products/item/{{ $photo->file }}" alt="" class=" img-circle  mr-0 pr-0 w-100" style="max-width: 40px !important;">
+                            <img src="{{ url('/storage/products/item/'. $photo->file) }}" alt="" class=" img-circle  mr-0 pr-0 w-100" style="max-width: 40px !important;">
                             @break
                         @endif
                     @endforeach

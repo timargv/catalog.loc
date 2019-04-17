@@ -34,7 +34,8 @@
             </div>
         </li>
     @endguest
-    <li class="nav-item cart-mini"><a class="nav-link" href="{{ route('cart.index') }}">
+    <li class="nav-item cart-mini">
+        <a class="nav-link pr-0" href="{{ route('cart.index') }}">
             <div class="cart-mini-block">
                 <i class="fal fa-shopping-cart">
                     <span>{{ $countCart }}</span>

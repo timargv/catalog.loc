@@ -8,7 +8,7 @@
         <div class="col-3">
              <nav class="nav flex-column category-show-left-menu mb-5">
                 @foreach($categories as $category)
-                    <a class="nav-link active pl-0 text-dark py-1" href="{{ route('categories.show', $category) }}">{{ $category->name }}</a>
+                    <a class="nav-link active pl-0 text-dark py-1" href="{{ route('categories.show', $category->slug?:$category->id) }}">{{ $category->name }}</a>
                 @endforeach
             </nav>
         </div>
@@ -16,9 +16,7 @@
             <div class="row"></div>
             <div class="row">
                 @include('shop.products._item', ['products' => $products])
-
                 <div class="w-100 clearfix py-5 px-3">{{ $products->appends(request()->query())->links() }}</div>
-
             </div>
         </div>
     </div>

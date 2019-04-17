@@ -10,8 +10,6 @@ window.AutoNumeric = require('./../../node_modules/autonumeric/dist/autoNumeric'
 
 require ('owl.carousel');
 
-
-
 const autoNumericOptionsRuble = {
     currencySymbol: "\u202f ₽",
     currencySymbolPlacement: "s",

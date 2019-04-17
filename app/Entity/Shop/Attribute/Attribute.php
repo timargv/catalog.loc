@@ -26,6 +26,9 @@ class Attribute extends Model
     const TYPE_INTEGER = 'integer';
     const TYPE_FLOAT = 'float';
 
+    public const STATUS_ACTIVE = 'active';
+    public const STATUS_CLOSED = 'disabled';
+
     protected $table = 'attributes';
     protected $fillable = ['name', 'group_id', 'type', 'visibility', 'required', 'status', 'variants', 'sort', 'slug'];
 

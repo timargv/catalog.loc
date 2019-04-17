@@ -104,7 +104,7 @@ class LoginController extends Controller
     {
         Auth::guard()->logout();
         $request->session()->invalidate();
-        return redirect()->route('home');
+        return redirect()->back();
     }
 
     protected function username()

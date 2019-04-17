@@ -11,7 +11,7 @@ const autoNumericOptionsRuble = {
 $(document).ready(function (){
     $("#example1").DataTable();
     $(".select2").select2();
-    $('#summernotes').ckeditor();
+    // $('#summernotes').ckeditor();
 
     //Flat red color scheme for iCheck
     $("#all_categories, #checkbox-blue").iCheck({

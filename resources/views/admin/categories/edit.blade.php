@@ -120,10 +120,10 @@
                         <div class="col-xs-4">
                             <ul class="mailbox-attachments clearfix">
                                 <li>
-                                    <span class="mailbox-attachment-icon has-img"><img src="{{ $category->image == null ? Storage::disk('public')->url('image/no_photo.jpg') : Storage::disk('public')->url('category/medium/'.  $category->image) }}" alt="Attachment"></span>
+                                    <span class="mailbox-attachment-icon has-img"><img src="{{ $category->image == null ? url('/storage/image/no_photo.jpg') : url('/storage/category/medium/'.  $category->image) }}" alt="Attachment"></span>
 
                                     <div class="mailbox-attachment-info">
-                                        <a href="{{ $category->image == null ? Storage::disk('public')->url('image/no_photo.jpg') : Storage::disk('public')->url('category/medium/'.  $category->image) }}" target="_blank" class="mailbox-attachment-name"><i class="fa fa-camera"></i> {{ $category->image }}</a>
+                                        <a href="{{ $category->image == null ? url('/storage/image/no_photo.jpg') : url('/storage/category/medium/'.  $category->image) }}" target="_blank" class="mailbox-attachment-name"><i class="fa fa-camera"></i> {{ $category->image }}</a>
                                         <span class="mailbox-attachment-size">
                                                 {{--{{ $category->getSize() }}--}}
                                                 {{--<div class="bnt-group ">--}}

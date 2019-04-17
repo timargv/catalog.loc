@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use App\Entity\Shop\Attribute\Attribute;
 use App\Entity\Shop\Attribute\AttributeGroup;
+use App\Entity\Shop\Cart;
 use App\Entity\Shop\Product\Photo;
 use App\Entity\Shop\Product\Value;
 use App\Entity\Shop\Product\PriceHistory;
+use App\UseCases\Cart\CartService;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
@@ -31,6 +33,7 @@ use Illuminate\Support\Facades\Cache;
  * @property mixed price
  * @property mixed vendor_price
  * @property mixed quantity
+ * @property mixed $check_cart_product
  */
 class Product extends Model
 {
@@ -79,6 +82,7 @@ class Product extends Model
     public const STATUS_MAIN_PHOTO = 'yeas';
     public const STATUS_NOT_MAIN_PHOTO = 'no';
 
+    private $items;
 
     // Статус В наличии или нет
     public static function statusesAvailable(): array
@@ -144,6 +148,12 @@ class Product extends Model
         return $this->hasMany(Value::class, 'product_id');
     }
 
+    //------------------- Отношения к корзине
+    public function carts ()
+    {
+        return $this->hasMany(Cart::class, 'product_id', 'id');
+    }
+
     //------------------- Фотография
     public function photos()
     {
@@ -195,38 +205,65 @@ class Product extends Model
     return null;
 }
 
+    // Найти группу атрибутов по ID
     public function getGroupNameAttribute($id)
     {
         return AttributeGroup::findOrFail($id);
     }
 
+    // Получить главную фотку товара
     public function getMainphoto()
     {
         $photos = $this->photos()->where('main', self::STATUS_MAIN_PHOTO)->take(1)->get();
         return $photos;
     }
 
+    // Группировка Атрибутов
     public function getGroup($attributes) {
-
-
         $attributesCollection = collect($attributes)->where('status', 1);
-
-
         $group = $attributesCollection->groupBy(function ($item, $key) {
             return $item->group_id;
         });
-
-//        dd($group);
         return $group;
-
     }
 
-    //    COUNTS
+    // COUNTS
     public static function count()
     {
         return Cache::remember('count_products', 60, function () {
             return static::query()->count();
         });
     }
+
+    // Проверка товара на сушествование в корзине пользователя
+    public function checkCartProduct()
+    {
+
+        $items = \Session::get('cart', []);
+        if (!empty($items)) {
+            $this->loadItems();
+            if ($check = empty($result = array_search($this->getIdMd($this->id), array_column($this->items, 'id')))) {
+                return $check;
+            }
+            return false;
+        }
+        $result = $this->carts()->where([
+            ['product_id', $this->id],
+            ['user_id', auth()->id()]
+        ])->first();
+        return $result;
+    }
+
+    // Загрузка сесси корзины
+    public function loadItems() {
+        return $this->items = \Session::get('cart');
+    }
+
+    // Перевести id  в md5 шифрование
+    public function getIdMd($id): string
+    {
+        return md5($id);
+    }
+
 
 }

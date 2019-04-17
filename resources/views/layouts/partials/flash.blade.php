@@ -22,7 +22,7 @@
             @if(session('warning_title'))
                 <div class="toast-body">
                     <div class="row">
-                        <div class="col-2 pr-0"><img src="{{ session('warning_img') == null ? Storage::disk('public')->url('image/no_photo.jpg') : Storage::disk('public')->url('products/medium/'.  session('warning_img')) }}" alt="" class=" img-circle  mr-0 pr-0 w-100" ></div>
+                        <div class="col-2 pr-0"><img src="{{ session('warning_img') == null ? url('/storage/image/no_photo.jpg') : url('/storage/products/medium/'.  session('warning_img')) }}" alt="" class=" img-circle  mr-0 pr-0 w-100" ></div>
                         <div class="col-10">{{ session('warning_title') }}</div>
                     </div>
                 </div>
@@ -50,7 +50,7 @@
             @if(session('success_title'))
                 <div class="toast-body">
                     <div class="row">
-                        <div class="col-2 pr-0"><img src="{{ session('success_img') == null ? Storage::disk('public')->url('image/no_photo.jpg') : Storage::disk('public')->url('products/medium/'.  session('success_img')) }}" 
+                        <div class="col-2 pr-0"><img src="{{ session('success_img') == null ? url('/storage/image/no_photo.jpg') : url('/storage/products/medium/'.  session('success_img')) }}"
                              alt="" class=" img-circle  mr-0 pr-0 w-100" ></div>
                         <div class="col-10">{{ session('success_title') }}</div>
                     </div>
@@ -80,7 +80,7 @@
             @if(session('error_title'))
                 <div class="toast-body">
                     <div class="row">
-                        <div class="col-2 pr-0"><img @if(session('error_img')) src="storage/products/medium/{{ session('error_img') }}" @else src="img/no_photo_product.jpg" @endif alt="" class=" img-circle  mr-0 pr-0 w-100" ></div>
+                        <div class="col-2 pr-0"><img @if(session('error_img')) src="{{ url('/storage/products/medium/'. session('error_img')) }}" @else src="img/no_photo_product.jpg" @endif alt="" class=" img-circle  mr-0 pr-0 w-100" ></div>
                         <div class="col-10">{{ session('error_title') }}</div>
                     </div>
                 </div>
@@ -108,7 +108,7 @@
             @if(session('info_title'))
                 <div class="toast-body">
                     <div class="row">
-                        <div class="col-2 pr-0"><img @if(session('info_img')) src="storage/products/medium/{{ session('info_img') }}" @else src="img/no_photo_product.jpg" @endif alt="" class=" img-circle  mr-0 pr-0 w-100" ></div>
+                        <div class="col-2 pr-0"><img @if(session('info_img')) src="{{ url('/storage/products/medium/'. session('error_img')) }}" @else src="img/no_photo_product.jpg" @endif alt="" class=" img-circle  mr-0 pr-0 w-100" ></div>
                         <div class="col-10">{{ session('info_title') }}</div>
                     </div>
                 </div>

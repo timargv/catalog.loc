@@ -149,10 +149,6 @@ class User extends Authenticatable
     }
 
 
-    
-    public function checkCartProduct($productId)
-    {
-        return auth()->user()->carts()->where('product_id', $productId)->first();
-    }
+
 
 }

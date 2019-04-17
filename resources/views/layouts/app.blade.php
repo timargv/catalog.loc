@@ -69,7 +69,7 @@
                 @yield('slide')
             </div>
 
-            <div class="container pt-4 px-4 wm-1140 rounded-top bg-white position-relative" style="top: -20px; min-height: 600px">
+            <div class="container pt-4 px-4 wm-1140 rounded-top bg-white position-relative" style="top: -20px; min-height: 1380px;">
                 @section('breadcrumbs', Breadcrumbs::render())
                 @yield('breadcrumbs')
                 @yield('content')

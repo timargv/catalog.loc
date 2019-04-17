@@ -46,19 +46,23 @@ Breadcrumbs::register('search.index', function (Crumbs $crumbs) {
 });
 
 // Category SHOW
-Breadcrumbs::register('categories.show', function (Crumbs $crumbs, Category $category) {
+Breadcrumbs::register('categories.show', function (Crumbs $crumbs, $slug) {
+
+    $category = Category::where('slug', $slug)->orWhere('id', $slug)->first();
+
     if ($parent = $category->parent) {
-        $crumbs->parent('categories.show', $parent);
+        $crumbs->parent('categories.show', $parent->slug?:$parent->id);
     }
-    $crumbs->push($category->name == null ? $category->name_original : $category->name, route('categories.show', $category));
+    $crumbs->push($category->name == null ? $category->name_original : $category->name, route('categories.show', $category->slug?:$category->id));
 });
 
 // Product SHOW
-Breadcrumbs::register('product.show', function (Crumbs $crumbs, Product $product) {
-    $crumbs->parent('categories.show', $product->category);
+Breadcrumbs::register('product.show', function (Crumbs $crumbs, $slug) {
+    $product = Product::where('slug', $slug)->orWhere('id', $slug)->with('category')->first();
+    $crumbs->parent('categories.show', $product->category->slug?:$product->category->id);
 
     if (!empty($product->brand->title)) {
-        $crumbs->push($product->brand->title, route('product.show', $product));
+        $crumbs->push($product->brand->title, route('product.show', $slug));
     }
 });
 
