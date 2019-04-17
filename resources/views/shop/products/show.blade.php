@@ -40,7 +40,7 @@
                             @if(!empty(Auth::user()->isAdmin() || Auth::user()->isModerator()))
                                 <div class="card border-0 p-0 mb-0">
                                     <div class="card-body p-0 mb-0">
-                                        @if($product->vendor->url)
+                                        @if($product->vendor)
                                             <h6 class="card-subtitle mt-1 pb-0 mb-0">Поставщик: <a class="pl-2 text-catalog" href="{{ $product->vendor->url }}" target="_blank">{{ $product->vendor->title }}</a></h6>
                                         @endif
                                         @if($product->original_url)

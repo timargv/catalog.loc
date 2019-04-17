@@ -3,7 +3,7 @@
     <div class="@if(count($widgetHome->widgetProductItems) > 5) owl-carousel slide-home owl-theme @else d-flex row @endif">
         @foreach ($widgetHome->widgetProductItems as $product)
             <div  class=" mb-4 sh-product" style="@if(count($widgetHome->widgetProductItems) < 6) width:20%; padding: 0 15px; @endif">
-                <a class="card p-0 border-0 rounded-0 sh-product" href="{{ route('product.show', $product->slug?:$product->id) }}">
+                <a class="card p-0 border-0 rounded-0 sh-product" href="{{ route('product.show', $product->product->slug?:$product->product->id) }}">
                     <div class="image p-0">
                         @forelse($product->product->photos as $photo)
                             @if($photo->main == 'yeas')
