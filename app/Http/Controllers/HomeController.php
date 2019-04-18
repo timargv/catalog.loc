@@ -4,18 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Entity\Category;
 use App\Entity\Product;
+use App\Entity\Shop\Attribute\Attribute;
+use App\Entity\Shop\Attribute\AttributeGroup;
 use App\Entity\Shop\Cart;
+use App\Entity\Shop\Product\Value;
 use App\Entity\Shop\Widgets\Widget;
+use App\UseCases\Category\FilterProductService;
 use App\UseCases\Widget\WidgetService;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public $widgetService;
+    private $products;
+    private $attribute;
+    public $filterProductService;
 
-    public function __construct(WidgetService $widgetService)
+    public function __construct(WidgetService $widgetService, Product $products, Attribute $attribute, FilterProductService $filterProductService)
     {
         $this->widgetService = $widgetService;
+        $this->products = $products;
+        $this->attribute = $attribute;
+        $this->filterProductService = $filterProductService;
     }
 
 
@@ -30,10 +40,14 @@ class HomeController extends Controller
         return view('home', compact('categories', 'widgetsHome'));
     }
 
-    public function category(Category $category, $slug) {
-
+    public function category(Request $request, Category $category, $slug) {
 
         $category = $category->where('slug', $slug)->orWhere('id', $slug)->with('products')->firstOrFail();
+
+        if ($request->all()) {
+            $this->filterProductService->filter($request, $category);
+        }
+
 
         $query = $category ? $category->children()->where('status', 'active') : Category::whereIsRoot();
         $categories = $query->defaultOrder()->getModels();

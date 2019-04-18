@@ -123,6 +123,19 @@
                         </div>
 
                         <div class="form-group">
+                            <input type="hidden" name="is_filter" value="0">
+                            <div class="checkbox">
+                                <label class="col-form-label pl-0">
+                                    <input id="checkbox-blue" type="checkbox" name="is_filter" {{ old('is_filter', $attribute->is_filter) ? 'checked' : '' }}>
+                                    Показать в фильтре
+                                </label>
+                            </div>
+                            @if ($errors->has('is_filter'))
+                                <span class="invalid-feedback"><strong>{{ $errors->first('is_filter') }}</strong></span>
+                            @endif
+                        </div>
+
+                        <div class="form-group">
                             <input type="hidden" name="status" value="0">
                             <div class="checkbox">
                                 <label class="col-form-label pl-0">

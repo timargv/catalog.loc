@@ -71,6 +71,14 @@ class Category extends Model
         return $result;
     }
 
+    public function allAttributesFilter(): array
+    {
+//        $result = array_merge($this->parentAttributes(), $this->attributes()->orderBy('sort')->getModels());
+//        dd($result);
+        $result =  $this->attributes()->where('is_filter', 1)->orderBy('sort')->getModels();
+        return $result;
+    }
+
     public function attributes()
     {
         return $this->belongsToMany(
@@ -109,4 +117,44 @@ class Category extends Model
             return static::query()->count();
         });
     }
+
+    // Группировка Атрибутов
+    public function getGroupAttributesValue($attributes) {
+        $attributesCollection = collect($attributes);
+        $group = $attributesCollection->groupBy(function ($item, $key) {
+            return $item[$key]->attribute_id;
+        });
+
+        return $group;
+    }
+
+
+    public function getValuesFilter()
+    {
+        $attributes = $this->allAttributesFilter();
+        $productIds = $this->products()->with('values')->pluck('id');
+
+        $value = [];
+
+        foreach ($attributes as $key => $attribute) {
+            if (!empty($attribute->values()->whereIn('product_id', $productIds)->first())) {
+                $value[$key] = $attribute->values()->whereIn('product_id', $productIds)->get();
+            }
+        }
+        return $this->getGroupAttributesValue($value);
+    }
+
+    // Найти группу атрибутов по ID
+    public function getNameAttributeValue($id)
+    {
+        return $this->attributes()->findOrFail($id);
+    }
+
+    public function getFilterValueUniqArray($values): array
+    {
+        $arr = $values[0]->groupBy('value')->toArray();
+        return $arr;
+    }
+
+
 }

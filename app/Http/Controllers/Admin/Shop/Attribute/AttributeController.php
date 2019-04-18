@@ -32,6 +32,7 @@ class AttributeController extends Controller
             'required' => 'nullable|string',
             'status' => 'nullable|string',
             'visibility' => 'nullable|string',
+            'is_filter' => 'required',
             'variants' => 'nullable|string',
             'sort' => 'required|integer',
             'slug' => 'required|string|max:255|unique:attributes'
@@ -47,6 +48,7 @@ class AttributeController extends Controller
             'required' => (bool)$request['required'],
             'status' => (bool)$request['status'],
             'visibility' => (bool)$request['visibility'],
+            'is_filter' => (bool)$request['is_filter'],
             'variants' => $request['variants'] == null ? [] : array_map('trim', preg_split('#[\r\n]+#', $request['variants'])),
             'sort' => $request['sort'] == null ? 1 : $request['sort'],
             'slug' => $request['slug'],
@@ -90,6 +92,7 @@ class AttributeController extends Controller
             'visibility' => 'nullable|string',
             'status' => 'nullable|string',
             'variants' => 'nullable|string',
+            'is_filter' => 'required',
             'sort' => 'required|integer',
             'slug' => 'required|string|max:255|unique:attributes,slug,'.  $attribute->id,
         ]);
@@ -104,6 +107,7 @@ class AttributeController extends Controller
             'required' => (bool)$request['required'],
             'status' => (bool)$request['status'],
             'visibility' => (bool)$request['visibility'],
+            'is_filter' => (bool)$request['is_filter'],
             'variants' => $request['variants'] == null ? [] : array_map('trim', preg_split('#[\r\n]+#', $request['variants'])),
             'sort' => $request['sort'],
             'slug' => $request['slug'],

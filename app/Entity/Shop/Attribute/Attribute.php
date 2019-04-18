@@ -30,7 +30,7 @@ class Attribute extends Model
     public const STATUS_CLOSED = 'disabled';
 
     protected $table = 'attributes';
-    protected $fillable = ['name', 'group_id', 'type', 'visibility', 'required', 'status', 'variants', 'sort', 'slug'];
+    protected $fillable = ['name', 'group_id', 'type', 'visibility', 'required', 'status', 'variants', 'is_filter', 'sort', 'slug'];
 
     protected $casts = [
         'variants' => 'array',

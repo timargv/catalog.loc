@@ -202,6 +202,7 @@ class ProductService
             'type' => 'string',
             'group_id' => 1,
             'required' => 1,
+            'is_filter' => 1,
             'variants' => [],
             'sort' => 2,
             'slug' => str_slug($name),

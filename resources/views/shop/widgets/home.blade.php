@@ -51,7 +51,7 @@
                 <div  class="col-2 mb-5 sh-product text-center">
                     <a class="text-muted text-decoration-none" href="{{ $widget->category->slug?:$widget->category->id }}" style="font-size: 17px">
                         <div class="image mb-3">
-                            <img class="w-100 rounded-circle" src="{{ $widget->category->image == null ? url('/storage/image/no_photo.jpg') : url('/storage/category/thumbnail/'.  $widget->category->image) }}" alt="">
+                            <img class="w-100 rounded-circle" src="{{ $widget->category->image == null ? url('/storage/image/no_photo.jpg') : url('/storage/category/thumbnail_category/'.  $widget->category->image) }}" alt="">
                         </div>
                         {{ $widget->category->name }}
                     </a>

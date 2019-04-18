@@ -2,12 +2,14 @@
 
 namespace App\Entity\Shop\Product;
 
+use App\Entity\Product;
 use App\Entity\Shop\Attribute\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property int $id
  * @property mixed $attribute
+ * @property mixed $products
  */
 class Value extends Model
 {
@@ -15,10 +17,17 @@ class Value extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['attribute_id', 'value'];
+    protected $fillable = ['attribute_id', 'value', 'product_id'];
 
     //------------------- Атрибуты
     public function attribute() {
-        return $this->belongsTo(Attribute::class, 'attribute_id');
+        return $this->belongsTo(Attribute::class, 'attribute_id')->where('is_filter', 1);
+    }
+
+    //------------------- Атрибуты
+
+
+    public function product() {
+        return $this->belongsTo(Product::class, 'product_id');
     }
 }

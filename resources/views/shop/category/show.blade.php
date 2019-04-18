@@ -10,6 +10,23 @@
                 @foreach($categories as $category)
                     <a class="nav-link active pl-0 text-dark py-1" href="{{ route('categories.show', $category->slug?:$category->id) }}">{{ $category->name }}</a>
                 @endforeach
+
+                {{-- {{  dd($category->products()->pluck('id')) }} --}}
+
+
+
+                @if(empty($categories))
+                    @if ($category->allAttributes())
+                    @foreach($category->getValuesFilter() as $key => $attribute)
+                        <div class="h5">{{ $category->getNameAttributeValue($key)->name }}</div>
+                        <ul>
+                            @foreach($category->getFilterValueUniqArray($attribute) as $key => $value)
+                                {{ $key }}
+                            @endforeach
+                        </ul>
+                    @endforeach
+                    @endif
+                @endif
             </nav>
         </div>
         <div class="col-9">
