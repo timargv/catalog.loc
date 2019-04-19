@@ -75,7 +75,20 @@ class Category extends Model
     {
 //        $result = array_merge($this->parentAttributes(), $this->attributes()->orderBy('sort')->getModels());
 //        dd($result);
-        $result =  $this->attributes()->where('is_filter', 1)->orderBy('sort')->getModels();
+        $result =  $this->attributes()->where([
+            ['status', 1],
+            ['visibility', 1]
+        ])->orderBy('sort')->getModels();
+        return $result;
+    }
+
+    public function allAttributesFilterVisual(): array
+    {
+        $result =  $this->attributes()->where([
+            ['status', 1],
+            ['is_filter', 1],
+            ['visibility', 1],
+        ])->orderBy('sort')->getModels();
         return $result;
     }
 
@@ -120,18 +133,24 @@ class Category extends Model
 
     // Группировка Атрибутов
     public function getGroupAttributesValue($attributes) {
-        $attributesCollection = collect($attributes);
-        $group = $attributesCollection->groupBy(function ($item, $key) {
-            return $item[$key]->attribute_id;
-        });
 
+        $attributesCollection = collect($attributes);
+
+
+        $group = $attributesCollection->groupBy(function ($item, $key) {
+            if (!empty($item[$key])) {
+                return $item[$key]->attribute_id;
+            }
+        });
+//        dd($group);
+//        dd(unset($group->items[""]));
         return $group;
     }
 
 
     public function getValuesFilter()
     {
-        $attributes = $this->allAttributesFilter();
+        $attributes = $this->allAttributesFilterVisual();
         $productIds = $this->products()->with('values')->pluck('id');
 
         $value = [];
@@ -141,12 +160,14 @@ class Category extends Model
                 $value[$key] = $attribute->values()->whereIn('product_id', $productIds)->get();
             }
         }
+
         return $this->getGroupAttributesValue($value);
     }
 
     // Найти группу атрибутов по ID
     public function getNameAttributeValue($id)
     {
+        if ($id == null) { return; }
         return $this->attributes()->findOrFail($id);
     }
 

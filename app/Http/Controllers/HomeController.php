@@ -42,12 +42,7 @@ class HomeController extends Controller
 
     public function category(Request $request, Category $category, $slug) {
 
-        $category = $category->where('slug', $slug)->orWhere('id', $slug)->with('products')->firstOrFail();
-
-        if ($request->all()) {
-            $this->filterProductService->filter($request, $category);
-        }
-
+        $category = $category->where('slug', $slug)->orWhere('id', $slug)->firstOrFail();
 
         $query = $category ? $category->children()->where('status', 'active') : Category::whereIsRoot();
         $categories = $query->defaultOrder()->getModels();
@@ -58,6 +53,11 @@ class HomeController extends Controller
 
         if (count($products) == 0) {
             $products = Product::whereIn('category_id', $categoryIds)->paginate(16);
+        }
+
+        if ($request->all()) {
+            $products = $this->filterProductService->filter($request, $category);
+            return view('shop.category.show', compact('category', 'categories', 'products'));
         }
 
         return view('shop.category.show', compact('category', 'categories', 'products'));

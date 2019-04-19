@@ -1,3 +1,8 @@
+@if(request()->all())
+<a href="?" class="btn bg-catalog text-white btn-sm" data-toggle="tooltip" data-placement="top" title="Очистить Поиск"><i class="far fa-redo-alt"></i> Сбросить фильтр</a>
+<div class="clearfix w-100 d-block mb-4"></div>
+@endif
+
 @forelse (array_chunk($products->items(), 4) as $chunk)
     @forelse ($chunk as $product)
 
@@ -6,7 +11,7 @@
                     <div class="image p-0">
                         @foreach($product->photos as $photo)
                             @if($photo->main == 'yeas')
-                                <img src="{{ $photo->file == null ? url('/storage/image/no_photo.jpg') : url('/storage/products/medium/'.  $photo->file) }}" alt="" class=" img-circle  mr-0 pr-0 w-100" >
+                                <img src="{{ $photo->file == null ? url('/storage/image/no_photo.jpg') : url('/storage/products/thumbnail/'.  $photo->file) }}" alt="" class=" img-circle  mr-0 pr-0 w-100" >
                                 @break
                             @endif
                         @endforeach
