@@ -4,6 +4,7 @@ namespace App\Entity\Shop\Product;
 
 use App\Entity\Product;
 use App\Entity\Shop\Attribute\Attribute;
+use App\Entity\Shop\Attribute\AttributeData;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -13,21 +14,13 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Value extends Model
 {
-    protected $table = 'product_attribute_values';
-
-    public $timestamps = false;
-
-    protected $fillable = ['attribute_id', 'value', 'product_id'];
-
-    //------------------- Атрибуты
-    public function attribute() {
-        return $this->belongsTo(Attribute::class, 'attribute_id')->where('is_filter', 1);
-    }
-
-    //------------------- Атрибуты
-
+    protected $table = 'attribute_values';
+    protected $fillable = ['value'];
 
     public function product() {
-        return $this->belongsTo(Product::class, 'product_id');
+        return $this->belongsTo(AttributeData::class, 'value_id');
     }
+
+
+
 }

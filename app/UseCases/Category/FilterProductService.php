@@ -12,6 +12,7 @@ use App\Entity\Category;
 use App\Entity\Product;
 use App\Entity\Shop\Attribute\Attribute;
 use App\Entity\Shop\Product\Value;
+use mysql_xdevapi\Collection;
 
 class FilterProductService
 {
@@ -19,6 +20,8 @@ class FilterProductService
     protected $attribute;
     protected $product;
     protected $value;
+
+    public $products;
 
     public function __construct(Attribute $attribute, Product $product, Value $value)
     {
@@ -31,28 +34,46 @@ class FilterProductService
     public function filter ($request, $category)
     {
 
-        $product_filer_collect = null;
-        $productsListIds = $category->products()->pluck('id')->all();
-
-//        $attribute = [];
-        $result = [];
-        foreach ($request->all() as $key => $item) {
-            $attribute[] = $this->attribute->where('slug', $key)->with('values')->first();
-            $result[] = $attribute[0]->values()->where('value', $item)->get();
-
-        }
+        $attributes = $this->getAttributes($request->all(), $category);
+        dd($attributes);
 
 
-        if (!empty($result)) {
-            foreach ($result as $item) {
-                $productIds = $item->whereIn('product_id', $productsListIds);
-            }
-        }
+
+    }
 
 
-        $products = Product::whereIn('id', $productIds)->with('photos')->paginate(16);
+    public function getAttributes ($request, $category) {
+        $attributeIds = [];
 
-        return $products;
+        $products = $category->where('id', $category->id)->products()->get();
+
+
+        dd($products);
+    }
+
+    public function getValues ($attributeIds) {
+
+        $values = $this->value->whereIn('attribute_id', $attributeIds)->get();
+        return $values;
+    }
+
+
+    public function getProducts($category)
+    {
+        return $category->products()->with('values')->get();
+    }
+
+    /**
+     * @return Attribute
+     */
+    public function getAttribute($slug)
+    {
+        return $this->attribute->where('slug', $slug)->first();
+    }
+
+    public function getCategory($category)
+    {
+        return Category::findOrFail($category->id);
     }
 
 }

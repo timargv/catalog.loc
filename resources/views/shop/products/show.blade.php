@@ -12,19 +12,33 @@
                                 <div class="image-gallery">
                                     <aside class="thumbnails">
                                         @foreach($product->photos as $photo)
-
-                                            <div class="@if ($loop->first) selected @endif thumbnail" data-big="{{ url('/storage/products/large/'.  $photo->file) }}">
-                                            <div class="thumbnail-image" style="background-image: url('{{ url('/storage/products/item/'.  $photo->file) }}')"></div>
-                                        </div>
+                                            @if (Storage::disk('public')->exists('products/thumbnail/'. $photo->file))
+                                                <div class="@if ($loop->first) selected @endif thumbnail" data-big="{{  Storage::disk('public')->url('products/large/'. $photo->file) }}">
+                                                    <div class="thumbnail-image" style="background-image: url('{{ url('/storage/products/item/'.  $photo->file) }}')"></div>
+                                                </div>
+                                            @else
+                                                <div class="@if ($loop->first) selected @endif thumbnail" data-big="{{ url('/storage/image/no_photo.jpg') }}">
+                                                    <div class="thumbnail-image" style="background-image: url('{{ url('/storage/image/no_photo.jpg') }}')"></div>
+                                                </div>
+                                            @endif
                                         @endforeach
                                     </aside>
                                 </div>
                             </div>
                             <div class="col-10">
                                 @forelse($product->photos as $photo)
-                                    <div class="primary" style="background-image: url('{{ url('/storage/products/large/'.  $photo->file) }}');"></div>
-                                    @if ($loop->first)
-                                        @break
+                                    @if (Storage::disk('public')->exists('products/thumbnail/'. $photo->file))
+
+                                        <div class="primary" style="background-image: url('{{ Storage::disk('public')->url('products/thumbnail/'. $photo->file) }}');"></div>
+                                        @if ($loop->first)
+                                            @break
+                                        @endif
+
+                                    @else
+                                        <div class="primary" style="background-image: url(' {{ Storage::disk('public')->url('image/no_photo.jpg') }} ');"></div>
+                                        @if ($loop->first)
+                                            @break
+                                        @endif
                                     @endif
                                 @empty
                                 <div class="primary" style="background-image: url('{{ Storage::disk('public')->url('image/no_photo.jpg') }}');"></div>
@@ -35,7 +49,7 @@
                 </div>
                 <div class="col-5 pl-5">
                     <div class="title-product-full">
-                        <h1 class="text-dark">{{ $product->name ?: $product->name_original  }}</h1>
+                        <h1 class="text-dark">{{ $product->name ?: $product->name_original  }} {{ $product->id }}</h1>
                         @auth
                             @if(!empty(Auth::user()->isAdmin() || Auth::user()->isModerator()))
                                 <div class="card border-0 p-0 mb-0">

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Entity\Shop\Attribute\Attribute;
+use App\Entity\Shop\Attribute\AttributeData;
 use App\Entity\Shop\Attribute\AttributeGroup;
 use App\Entity\Shop\Cart;
 use App\Entity\Shop\Product\Photo;
@@ -145,7 +146,22 @@ class Product extends Model
     //------------------- Значения Атрибутов
     public function values()
     {
-        return $this->hasMany(Value::class, 'product_id');
+        return $this->belongsToMany(
+            Value::class,
+            'attributes_data',
+            'product_id',
+            'value_id'
+        );
+    }
+
+    public function attributes()
+    {
+        return $this->belongsToMany(
+            Attribute::class,
+            'attributes_data',
+            'product_id',
+            'attribute_id'
+        );
     }
 
 
@@ -265,6 +281,8 @@ class Product extends Model
     {
         return md5($id);
     }
+
+
 
 
 }

@@ -6,8 +6,11 @@ namespace App\UseCases\Product;
 use App\Entity\Category;
 use App\Entity\Product;
 use App\Entity\Shop\Attribute\Attribute;
+use App\Entity\Shop\Attribute\AttributeData;
 use App\Entity\Shop\Product\Photo;
 use App\Http\Requests\Admin\Product\PhotosRequest;
+use App\UseCases\Attribute\AttributeService;
+use App\UseCases\Attribute\ValueService;
 use App\UseCases\Brand\BrandService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -17,10 +20,14 @@ class ProductService
 {
 
     private $brand;
+    private $valueService;
+    private $attributeService;
 
-    public function __construct(BrandService $brandService)
+    public function __construct(BrandService $brandService, ValueService $valueService, AttributeService $attributeService)
     {
         $this->brand = $brandService;
+        $this->valueService = $valueService;
+        $this->attributeService = $attributeService;
     }
 
     public function pathPhoto()
@@ -268,6 +275,8 @@ class ProductService
 
     public function updateAttributeProductParser($product, $name, $value)
     {
+
+
         $attribute = $this->getAttributeName($name);
         $product = $this->getProduct($product->id);
         $category = $product->category;
@@ -275,25 +284,20 @@ class ProductService
 
         if (!empty($attribute) && $name != 'Бренд' && $name != 'БрендАртикула') {
 
-            $product->values()->create([
-                'attribute_id' => $attribute->id,
-                'value' => $value,
-            ]);
-
+            $value = $this->valueService->createAttributeValue($value);
+            $this->attributeService->createAttributeData($attribute->id, $product->id, $value->id);
 
         } elseif($name != 'Бренд' && $name != 'БрендАртикула') {
 
             $attributeId = $this->createAttribute($name);
 
             if (!empty($attribute)) {
-                $product->values()->create([
-                    'attribute_id' => $attributeId,
-                    'value' => $value,
-                ]);
+                $value = $this->valueService->createAttributeValue($value);
+                $attribute = $this->attributeService->createAttributeData($attributeId, $product->id, $value->id);
             }
 
-
         }
+
 
         if (!empty($attribute)) {
 
@@ -304,8 +308,13 @@ class ProductService
             foreach ($categoriesArray as $item) {
                 $categoryIds[] = $item->id;
             }
+
+
             $this->getAttribute($attribute->id)->setCategories($categoryIds);
+
         }
+
+
 
         if ($name == 'Тип упаковки') {
             $product->update([
@@ -328,6 +337,8 @@ class ProductService
                 'height' => $value,
             ]);
         }
+
+
 
 
     }

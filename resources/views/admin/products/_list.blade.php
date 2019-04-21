@@ -55,13 +55,21 @@
             <div class="row mb-2">
                 <div class="col-xs-1 pr-0 text-right">
                     @foreach($product->photos as $photo)
-                        @if($photo->main == 'yeas')
-                            <img src="{{ url('/storage/products/item/'. $photo->file) }}" alt="" class=" img-circle  mr-0 pr-0 w-100" style="max-width: 40px !important;">
-                            @break
-                        @endif
+                            @if (Storage::disk('public')->exists('products/thumbnail/'. $photo->file))
+                                @if($photo->main == 'yeas')
+                                    <img src="{{ Storage::disk('public')->url('products/item/'. $photo->file) }}" alt="" class=" img-circle  mr-0 pr-0 w-100" style="max-width: 40px !important;">
+                                    @break
+                                @endif
+
+                            @else
+                                @if($photo->main == 'yeas')
+                                    <img class="img-responsive border w-100 " src="{{ Storage::disk('public')->url('image/no_photo.jpg') }}" >
+                                @break
+                                @endif
+                            @endif
                     @endforeach
                     @if (!count($product->photos))
-                        <img src="../img/no_photo_product.jpg" alt="" class="mr-0 pr-0 w-100" style="max-width: 40px !important;">
+                        <img src="{{ Storage::disk('public')->url('image/no_photo.jpg') }}" alt="" class="mr-0 pr-0 w-100" style="max-width: 40px !important;">
                     @endif
                 </div>
                 <div class="col-xs-11">

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddAttributesIsFilter extends Migration
+class CreateAttributeValuesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class AddAttributesIsFilter extends Migration
      */
     public function up()
     {
-        Schema::table('attributes', function (Blueprint $table) {
-            $table->integer('is_filter')->default(1)->after('visibility');;
+        Schema::create('attribute_values', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('value');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +27,6 @@ class AddAttributesIsFilter extends Migration
      */
     public function down()
     {
-        Schema::table('attributes', function (Blueprint $table) {
-            $table->dropColumn('is_filter');
-        });
+        Schema::dropIfExists('attribute_values');
     }
 }

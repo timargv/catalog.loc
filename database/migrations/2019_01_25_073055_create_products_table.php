@@ -63,12 +63,7 @@ class CreateProductsTable extends Migration
             $table->timestamps();
         });
 
-        Schema::create('product_attribute_values', function (Blueprint $table) {
-            $table->integer('product_id')->references('id')->on('products')->onDelete('CASCADE');
-            $table->integer('attribute_id')->references('id')->on('attributes')->onDelete('CASCADE');
-            $table->string('value');
-            $table->primary(['product_id', 'attribute_id']);
-        });
+
 
         Schema::create('product_photos', function (Blueprint $table) {
             $table->increments('id');
@@ -88,7 +83,6 @@ class CreateProductsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('products');
-        Schema::dropIfExists('product_attribute_values');
         Schema::dropIfExists('product_photos');
     }
 }

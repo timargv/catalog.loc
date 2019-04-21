@@ -13,11 +13,10 @@ class CreateAttributesCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('attributes_categories');
         Schema::create('attributes_categories', function (Blueprint $table) {
-//            $table->increments('id');
             $table->integer('attribute_id')->unsigned();
             $table->integer('category_id')->unsigned();
+            $table->primary(['attribute_id', 'category_id']);
         });
 
         Schema::table('attributes_categories', function($table) {

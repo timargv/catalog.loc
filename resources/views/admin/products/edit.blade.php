@@ -376,10 +376,16 @@
                                     <div class="col-xs-6 pr-0">
                                         @foreach($product->photos as $photo)
                                             <div class="position-relative">
-                                                @if($photo->main == 'yeas')
-                                                    <img class="img-responsive border w-100 " src="{{ url('/storage/products/thumbnail/'. $photo->file) }}" >
-                                                @endif
+                                                @if (Storage::disk('public')->exists('products/thumbnail/'. $photo->file))
+                                                    @if($photo->main == 'yeas')
+                                                        <img class="img-responsive border w-100 " src="{{ Storage::disk('public')->url('products/thumbnail/'. $photo->file) }}" >
+                                                    @endif
 
+                                                @else
+                                                    @if($photo->main == 'yeas')
+                                                        <img class="img-responsive border w-100 " src="{{ Storage::disk('public')->url('image/no_photo.jpg') }}" >
+                                                    @endif
+                                                @endif
                                             </div>
                                         @endforeach
                                     </div>
@@ -387,10 +393,11 @@
                                     <div class="col-xs-6 pl-0">
                                         <ul id="photo-list" class="row list-unstyled pr-3 mr-2">
                                             @foreach($product->photos as $photo)
+                                                @if (Storage::disk('public')->exists('products/thumbnail/'. $photo->file))
                                                 @if($photo->main == 'no')
                                                     <li class="col-xs-6 pr-0 mb-3">
                                                         <div class="position-relative">
-                                                            <img class="img-responsive border " src="{{ url('/storage/products/item/'. $photo->file) }}" >
+                                                            <img class="img-responsive border " src="{{ Storage::disk('public')->url('products/item/'. $photo->file) }}" >
                                                             <div class="btn-group position-absolute fixed-bottom">
                                                                 <a href="#" data-url="{{ route('admin.products.photos.delete', [$product, $photo->id]) }}" id="delete-photo-product" data-id="{{ $photo->id }}" class="fas fa-trash btn btn-xs btn-flat bg-transparent text-danger  py-2 float-left" data-toggle="tooltip" data-placement="top" title="" data-original-title="Удалить"></a>
                                                                 <a href="#" data-url="{{ route('admin.products.photos.main', [$product, $photo->id]) }}" id="main-photo-product" data-id="{{ $photo->id }}" class="fas fa-check-circle btn btn-xs btn-flat bg-transparent text-info py-2 float-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Сделать Главным"></a>
@@ -398,6 +405,21 @@
                                                         </div>
                                                     </li>
                                                 @endif
+
+                                                @else
+                                                    @if($photo->main == 'no')
+                                                        <li class="col-xs-6 pr-0 mb-3">
+                                                            <div class="position-relative">
+                                                                <img class="img-responsive border " src="{{ Storage::disk('public')->url('image/no_photo.jpg') }}" >
+                                                                <div class="btn-group position-absolute fixed-bottom">
+                                                                    <a href="#" data-url="{{ route('admin.products.photos.delete', [$product, $photo->id]) }}" id="delete-photo-product" data-id="{{ $photo->id }}" class="fas fa-trash btn btn-xs btn-flat bg-transparent text-danger  py-2 float-left" data-toggle="tooltip" data-placement="top" title="" data-original-title="Удалить"></a>
+                                                                    <a href="#" data-url="{{ route('admin.products.photos.main', [$product, $photo->id]) }}" id="main-photo-product" data-id="{{ $photo->id }}" class="fas fa-check-circle btn btn-xs btn-flat bg-transparent text-info py-2 float-right" data-toggle="tooltip" data-placement="top" title="" data-original-title="Сделать Главным"></a>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    @endif
+                                                @endif
+
                                             @endforeach
                                         </ul>
                                     </div>
@@ -521,11 +543,13 @@
                         <div class="box-body">
                             <ul class="mailbox-attachments clearfix">
                                 @foreach($product->photos as $photo)
+                                    
+                                    @if (Storage::disk('public')->exists('products/thumbnail/'. $photo->file))
                                     <li>
-                                        <span class="mailbox-attachment-icon has-img"><img src="{{ url('/storage/products/thumbnail/'. $photo->file) }}" alt="Attachment"></span>
+                                        <span class="mailbox-attachment-icon has-img"><img src="{{ Storage::disk('public')->url('products/thumbnail/'. $photo->file) }}" alt="Attachment"></span>
 
                                         <div class="mailbox-attachment-info">
-                                            <a href="{{ url('/storage/products/original/'. $photo->file) }}" target="_blank" class="mailbox-attachment-name"><i class="fa fa-camera"></i> {{ $photo->file }}</a>
+                                            <a href="{{ Storage::disk('public')->url('products/original/'. $photo->file) }}" target="_blank" class="mailbox-attachment-name"><i class="fa fa-camera"></i> {{ $photo->file }}</a>
                                             <span class="mailbox-attachment-size">
                                                 {{ $photo->getSize() }}
                                                 <div class="bnt-group ">
@@ -536,6 +560,13 @@
                                             </span>
                                         </div>
                                     </li>
+                                    @else
+                                        <li>
+                                            <span class="mailbox-attachment-icon has-img"><img src="{{ url('/storage/image/no_photo.jpg') }}" alt="Attachment"></span>
+
+                                        </li>
+                                    @endif
+
                                 @endforeach
                             </ul>
                             @include('admin.products.photo._create', $product)

@@ -25,13 +25,14 @@ class VendorMirInstrumentsService
         $url = "https://instrument.ru/yandexmarket/1b78da37-0b26-45a6-a885-095183509075.xml";
         $filename = 'mir-instruments.xml';
 
-        $info = pathinfo($url);
-        $contents = file_get_contents($url);
-        $file = $pathFileTemp . $info['basename'];
-        file_put_contents($file, $contents);
-        $uploaded_file = new UploadedFile($file, $filename);
-        Storage::putFileAs($path, new File($uploaded_file), $filename);
-
+        if (!file_exists($pathFile . $filename)) {
+            $info = pathinfo($url);
+            $contents = file_get_contents($url);
+            $file = $pathFileTemp . $info['basename'];
+            file_put_contents($file, $contents);
+            $uploaded_file = new UploadedFile($file, $filename);
+            Storage::putFileAs($path, new File($uploaded_file), $filename);
+        }
         $file = $pathFile . $filename;
 
         return $file;

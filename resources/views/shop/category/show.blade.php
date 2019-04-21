@@ -20,20 +20,21 @@
                         @if ($category->allAttributes())
                         @foreach($category->getValuesFilter() as $key => $attribute)
                             @if(!empty($category->getNameAttributeValue($key)))
-                            <div class="h5">{{ $category->getNameAttributeValue($key)->name  }}</div>
-                            @php
-                                $name = $category->getNameAttributeValue($key)->slug
-                            @endphp
 
-                            <div class="form-group">
-                        
-                                @foreach($category->getFilterValueUniqArray($attribute) as $key => $value)
-                                <div class="custom-control custom-checkbox">
-                                  <input type="checkbox" class="custom-control-input" id="{{ $name }}_{{ $key }}"  name="{{ $name }}" value="{{ $key }}" {{ request($name) == $key ? 'checked' : '' }}>
-                                  <label class="custom-control-label" for="{{ $name }}_{{ $key }}">{{ $key }}</label>
+                                <div class="h5">{{ $category->getNameAttributeValue($key)->name  }}</div>
+
+                                @php
+                                    $name = $category->getNameAttributeValue($key)->slug
+                                @endphp
+
+                                <div class="form-group">
+                                    @foreach($category->getFilterValueUniqArray($attribute) as $key => $value)
+                                    <div class="custom-control custom-checkbox">
+                                      <input type="checkbox" class="custom-control-input" id="{{ $name }}_{{ $key }}"  name="{{ $name }}" value="{{ $key }}" {{ request($name) == $key ? 'checked' : '' }}>
+                                      <label class="custom-control-label" for="{{ $name }}_{{ $key }}">{{ $key }}</label>
+                                    </div>
+                                    @endforeach
                                 </div>
-                                @endforeach
-                            </div>
                             @endif
                         @endforeach
                         @endif

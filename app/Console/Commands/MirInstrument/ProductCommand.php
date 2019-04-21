@@ -51,6 +51,7 @@ class ProductCommand extends Command
      * Execute the console command.
      *
      * @return mixed
+     * @throws \Exception
      */
     public function handle()
     {
@@ -234,6 +235,8 @@ class ProductCommand extends Command
                         // Сохранить
                         $productNew->saveOrFail();
 
+
+
                         // Пройтись по Атрибутам товара и сохранить их
                         foreach ($product->param as $value) {
 //                        $unit = $value[0]->attributes()->unit;
@@ -244,6 +247,8 @@ class ProductCommand extends Command
                             $this->service->updateAttributeProductParser($productNew, $name, $value->__toString());
                         }
 
+
+
                         // Массив для картинок
                         $files = [];
 
@@ -252,11 +257,14 @@ class ProductCommand extends Command
                             $files[] = $value->__toString();
                         }
 
+
                         // Добавить фотографии для товара
                         $this->service->addPhotosImport($productNew->id, $files);
 
                         // Счетчик Добавления
                         $createProduct = $createProduct + 1;
+
+
                     }
                     $this->getOutput()->progressAdvance();
                 }
