@@ -26,7 +26,7 @@
                                     $name = $category->getNameAttributeValue($attribute->id)->slug
                                 @endphp
                                 <div class="form-group">
-                                    @foreach($category->getFilterValueUniqArray($attribute) as $key => $value)
+                                    @foreach($category->getFilterValueUniqArray($attribute, $products) as $key => $value)
                                     <div class="custom-control custom-checkbox">
                                       <input type="checkbox" class="custom-control-input" id="{{ $name }}_{{ $key }}"  name="{{ $name }}" value="{{ $key }}" {{ request($name) == $key ? 'checked' : '' }}>
                                       <label class="custom-control-label" for="{{ $name }}_{{ $key }}">{{ $key }}</label>

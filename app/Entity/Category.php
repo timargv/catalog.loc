@@ -171,9 +171,9 @@ class Category extends Model
         return $this->attributes()->findOrFail($id);
     }
 
-    public function getFilterValueUniqArray($attributes): array
+    public function getFilterValueUniqArray($attribute, $products): array
     {
-        dd($attributes);
+        dd($products);
 
         $arr = $values[0]->groupBy('value')->toArray();
         return $arr;
