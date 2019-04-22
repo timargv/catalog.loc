@@ -860,13 +860,16 @@ class AttributesTableSeeder extends Seeder
 
 
         AttributeGroup::create([
+            'name' => 'Основные характеристики',
+            'slug' => 'osnovnye-kharakteristiki'
+        ]);
+
+        AttributeGroup::create([
             'name' => 'Основные параметры',
             'slug' => 'osnovnye-parametry'
         ]);
-         AttributeGroup::create([
-             'name' => 'Основные характеристики',
-             'slug' => 'osnovnye-kharakteristiki'
-         ]);
+
+
         AttributeGroup::create([
             'name' => 'Дополнительно',
             'slug' => 'dopolnitelno'

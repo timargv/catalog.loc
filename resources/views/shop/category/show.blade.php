@@ -18,15 +18,13 @@
                 @if(empty($categories))
                     <form action="?" method="GET">
                         @if ($category->allAttributes())
-                        @foreach($category->getValuesFilter() as $key => $attribute)
-                            @if(!empty($category->getNameAttributeValue($key)))
+                        @foreach($category->allAttributes() as $key => $attribute)
 
-                                <div class="h5">{{ $category->getNameAttributeValue($key)->name  }}</div>
-
+                            @if(!empty($category->getNameAttributeValue($attribute->id)))
+                                <div class="h5">{{ $category->getNameAttributeValue($attribute->id)->name  }}</div>
                                 @php
-                                    $name = $category->getNameAttributeValue($key)->slug
+                                    $name = $category->getNameAttributeValue($attribute->id)->slug
                                 @endphp
-
                                 <div class="form-group">
                                     @foreach($category->getFilterValueUniqArray($attribute) as $key => $value)
                                     <div class="custom-control custom-checkbox">
@@ -36,6 +34,7 @@
                                     @endforeach
                                 </div>
                             @endif
+
                         @endforeach
                         @endif
                         <div class="form-group">

@@ -171,8 +171,10 @@ class Category extends Model
         return $this->attributes()->findOrFail($id);
     }
 
-    public function getFilterValueUniqArray($values): array
+    public function getFilterValueUniqArray($attributes): array
     {
+        dd($attributes);
+
         $arr = $values[0]->groupBy('value')->toArray();
         return $arr;
     }

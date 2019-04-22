@@ -13,7 +13,7 @@
                                     <aside class="thumbnails">
                                         @foreach($product->photos as $photo)
                                             @if (Storage::disk('public')->exists('products/thumbnail/'. $photo->file))
-                                                <div class="@if ($loop->first) selected @endif thumbnail" data-big="{{  Storage::disk('public')->url('products/large/'. $photo->file) }}">
+                                                <div class="@if ($loop->first) selected @endif thumbnail" data-big="{{  Storage::disk('public')->url('products/medium/'. $photo->file) }}">
                                                     <div class="thumbnail-image" style="background-image: url('{{ url('/storage/products/item/'.  $photo->file) }}')"></div>
                                                 </div>
                                             @else
@@ -29,7 +29,7 @@
                                 @forelse($product->photos as $photo)
                                     @if (Storage::disk('public')->exists('products/thumbnail/'. $photo->file))
 
-                                        <div class="primary" style="background-image: url('{{ Storage::disk('public')->url('products/thumbnail/'. $photo->file) }}');"></div>
+                                        <div class="primary" style="background-image: url('{{ Storage::disk('public')->url('products/medium/'. $photo->file) }}');"></div>
                                         @if ($loop->first)
                                             @break
                                         @endif
@@ -148,7 +148,7 @@
                         <div class="mb-5">
 
                             @foreach($groupAttribute as $attribute)
-                            @if($product->getValue($attribute->id) && $attribute->status == 1)
+                            @if($product->getValue($attribute) && $attribute->status == 1)
                             <div class="spec-product-full mb-3 row">
                                 <div class="spec-product-full-left col-6 pr-0">
                                     <div>{{ $attribute->name }}</div>
@@ -156,9 +156,9 @@
                                 </div>
                                 <div class="spec-product-full-value col-6 pr-0">
                                     @if($attribute->name == 'Ссылка на сертификат')
-                                        <a href="{{ $product->getValue($attribute->id) }}" target="_blank">ссылка</a>
+                                        <a href="{{ $product->getValue($attribute) }}" target="_blank">ссылка</a>
                                     @else
-                                        {{ $product->getValue($attribute->id) }}
+                                        {{ $product->getValue($attribute) }}
                                     @endif
                                 </div>
                             </div>

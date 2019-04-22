@@ -51,9 +51,8 @@ class Attribute extends Model
     }
 
     public function values() {
-        return $this->hasMany(Value::class, 'attribute_id', 'id');
+        return $this->belongsToMany(Value::class, 'attributes_data', 'attribute_id', 'value_id');
     }
-
 
     public static function typesList(): array
     {

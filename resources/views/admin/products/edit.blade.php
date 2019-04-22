@@ -162,7 +162,7 @@
                                                     <div class="box-body">
                                                         @foreach($groupAttribute as $attribute)
 
-                                                            @if($product->getValue($attribute->id))
+                                                            @if($product->getValue($attribute))
 
                                                                 <div class="col-xs-6">
                                                                     <div class="form-group">
@@ -174,15 +174,15 @@
                                                                             <select id="attribute_{{ $attribute->id }}" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]">
                                                                                 <option value=""></option>
                                                                                 @foreach ($attribute->variants as $variant)
-                                                                                    <option value="{{ $variant }}"{{ $variant == old('attributes.' . $attribute->id, $product->getValue($attribute->id)) ? ' selected' : '' }}>
+                                                                                    <option value="{{ $variant }}"{{ $variant == old('attributes.' . $attribute->id, $product->getValue($attribute)) ? ' selected' : '' }}>
                                                                                         {{ $variant }}
                                                                                     </option>
                                                                                 @endforeach
                                                                             </select>
                                                                         @elseif ($attribute->isNumber())
-                                                                            <input id="attribute_{{ $attribute->id }}" type="number" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]" value="{{ old('attributes.' . $attribute->id, $product->getValue($attribute->id)) }}">
+                                                                            <input id="attribute_{{ $attribute->id }}" type="number" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]" value="{{ old('attributes.' . $attribute->id, $product->getValue($attribute)) }}">
                                                                         @else
-                                                                            <input id="attribute_{{ $attribute->id }}" type="text" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]" value="{{ old('attributes.' . $attribute->id, $product->getValue($attribute->id)) }}">
+                                                                            <input id="attribute_{{ $attribute->id }}" type="text" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]" value="{{ old('attributes.' . $attribute->id, $product->getValue($attribute)) }}">
                                                                         @endif
                                                                         @if ($errors->has('parent'))
                                                                             <span class="invalid-feedback"><strong>{{ $errors->first('attributes.' . $attribute->id) }}</strong></span>
@@ -192,7 +192,7 @@
                                                             @endif
                                                         @endforeach
                                                         @foreach($groupAttribute as $attribute)
-                                                            @if(!$product->getValue($attribute->id) && !$attribute->status == 0)
+                                                            @if(!$product->getValue($attribute) && !$attribute->status == 0)
                                                                 <div class="col-xs-6">
                                                                     <div class="form-group">
                                                                         <label for=attribute_{{ $attribute->id }}" class="col-form-label w-100">
@@ -203,15 +203,15 @@
                                                                             <select id="attribute_{{ $attribute->id }}" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]">
                                                                                 <option value=""></option>
                                                                                 @foreach ($attribute->variants as $variant)
-                                                                                    <option value="{{ $variant }}"{{ $variant == old('attributes.' . $attribute->id, $product->getValue($attribute->id)) ? ' selected' : '' }}>
+                                                                                    <option value="{{ $variant }}"{{ $variant == old('attributes.' . $attribute->id, $product->getValue($attribute)) ? ' selected' : '' }}>
                                                                                         {{ $variant }}
                                                                                     </option>
                                                                                 @endforeach
                                                                             </select>
                                                                         @elseif ($attribute->isNumber())
-                                                                            <input id="attribute_{{ $attribute->id }}" type="number" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]" value="{{ old('attributes.' . $attribute->id, $product->getValue($attribute->id)) }}">
+                                                                            <input id="attribute_{{ $attribute->id }}" type="number" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]" value="{{ old('attributes.' . $attribute->id, $product->getValue($attribute)) }}">
                                                                         @else
-                                                                            <input id="attribute_{{ $attribute->id }}" type="text" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]" value="{{ old('attributes.' . $attribute->id, $product->getValue($attribute->id)) }}">
+                                                                            <input id="attribute_{{ $attribute->id }}" type="text" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]" value="{{ old('attributes.' . $attribute->id, $product->getValue($attribute)) }}">
                                                                         @endif
                                                                         @if ($errors->has('parent'))
                                                                             <span class="invalid-feedback"><strong>{{ $errors->first('attributes.' . $attribute->id) }}</strong></span>

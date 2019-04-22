@@ -214,9 +214,6 @@ class ProductsController extends Controller
         $statuses = Product::statusesList();
         $statusAvailable = Product::statusesAvailable();
 
-        dd($product->attributes);
-
-
         return view('admin.products.edit', compact('product','statuses', 'statusAvailable', 'categories', 'vendors', 'brands'));
     }
 

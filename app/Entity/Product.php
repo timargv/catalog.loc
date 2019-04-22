@@ -144,25 +144,25 @@ class Product extends Model
     }
 
     //------------------- Значения Атрибутов
-    public function values()
-    {
-        return $this->belongsToMany(
-            Value::class,
-            'attributes_data',
-            'product_id',
-            'value_id'
-        );
-    }
+//    public function values()
+//    {
+//        return $this->belongsToMany(
+//            Value::class,
+//            'attributes_data',
+//            'product_id',
+//            'value_id'
+//        );
+//    }
 
-    public function attributes()
-    {
-        return $this->belongsToMany(
-            Attribute::class,
-            'attributes_data',
-            'product_id',
-            'attribute_id'
-        );
-    }
+//    public function attributes()
+//    {
+//        return $this->belongsToMany(
+//            Attribute::class,
+//            'attributes_data',
+//            'product_id',
+//            'attribute_id'
+//        );
+//    }
 
 
     //------------------- Отношения к корзине
@@ -212,15 +212,14 @@ class Product extends Model
         return ($this->vendor != null) ? $this->vendor->id : '';
     }
 
-    public function getValue($id)
-{
-    foreach ($this->values as $value) {
-        if ($value->attribute_id === $id) {
+    public function getValue($attribute) {
+
+        if (!empty($value = $attribute->values()->where('product_id', $this->id)->first())) {
             return $value->value;
         }
+        return null;
+
     }
-    return null;
-}
 
     // Найти группу атрибутов по ID
     public function getGroupNameAttribute($id)
