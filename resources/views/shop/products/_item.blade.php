@@ -1,8 +1,11 @@
+<<<<<<< HEAD
 @if(request()->all())
 <a href="?" class="btn bg-catalog text-white btn-sm  ml-3" data-toggle="tooltip" data-placement="top" title="Очистить Поиск"><i class="far fa-redo-alt pr-1"></i> Сбросить фильтр</a>
 <div class="clearfix w-100 d-block mb-4"></div>
 @endif
 
+=======
+>>>>>>> parent of 052c729... update
 @forelse (array_chunk($products->items(), 4) as $chunk)
     @forelse ($chunk as $product)
 
@@ -10,6 +13,7 @@
                 <a class="card p-0 border-0 rounded-0 sh-product" href="{{ route('product.show', $product->slug?:$product->id) }}">
                     <div class="image p-0">
                         @foreach($product->photos as $photo)
+<<<<<<< HEAD
                             @if (Storage::disk('public')->exists('products/thumbnail/'. $photo->file))
                                 @if($photo->main == 'yeas')
                                     <img src="{{ Storage::disk('public')->url('products/thumbnail/'. $photo->file) }}" alt="" class=" img-circle  mr-0 pr-0 w-100" >
@@ -20,6 +24,11 @@
                                     <img src="{{ Storage::disk('public')->url('image/no_photo.jpg') }}" alt="" class=" img-circle  mr-0 pr-0 w-100" >
                                     @break
                                 @endif
+=======
+                            @if($photo->main == 'yeas')
+                                <img src="{{ $photo->file == null ? url('/storage/image/no_photo.jpg') : url('/storage/products/medium/'.  $photo->file) }}" alt="" class=" img-circle  mr-0 pr-0 w-100" >
+                                @break
+>>>>>>> parent of 052c729... update
                             @endif
                         @endforeach
                         @if (!count($product->photos))

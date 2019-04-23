@@ -16,6 +16,7 @@
 
 
                 @if(empty($categories))
+<<<<<<< HEAD
                     <form action="?" method="GET">
                         @if ($category->allAttributes())
                         @foreach($category->allAttributes() as $key => $attribute)
@@ -41,6 +42,18 @@
                             <button type="submit" class="btn btn-primary"><i class="fas fa-save pr-2"></i> {{ __('button.Search') }}</button>
                         </div>
                     </form>
+=======
+                    @if ($category->allAttributes())
+                    @foreach($category->getValuesFilter() as $key => $attribute)
+                        <div class="h5">{{ $category->getNameAttributeValue($key)->name }}</div>
+                        <ul>
+                            @foreach($category->getFilterValueUniqArray($attribute) as $key => $value)
+                                {{ $key }}
+                            @endforeach
+                        </ul>
+                    @endforeach
+                    @endif
+>>>>>>> parent of 052c729... update
                 @endif
             </nav>
         </div>

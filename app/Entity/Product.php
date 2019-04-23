@@ -164,7 +164,6 @@ class Product extends Model
 //        );
 //    }
 
-
     //------------------- Отношения к корзине
     public function carts ()
     {
