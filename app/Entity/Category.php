@@ -84,7 +84,7 @@ class Category extends Model
 
     public function allAttributesFilterVisual(): array
     {
-        $result =  $this->attributes()->where([
+        $result =  $this->allAttributesGet()->where([
             ['status', 1],
             ['is_filter', 1],
             ['visibility', 1],
@@ -93,6 +93,16 @@ class Category extends Model
     }
 
     public function attributes()
+    {
+        return $this->belongsToMany(
+            Attribute::class,
+            'attributes_categories',
+            'category_id',
+            'attribute_id'
+        )->where('visibility', 1);
+    }
+
+    public function allAttributesGet()
     {
         return $this->belongsToMany(
             Attribute::class,
@@ -156,8 +166,8 @@ class Category extends Model
         $value = [];
 
         foreach ($attributes as $key => $attribute) {
-            if (!empty($attribute->values()->whereIn('product_id', $productIds)->first())) {
-                $value[$key] = $attribute->values()->whereIn('product_id', $productIds)->get();
+            if (!empty($attribute_get = $attribute->values()->whereIn('product_id', $productIds)->get())) {
+                $value[$key] = $attribute_get;
             }
         }
 

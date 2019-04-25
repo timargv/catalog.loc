@@ -32,25 +32,18 @@ class FilterProductService
     {
 
         $product_filer_collect = null;
-        $productsListIds = $category->products()->pluck('id')->all();
+        $productsListIds = $category->products()->pluck('id');
+        $productsLists = $category->products()->get();
 
-//        $attribute = [];
         $result = [];
+
         foreach ($request->all() as $key => $item) {
-            $attribute[] = $this->attribute->where('slug', $key)->with('values')->first();
-            $result[] = $attribute[0]->values()->where('value', $item)->get();
-
+                $attribute = $this->attribute->where('slug', $key)->first();
+                $productIds = $attribute->values()->whereIn('value', $item)->pluck('product_id');
         }
 
 
-        if (!empty($result)) {
-            foreach ($result as $item) {
-                $productIds = $item->whereIn('product_id', $productsListIds);
-            }
-        }
-
-
-        $products = Product::whereIn('id', $productIds)->with('photos')->paginate(16);
+        $products = $category->products()->whereIn('id', $productIds)->paginate(16);
 
         return $products;
     }

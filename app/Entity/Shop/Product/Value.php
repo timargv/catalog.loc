@@ -17,7 +17,7 @@ class Value extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['attribute_id', 'value', 'product_id'];
+    protected $fillable = ['product_id', 'attribute_id', 'value'];
 
     //------------------- Атрибуты
     public function attribute() {

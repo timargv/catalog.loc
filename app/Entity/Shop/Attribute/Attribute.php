@@ -47,7 +47,7 @@ class Attribute extends Model
     }
 
     public function products() {
-        return $this->belongsToMany(Product::class,'product_attribute_values','attribute_id','product_id');
+        return $this->belongsToMany(Product::class,'product_attribute_values','attribute_id','product_id')->with('values');
     }
 
     public function values() {

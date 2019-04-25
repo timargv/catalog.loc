@@ -148,6 +148,11 @@ class Product extends Model
         return $this->hasMany(Value::class, 'product_id');
     }
 
+    public function attributes()
+    {
+        return $this->hasMany(Attribute::class, 'product_attribute_values', 'product_id', 'attribute_id');
+    }
+
 
     //------------------- Отношения к корзине
     public function carts ()

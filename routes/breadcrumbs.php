@@ -60,9 +60,8 @@ Breadcrumbs::register('categories.show', function (Crumbs $crumbs, $slug) {
 Breadcrumbs::register('product.show', function (Crumbs $crumbs, $slug) {
     $product = Product::where('slug', $slug)->orWhere('id', $slug)->with('category')->first();
     $crumbs->parent('categories.show', $product->category->slug?:$product->category->id);
+    $crumbs->push('', route('product.show', $slug));
 
-    if (!empty($product->brand->title)) {
-        $crumbs->push($product->brand->title, route('product.show', $slug));
-    }
+
 });
 

@@ -19,22 +19,22 @@
                     <form action="?" method="GET">
                         @if ($category->allAttributes())
                         @foreach($category->getValuesFilter() as $key => $attribute)
-                            @if(!empty($category->getNameAttributeValue($key)))
-                            <div class="h5">{{ $category->getNameAttributeValue($key)->name  }}</div>
+                            @if(!empty($attributeName = $category->getNameAttributeValue($key)))
+                            <div class="h5">{{ $attributeName->name  }}</div>
                             @php
-                                $name = $category->getNameAttributeValue($key)->slug
+                                $name = $attributeName->slug
                             @endphp
+                            @endif
 
                             <div class="form-group">
                         
                                 @foreach($category->getFilterValueUniqArray($attribute) as $key => $value)
                                 <div class="custom-control custom-checkbox">
-                                  <input type="checkbox" class="custom-control-input" id="{{ $name }}_{{ $key }}"  name="{{ $name }}" value="{{ $key }}" {{ request($name) == $key ? 'checked' : '' }}>
+                                  <input type="checkbox" class="custom-control-input" id="{{ $name }}_{{ $key }}"  name="{{ $name }}[]" value="{{ $key }}" {{ request($name) == $key ? 'checked' : '' }}>
                                   <label class="custom-control-label" for="{{ $name }}_{{ $key }}">{{ $key }}</label>
                                 </div>
                                 @endforeach
                             </div>
-                            @endif
                         @endforeach
                         @endif
                         <div class="form-group">
@@ -42,6 +42,8 @@
                         </div>
                     </form>
                 @endif
+
+
             </nav>
         </div>
         <div class="col-9">
