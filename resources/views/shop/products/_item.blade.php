@@ -39,10 +39,14 @@
                         {{--<div class="small mb-3">{{ $product->vendor_code }}</div>--}}
 
                         <div class="btn_group">
+                            @if(!empty($product->quantity))
                             <form action="{{ route('cart.add', $product->id) }}" method="POST">
                                 @csrf
                                 <button class="btn btn-sm text-white"><span class="hidden-xs hidden-sm hidden-md" @if(!$product->quantity) disabled @endif>В корзину</span></button>
                             </form>
+                            @else
+                                <button class="btn btn-sm text-white bg-danger" disabled><span class="hidden-xs hidden-sm hidden-md ">Нет в наличии</span></button>
+                            @endif
                         </div>
                     </div>
                 </a>
@@ -90,10 +94,14 @@
                         {{--<div class="small mb-3">{{ $product->vendor_code }}</div>--}}
 
                         <div class="btn_group">
-                            <form action="{{ route('cart.add', $product->id) }}" method="POST">
-                                @csrf
-                                <button class="btn btn-sm text-white"><span class="hidden-xs hidden-sm hidden-md" @if(!$product->quantity) disabled @endif>В корзину</span></button>
-                            </form>
+                            @if(!empty($product->quantity))
+                                <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                                    @csrf
+                                    <button class="btn btn-sm text-white"><span class="hidden-xs hidden-sm hidden-md" >В корзину</span></button>
+                                </form>
+                            @else
+                                <button class="btn btn-sm text-white bg-danger" disabled><span class="hidden-xs hidden-sm hidden-md ">Нет в наличии</span></button>
+                            @endif
                         </div>
 
                     </div>

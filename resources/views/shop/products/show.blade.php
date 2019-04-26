@@ -64,10 +64,14 @@
 
                     </div>
                     <div class="border-bottom border-light-active w-100 mt-4 mb-4"></div>
+                    @if(!empty($product->quantity))
                     <div class="price-product-full">
                         <div id="price" class="price text-dark">{{ $product->price }} </div>
                     </div>
+                    @endif
                     <div class="quantity-product-full mb-2">@if(!empty($product->quantity)) <span class="text-success">В наличии на складе</span> @else <span class="text-danger">Нет на складе</span> @endif  </div>
+
+                    @if(!empty($product->quantity))
                     <div class="add-cart-product-full-block mb-4">
                         <div class="row">
                             @auth
@@ -77,17 +81,16 @@
                                     <button class="btn btn-outline border-catalog-2 btn-lg text-catalog w-100"><span class="hidden-xs hidden-sm hidden-md" @if(!$product->quantity) disabled @endif>Быстрый заказ</span></button>
                                 </form>
                             </div>
+
+
                             <div class="col-6 pl-1">
                                 <form action="{{ route('cart.add', $product->id) }}" method="POST">
                                     @csrf
-
                                         @if(empty($product->checkCartProduct()))
                                             <button class="btn bg-catalog border-catalog-2 btn-lg w-100 text-white"><span class="hidden-xs hidden-sm hidden-md" @if(!$product->quantity) disabled @endif>В корзину</span></button>
                                         @else
                                             <a href="{{ route('cart.index') }}" class="btn btn-outline border-catalog-2 btn-lg text-catalog w-100"><span class="hidden-xs hidden-sm hidden-md" @if(!$product->quantity) disabled @endif>В корзине</span></a>
                                         @endif
-
-
                                 </form>
                             </div>
                             @endauth
@@ -105,6 +108,8 @@
                             @endguest
                         </div>
                     </div>
+                    @endif
+
                     @if(!empty($product->brand->title))
                     <div class="brand-product-full-block">
                         <div class=""><span class="h5 pr-2">Бренд: </span> <span class="h5 text-dark">{{ $product->brand->title }}</span></div>
