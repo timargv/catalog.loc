@@ -19,15 +19,14 @@
                     <form action="?" method="GET">
                         @if ($category->allAttributes())
                         @foreach($category->getValuesFilter() as $key => $attribute)
-                            @if(!empty($attributeName = $category->getNameAttributeValue($key)))
-                            <div class="h5">{{ $attributeName->name  }}</div>
+                            @if(!empty($attributeName = $key))
+                            <div class="h5">{{ $attributeName }}</div>
                             @php
-                                $name = $attributeName->slug
+                                $name = str_slug($attributeName)
                             @endphp
                             @endif
 
                             <div class="form-group">
-                        
                                 @foreach($category->getFilterValueUniqArray($attribute) as $key => $value)
                                 <div class="custom-control custom-checkbox">
                                   <input type="checkbox" class="custom-control-input" id="{{ $name }}_{{ $key }}"  name="{{ $name }}[]" value="{{ $key }}" {{ request($name) == $key ? 'checked' : '' }}>

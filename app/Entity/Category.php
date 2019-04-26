@@ -84,7 +84,7 @@ class Category extends Model
 
     public function allAttributesFilterVisual(): array
     {
-        $result =  $this->allAttributesGet()->where([
+        $result =  $this->allAttributesGetAll()->where([
             ['status', 1],
             ['is_filter', 1],
             ['visibility', 1],
@@ -110,6 +110,16 @@ class Category extends Model
             'category_id',
             'attribute_id'
         )->where('visibility', 1);
+    }
+
+    public function allAttributesGetAll()
+    {
+        return $this->belongsToMany(
+            Attribute::class,
+            'attributes_categories',
+            'category_id',
+            'attribute_id'
+        );
     }
 
     public function setDraft()
@@ -149,9 +159,11 @@ class Category extends Model
 
         $group = $attributesCollection->groupBy(function ($item, $key) {
             if (!empty($item[$key])) {
-                return $item[$key]->attribute_id;
+                return $item[$key]->attribute()->where('id', $item[$key]->attribute_id)->first()->name;
             }
+
         });
+
 //        dd($group);
 //        dd(unset($group->items[""]));
         return $group;
@@ -161,7 +173,8 @@ class Category extends Model
     public function getValuesFilter()
     {
         $attributes = $this->allAttributesFilterVisual();
-        $productIds = $this->products()->with('values')->pluck('id');
+
+        $productIds = $this->products()->pluck('id');
 
         $value = [];
 
@@ -183,7 +196,8 @@ class Category extends Model
 
     public function getFilterValueUniqArray($values): array
     {
-        $arr = $values[0]->groupBy('value')->toArray();
+
+        $arr = $values[0]->sortBy('value')->groupBy('value')->toArray();
         return $arr;
     }
 

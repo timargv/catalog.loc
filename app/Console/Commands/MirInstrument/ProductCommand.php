@@ -19,7 +19,7 @@ class ProductCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'mi:product {update-price?}';
+    protected $signature = 'mi:product {update-price?} {update-brands?} {noimages?}';
 
     /**
      * The console command description.
@@ -56,12 +56,17 @@ class ProductCommand extends Command
     {
 
         $update_price = $this->argument('update-price');
+        $update_brands = $this->argument('update-brands');
+        $noimages = $this->argument('noimages');
 //        dd($update_price);
 
         $file = $this->file->UploadXml();
 
+
+
         // Save the total file size
         $totalSize = filesize($file);
+
 
         $progress = 0;
         $last_progress = 0;
@@ -78,6 +83,7 @@ class ProductCommand extends Command
 //            }
 
         });
+
 
         // Construct the parser
         $parser = new StringWalker;
@@ -99,14 +105,19 @@ class ProductCommand extends Command
 
             $simpleXmlNode = simplexml_load_string($node,null, LIBXML_NOCDATA);
 
+
 //            $products = $simpleXmlNode->offers->offer;
             $products = $simpleXmlNode->xpath('//offers/offer');
 
+
+
             $this->getOutput()->progressStart(count($products));
 
-            if($update_price == 'update-price'){
+
+
+            if(!empty($update_price == 'update-price')){
                 $this->UpdatePrice($products, $updateProduct);
-            } elseif ($update_price == 'update-brands') {
+            } elseif (!empty($update_brands == 'update-brands')) {
                 $this->UpdateBrand($products, $updateProduct);
             } else {
                 foreach ($products as $product) {
@@ -247,13 +258,17 @@ class ProductCommand extends Command
                         // Массив для картинок
                         $files = [];
 
-                        // Сохранить картинки в массив
-                        foreach ($product->picture as $value) {
-                            $files[] = $value->__toString();
+
+                        if (!empty($noimages)) {
+                            // Сохранить картинки в массив
+                            foreach ($product->picture as $value) {
+                                $files[] = $value->__toString();
+                            }
+
+                            // Добавить фотографии для товара
+                            $this->service->addPhotosImport($productNew->id, $files);
                         }
 
-                        // Добавить фотографии для товара
-                        $this->service->addPhotosImport($productNew->id, $files);
 
                         // Счетчик Добавления
                         $createProduct = $createProduct + 1;
