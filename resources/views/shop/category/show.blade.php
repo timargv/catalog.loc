@@ -24,16 +24,17 @@
                             @php
                                 $name = str_slug($attributeName)
                             @endphp
-                            @endif
 
                             <div class="form-group">
-                                @foreach($category->getFilterValueUniqArray($attribute) as $key => $value)
+                                @foreach($category->getFilterValueUniqArray($attribute) as $vkey => $value)
                                 <div class="custom-control custom-checkbox">
-                                  <input type="checkbox" class="custom-control-input" id="{{ $name }}_{{ $key }}"  name="{{ $name }}[]" value="{{ $key }}" {{ request($name) == $key ? 'checked' : '' }}>
-                                  <label class="custom-control-label" for="{{ $name }}_{{ $key }}">{{ $key }}</label>
+                                  <input type="checkbox" class="custom-control-input" id="{{ $name }}_{{ $vkey }}"  name="{{ $name }}[]" value="{{ $vkey }}" {{ request($name) == $vkey ? 'checked' : '' }}>
+                                  <label class="custom-control-label" for="{{ $name }}_{{ $vkey }}">{{ $vkey }}</label>
                                 </div>
                                 @endforeach
                             </div>
+                            @endif
+                            
                         @endforeach
                         @endif
                         <div class="form-group">
